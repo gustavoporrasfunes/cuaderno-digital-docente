@@ -13,19 +13,36 @@ const SheetsService = {
   // ==========================================
   // OBTENER GRUPOS CON ALUMNOS (Carga Ultra-Rápida Instantánea)
   // ==========================================
+  // OBTENER GRUPOS CON ALUMNOS (Carga Ultra-Rápida con Sincronización Dinámica)
+  // ==========================================
   async obtenerGruposConAlumnos(forzarRed = false) {
-    if (this._cacheGruposValidos && this._cacheGruposValidos.length > 0 && !forzarRed) {
+    if (forzarRed) {
+      return await this._consultarGruposDeRed();
+    }
+
+    if (this._cacheGruposValidos && this._cacheGruposValidos.length > 0) {
       return this._cacheGruposValidos;
     }
 
-    // Datos maestros de los grupos activos (Carga instantánea en 0 ms)
+    // 1. Intentar desde localStorage (caché previa persistente en el dispositivo)
+    const guardados = StorageManager.getGroupsCache();
+    if (guardados && guardados.length > 0) {
+      this._cacheGruposValidos = guardados;
+      guardados.forEach(grp => {
+        this._cacheAlumnosPorGrupo[grp.id] = grp.alumnos;
+      });
+      return guardados;
+    }
+
+    // 2. Si no hay nada en caché local aún, usar datos maestros iniciales (0 ms)
     const cacheData = {
       "1ESO-A": ["Arance Sánchez, Lucía", "Arrieta Senra, Nicolás", "Baena Suárez, Noelia", "Baena Suárez, Raúl", "Barba Romero, Rocío", "Barua Conde, Lucca Naon", "Boza Payán, Carmen", "Campos Hidalgo, Hugo", "Delgado Echegoyan, Rocío", "Fernández Berrocal, Manuel", "Gómez Carmona, Dylan Andrés", "González Guerra, Abel", "Lin, Zixuan", "Luceño Guzmán, Rodrigo", "Molina Reina, Daniela", "Mondir, Mohamed", "Morgado Santos, Oriana", "Negrón Garófano, Enrique", "Olivares Benítez, Isidoro", "Orellana Cazorla, Salvador", "Romero Cid, Julia", "Romero Hermoso, Teresa", "Romero Rodríguez, Inés", "Sánchez-Arjona Santos, Emma", "Segura Lobón, Vega", "Simino Ramos, Lara", "Toscano Soto, Mireya", "Tsyrul, Anna", "Villalón Rubio, Leo"],
       "1ESO-B": ["Abreu Álvarez, Ana María", "Alvez Macías, Javier", "Barrios Paraíso, Cherezade", "Bustos Benítez, Kira", "Cárdenas Salas, Sophia", "Delgado Naya, Lucía", "Faus Zürcher, Inés", "Fernández Ruiz, Manuel", "Hurtado Hernández, Rubén", "Lama De Luque, Lucía", "Lara García, Dolores", "León Fernández, Juan Manuel", "Muñoz Quintero, Gabriela", "Parra Triano, Esperanza Triana", "Peña González, Claudia", "Pérez Márquez, Nacho", "Polvillo Orden, Manuel", "Poncelet Villarejo, Inés", "Postigo Gómez, Carlos", "Pozo Oliva, José Manuel", "Ramírez de Aguilera Mazo, Pablo", "Romero Pérez, Juan José", "Rubio González, Claudia", "Rubio Rosales, Jesús", "Rubio Rosales, Lola", "Sánchez De Paz, Ángela", "Santos Romero, Ezequiel", "Sosa Sanabria, Cecilio"],
       "1ESO-C": ["Berenjeno Mesa, Jaime", "Berradi García, Inas", "Bezze Soto, Lucas", "Castejón Santos, Guillermo", "Conde El Ghazouani, Ayman", "De Alba Ruiz, Rafael", "Díaz Cotán, Lucía", "Díaz Román, Triana", "Fernández Luna, Jesús", "García Rodríguez, José Antonio", "García Rodríguez, María", "González Ramos, Aitor", "Guerrero Miranda, Victoria", "Hidalgo Aguilar, Daniel", "Lefevre López, Santiago", "López Martín, Jorge", "López Moral, Arun", "Manso Márquez, Vera", "Márquez Míguez, Nicolás", "Martín Seoane, Martina", "Mora Martín, Mario", "Otero Ortega, José", "Ramírez Hidalgo, Adrián", "Rodríguez Contreras, Hugo", "Salas Huidobro, Alejandra", "Sánchez Tortolero, Alejandra", "Soriano De Serpa Pimentel, Mariana", "Vargas Arellano, Alba", "Vázquez Muñoz, Macarena"],
       "2ESO-A": ["Aguilar Rodríguez, Antonio", "Benítez Arce, José Antonio", "Caballero Cumplido, José Antonio", "Domínguez Benítez, Eire", "Garfia Gutiérrez, Hugo", "Gordillo Jaramillo, Juan Pablo", "Guzmán Castellón, Gonzálo", "Hernández Gutiérrez, Nadia", "López Leiva, Abel", "Marqués Ortega, Alejandro", "Medina Chamorro, Ainara", "Méndez Palomo, Alejandra", "Monge Peterova, Teresa Trinidad", "Montañez Pozo, Saray", "Peña Marín, Antonio", "Respaldo Bazán, Oscar", "Rosales Sollo, Sergio", "Rubio Magro, Ayla", "Ruiz de Alarcón Carmona, María", "Ruiz Slienger, Milo", "Salas García, Javier", "Sánchez-Garrido Martín, Daniel", "Sivianes Hidalgo, Blanca", "Suárez Muñoz, Angela"],
       "2ESO-B": ["Amine, Aya", "Barroso Garrido, Adrián", "Carbonero Casadiego, Daniela", "Del Bosch Olivares, José Pablo", "Del Valle Ruiz, Marco", "Delgado García, Alba", "Denton Álvarez, James", "Egea Gemba, Lorenzo", "Espinosa López, David", "Fernández Ibáñez, Esperanza", "Fernández Márquez, Jesús", "Fernández Muñoz, Esperanza", "Galván Martínez, Ángela", "Gotor Rodríguez, Iván", "Guerra López, Lola", "Jaime Gómez, Carlos", "Jurado Agraz, Lola", "Linares Mora, Adriana", "Montané Rivera, Paula", "Moreno Fernández, Aitor", "Murciano Losada, Marina", "Ortiz Domínguez, Marcos", "Parrilla Caro, Eva", "Romero Fernández, Valeria", "Suárez García, Aitor", "Zapico Señas, Gonzalo"],
-      "2ESO-C": ["Blanco Herrera, Emilio", "Camino Martínez, Guillermo", "Caparrós Rodríguez, Mario", "Cherradi Amezean, Mohammed Saad", "Delgado García, Pablo", "Fernández Berrocal, Matías", "Fernández Moreno, Lorenzo", "Fernández Moreno, Pepe", "Gómez Garrido, Julia", "Hidalgo Wolf, Leo", "León Campos, Amanda", "López Raposo, Martina", "López Zapata, Manuel", "Maldonado Domínguez, Alejandro David", "Marín Pérez, María", "Martín Castillo, Alba", "Parra Oyarzun, Juan Antonio", "Romero Carrascal, Valentina", "Santos Aguilar, Abraham", "Segura Lobón, Ariadna", "Vidal García, Pablo", "Zambrano Romero, Ana"]
+      "2ESO-C": ["Blanco Herrera, Emilio", "Camino Martínez, Guillermo", "Caparrós Rodríguez, Mario", "Cherradi Amezean, Mohammed Saad", "Delgado García, Pablo", "Fernández Berrocal, Matías", "Fernández Moreno, Lorenzo", "Fernández Moreno, Pepe", "Gómez Garrido, Julia", "Hidalgo Wolf, Leo", "León Campos, Amanda", "López Raposo, Martina", "López Zapata, Manuel", "Maldonado Domínguez, Alejandro David", "Marín Pérez, María", "Martín Castillo, Alba", "Parra Oyarzun, Juan Antonio", "Romero Carrascal, Valentina", "Santos Aguilar, Abraham", "Segura Lobón, Ariadna", "Vidal García, Pablo", "Zambrano Romero, Ana"],
+      "4ESO-A": ["Pérez Sánchez, Pepito"]
     };
 
     const gruposEncontrados = [];
@@ -55,7 +72,66 @@ const SheetsService = {
 
     gruposEncontrados.sort((a, b) => a.id.localeCompare(b.id));
     this._cacheGruposValidos = gruposEncontrados;
+    StorageManager.saveGroupsCache(gruposEncontrados);
     return gruposEncontrados;
+  },
+
+  // Consulta en tiempo real al Apps Script de todos los cursos y grupos posibles en paralelo
+  async _consultarGruposDeRed() {
+    const cursos = CONFIG.CURSOS_POSIBLES || ["1ESO", "2ESO", "3ESO", "4ESO"];
+    const letras = CONFIG.GRUPOS_LETRAS || ["A", "B", "C", "D"];
+    const promesas = [];
+
+    for (const curso of cursos) {
+      for (const letra of letras) {
+        promesas.push(
+          this._consultarAlumnosGrupo(curso, letra).then(alumnos => {
+            if (alumnos && alumnos.length > 0) {
+              const idGrupo = `${curso}-${letra}`;
+              const numCurso = curso.replace(/\D/g, "");
+              const alumnosFormateados = alumnos.map(al => {
+                if (typeof al === "string") {
+                  return {
+                    textoDesplegable: al,
+                    nombreOriginal: al.split(",")[1]?.trim() || "",
+                    apellidosOriginal: al.split(",")[0]?.trim() || al
+                  };
+                }
+                return al;
+              });
+
+              return {
+                id: idGrupo,
+                curso: curso,
+                letra: letra,
+                codigo: idGrupo,
+                titulo: idGrupo,
+                subtitulo: `Clase de Música. ${numCurso}º de ESO`,
+                numAlumnos: alumnosFormateados.length,
+                alumnos: alumnosFormateados
+              };
+            }
+            return null;
+          }).catch(() => null)
+        );
+      }
+    }
+
+    try {
+      const resultados = (await Promise.all(promesas)).filter(Boolean);
+      if (resultados.length > 0) {
+        resultados.sort((a, b) => a.id.localeCompare(b.id));
+        this._cacheGruposValidos = resultados;
+        resultados.forEach(grp => {
+          this._cacheAlumnosPorGrupo[grp.id] = grp.alumnos;
+        });
+        StorageManager.saveGroupsCache(resultados);
+        return resultados;
+      }
+    } catch(e) {
+      console.warn("Error al consultar grupos de red:", e);
+    }
+    return this._cacheGruposValidos || [];
   },
 
   // Consulta individual al Apps Script oficial

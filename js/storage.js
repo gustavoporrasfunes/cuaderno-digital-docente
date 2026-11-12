@@ -140,6 +140,23 @@ const StorageManager = {
   },
 
   // ==========================================
+  // CACHÉ DE GRUPOS Y ALUMNOS
+  // ==========================================
+  getGroupsCache() {
+    try {
+      const raw = localStorage.getItem(this.KEYS.STUDENTS_CACHE);
+      if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return null;
+  },
+
+  saveGroupsCache(grupos) {
+    try {
+      localStorage.setItem(this.KEYS.STUDENTS_CACHE, JSON.stringify(grupos));
+    } catch(e) {}
+  },
+
+  // ==========================================
   // GRUPO ACTIVO Y FECHAS
   // ==========================================
   getActiveGroupId() {

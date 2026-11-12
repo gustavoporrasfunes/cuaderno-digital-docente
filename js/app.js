@@ -220,6 +220,21 @@
         ocultarLoader();
         mostrarEstadoVacio("No se han encontrado grupos con alumnos en el listado común.");
       }
+
+      // Sincronización en segundo plano de grupos oficiales de Drive (Stale-While-Revalidate)
+      setTimeout(async () => {
+        try {
+          const gruposNuevos = await SheetsService.obtenerGruposConAlumnos(true);
+          if (gruposNuevos && gruposNuevos.length > 0) {
+            const idsActuales = state.gruposDisponibles.map(g => `${g.id}_${g.numAlumnos}`).join(",");
+            const idsNuevos = gruposNuevos.map(g => `${g.id}_${g.numAlumnos}`).join(",");
+            if (idsActuales !== idsNuevos) {
+              state.gruposDisponibles = gruposNuevos;
+              renderizarSidebarGrupos();
+            }
+          }
+        } catch(e) {}
+      }, 400);
     } catch(err) {
       console.error("Error al cargar grupos:", err);
       ocultarLoader();
@@ -437,6 +452,21 @@
         const modalAlumno = document.getElementById("modal-detalle-alumno");
         if (modalAlumno && !modalAlumno.classList.contains("hidden") && state.alumnoModalActual) {
           window.abrirModalAlumno(state.alumnoModalActual.index);
+        }
+
+        // Si el usuario forzó la sincronización, re-comprobar también si hay grupos nuevos o cambios en el listado común
+        if (forzar) {
+          try {
+            const gruposNuevos = await SheetsService.obtenerGruposConAlumnos(true);
+            if (gruposNuevos && gruposNuevos.length > 0) {
+              const idsActuales = state.gruposDisponibles.map(g => `${g.id}_${g.numAlumnos}`).join(",");
+              const idsNuevos = gruposNuevos.map(g => `${g.id}_${g.numAlumnos}`).join(",");
+              if (idsActuales !== idsNuevos) {
+                state.gruposDisponibles = gruposNuevos;
+                renderizarSidebarGrupos();
+              }
+            }
+          } catch(e) {}
         }
 
         if (hayCambios) {
