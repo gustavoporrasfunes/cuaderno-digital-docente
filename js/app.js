@@ -332,7 +332,7 @@
   // =========================================================================
   // OBTENCIÓN Y CÁLCULO DE CALIFICACIONES DE TODAS LAS APPS
   // =========================================================================
-  async function refrescarCalificacionesGrupo() {
+  async function refrescarCalificacionesGrupo(forzar = false) {
     if (!state.grupoSeleccionado) return;
 
     mostrarLoader(`Cargando notas de ${state.grupoSeleccionado.titulo}...`);

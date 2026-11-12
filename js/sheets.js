@@ -57,8 +57,6 @@ const SheetsService = {
     this._cacheGruposValidos = gruposEncontrados;
     return gruposEncontrados;
   },
-    return gruposEncontrados;
-  },
 
   // Consulta individual al Apps Script oficial
   async _consultarAlumnosGrupo(curso, letra) {
