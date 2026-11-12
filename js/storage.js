@@ -53,8 +53,8 @@ const StorageManager = {
           bloqueNombre: CONFIG.NOMBRES_BLOQUES[CONFIG.BLOQUES.LENGUAJE]
         };
         if (custom) {
-          obj.urlSheet = custom.urlSheet || base.urlSheet;
-          obj.sheetId = custom.sheetId || base.sheetId;
+          obj.urlSheet = base.urlSheet || custom.urlSheet || "";
+          obj.sheetId = base.sheetId || custom.sheetId || "";
           obj.tituloVisible = custom.tituloVisible || base.tituloVisible;
         }
         return obj;

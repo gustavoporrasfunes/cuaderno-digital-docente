@@ -3084,8 +3084,8 @@ const CONFIG = {
       nombre: "Calificaciones_Lectura",
       tituloVisible: "Lectura Musical",
       descripcion: "Identificación de notas en clave de sol",
-      urlSheet: "https://docs.google.com/spreadsheets/d/1dnJ9PbfZVo_5UoF_xDMp5NIHzmAUzVpkpUqhyjRFFL8/edit",
-      sheetId: "1dnJ9PbfZVo_5UoF_xDMp5NIHzmAUzVpkpUqhyjRFFL8",
+      urlSheet: "https://docs.google.com/spreadsheets/d/1MtC4VadUyXWvBVUKYUqV17ZGLmvrM5ONOdU-3TeBmHw/edit?gid=781275476#gid=781275476",
+      sheetId: "1MtC4VadUyXWvBVUKYUqV17ZGLmvrM5ONOdU-3TeBmHw",
       bloque: "lenguaje_musical",
       bloqueNombre: "Lenguaje Musical",
       icono: "🎵",
@@ -3096,8 +3096,8 @@ const CONFIG = {
       nombre: "Calificaciones_Equivalencias",
       tituloVisible: "Equivalencias Rítmicas",
       descripcion: "Relaciones de figuras y pulsos",
-      urlSheet: "",
-      sheetId: "",
+      urlSheet: "https://docs.google.com/spreadsheets/d/1V-0286Bb9UwB7-aiyiNqbDHJG0ayym9YmpktWhUxkSI/edit?gid=426608788#gid=426608788",
+      sheetId: "1V-0286Bb9UwB7-aiyiNqbDHJG0ayym9YmpktWhUxkSI",
       bloque: "lenguaje_musical",
       bloqueNombre: "Lenguaje Musical",
       icono: "⏱️",
@@ -3108,8 +3108,8 @@ const CONFIG = {
       nombre: "Calificaciones_Compases",
       tituloVisible: "Completar Compases",
       descripcion: "Compases simples y compuestos",
-      urlSheet: "",
-      sheetId: "",
+      urlSheet: "https://docs.google.com/spreadsheets/d/1-VH3315L_Q8N2kndJhQMI3LKUMHrvc9MdikKqknTrJw/edit?gid=1847874061#gid=1847874061",
+      sheetId: "1-VH3315L_Q8N2kndJhQMI3LKUMHrvc9MdikKqknTrJw",
       bloque: "lenguaje_musical",
       bloqueNombre: "Lenguaje Musical",
       icono: "🎼",
@@ -3120,8 +3120,8 @@ const CONFIG = {
       nombre: "Calificaciones_Intervalos",
       tituloVisible: "Entrenador de Intervalos",
       descripcion: "Identificación de intervalos auditivos y visuales",
-      urlSheet: "",
-      sheetId: "",
+      urlSheet: "https://docs.google.com/spreadsheets/d/14ogN7iB4CzG1vzDuHglX8bhD4vkjbpVO2zNw-8JItxI/edit?gid=764792843#gid=764792843",
+      sheetId: "14ogN7iB4CzG1vzDuHglX8bhD4vkjbpVO2zNw-8JItxI",
       bloque: "lenguaje_musical",
       bloqueNombre: "Lenguaje Musical",
       icono: "🎹",
@@ -3132,8 +3132,8 @@ const CONFIG = {
       nombre: "Calificaciones_Dictados",
       tituloVisible: "Dictados Rítmicos",
       descripcion: "Dictados rítmicos interactivos",
-      urlSheet: "",
-      sheetId: "",
+      urlSheet: "https://docs.google.com/spreadsheets/d/1b--DeKf3P6KVHhhP_udMfn8j5Wg_9f6Yb6-v3EJ3GdE/edit?gid=1136594315#gid=1136594315",
+      sheetId: "1b--DeKf3P6KVHhhP_udMfn8j5Wg_9f6Yb6-v3EJ3GdE",
       bloque: "lenguaje_musical",
       bloqueNombre: "Lenguaje Musical",
       icono: "🎧",
@@ -3312,8 +3312,8 @@ const StorageManager = {
           bloqueNombre: CONFIG.NOMBRES_BLOQUES[CONFIG.BLOQUES.LENGUAJE]
         };
         if (custom) {
-          obj.urlSheet = custom.urlSheet || base.urlSheet;
-          obj.sheetId = custom.sheetId || base.sheetId;
+          obj.urlSheet = base.urlSheet || custom.urlSheet || "";
+          obj.sheetId = base.sheetId || custom.sheetId || "";
           obj.tituloVisible = custom.tituloVisible || base.tituloVisible;
         }
         return obj;
