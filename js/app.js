@@ -92,7 +92,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("demo") === "1" || urlParams.get("preview") === "1") {
       StorageManager.login(CONFIG.CLAVE_DOCENTE);
-      StorageManager.setDemoMode(true);
     }
 
     // 1. Rango de fechas por defecto (Requisito 4: 1 sept anterior a hoy)
@@ -1219,30 +1218,138 @@
       });
     }
 
-    // 9. Modo Demo / Simulación Toggle
-    const btnToggleDemo = document.getElementById("btn-toggle-demo");
-    if (btnToggleDemo) {
-      actualizarBotonDemo(btnToggleDemo);
-      btnToggleDemo.addEventListener("click", () => {
-        const actual = StorageManager.isDemoModeActive();
-        StorageManager.setDemoMode(!actual);
-        actualizarBotonDemo(btnToggleDemo);
-        refrescarCalificacionesGrupo();
+    // 9. Menú Desplegable de Aplicaciones Activas (Al pulsar las tres líneas del logo)
+    const btnAppsToggle = document.getElementById("btn-toggle-sidebar");
+    const dropdownApps = document.getElementById("dropdown-apps-activas");
+    const btnCerrarApps = document.getElementById("btn-cerrar-apps-dropdown");
+
+    if (btnAppsToggle && dropdownApps) {
+      btnAppsToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const estaOculto = dropdownApps.classList.contains("hidden");
+        if (estaOculto) {
+          renderizarMenuDesplegableApps();
+          dropdownApps.classList.remove("hidden");
+          btnAppsToggle.setAttribute("aria-expanded", "true");
+        } else {
+          dropdownApps.classList.add("hidden");
+          btnAppsToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+
+    if (btnCerrarApps && dropdownApps) {
+      btnCerrarApps.addEventListener("click", () => {
+        dropdownApps.classList.add("hidden");
+        if (btnAppsToggle) btnAppsToggle.setAttribute("aria-expanded", "false");
+      });
+    }
+
+    // Cerrar dropdown al hacer clic fuera
+    document.addEventListener("click", (e) => {
+      if (dropdownApps && !dropdownApps.classList.contains("hidden")) {
+        if (!dropdownApps.contains(e.target) && e.target !== btnAppsToggle && !btnAppsToggle.contains(e.target)) {
+          dropdownApps.classList.add("hidden");
+          if (btnAppsToggle) btnAppsToggle.setAttribute("aria-expanded", "false");
+        }
+      }
+    });
+
+    const btnDropdownAnadir = document.getElementById("btn-dropdown-anadir-app");
+    if (btnDropdownAnadir) {
+      btnDropdownAnadir.addEventListener("click", () => {
+        if (dropdownApps) dropdownApps.classList.add("hidden");
+        abrirModalAnadirApp();
+      });
+    }
+
+    const btnDropdownConfig = document.getElementById("btn-dropdown-config-sheets");
+    if (btnDropdownConfig) {
+      btnDropdownConfig.addEventListener("click", () => {
+        if (dropdownApps) dropdownApps.classList.add("hidden");
+        abrirModalConfigApps();
       });
     }
   }
 
-  function actualizarBotonDemo(btn) {
-    const activo = StorageManager.isDemoModeActive();
-    if (activo) {
-      btn.classList.add("activo");
-      btn.innerHTML = `<span class="demo-dot online"></span><span>Modo Demo: Activo</span>`;
-      btn.title = "Mostrando datos simulados para apps sin exámenes. Pulsa para ver solo datos reales de Drive.";
+  // =========================================================================
+  // RENDERIZADO DEL MENÚ DESPLEGABLE DE APPS ACTIVAS
+  // =========================================================================
+  function renderizarMenuDesplegableApps() {
+    const cont = document.getElementById("lista-apps-menu-desplegable");
+    if (!cont) return;
+
+    const apps = StorageManager.getAppsList();
+    const lenguajeApps = apps.filter(a => (a.bloque || CONFIG.BLOQUES.LENGUAJE) === CONFIG.BLOQUES.LENGUAJE);
+    const actividadesApps = apps.filter(a => a.bloque === CONFIG.BLOQUES.ACTIVIDADES);
+
+    let html = "";
+
+    // 1. Bloque Lenguaje Musical
+    html += `
+      <div class="dropdown-apps-bloque">
+        <div class="dropdown-bloque-header">
+          <span class="dropdown-bloque-title">🎼 Lenguaje Musical</span>
+          <span class="dropdown-bloque-badge">${lenguajeApps.length} apps</span>
+        </div>
+    `;
+    lenguajeApps.forEach(app => {
+      const sheetUrl = app.urlSheet ? app.urlSheet : (app.sheetId ? `https://docs.google.com/spreadsheets/d/${app.sheetId}/edit` : "");
+      html += `
+        <div class="dropdown-app-item">
+          <div class="dropdown-app-left">
+            <span class="dropdown-app-icon">${app.icono || "🎵"}</span>
+            <div class="dropdown-app-info">
+              <div class="dropdown-app-name">${app.tituloVisible || app.nombre}</div>
+              <div class="dropdown-app-desc">${app.descripcion || "Aplicación de Lenguaje Musical"}</div>
+            </div>
+          </div>
+          <div class="dropdown-app-actions">
+            ${sheetUrl ? `<a href="${sheetUrl}" target="_blank" rel="noopener noreferrer" class="dropdown-app-link" title="Abrir Google Sheet en Drive">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Hoja
+            </a>` : ""}
+          </div>
+        </div>
+      `;
+    });
+    html += `</div>`;
+
+    // 2. Bloque Actividades Interactivas Evaluables
+    html += `
+      <div class="dropdown-apps-bloque">
+        <div class="dropdown-bloque-header">
+          <span class="dropdown-bloque-title">🧩 Actividades Interactivas</span>
+          <span class="dropdown-bloque-badge">${actividadesApps.length} act.</span>
+        </div>
+    `;
+    if (actividadesApps.length === 0) {
+      html += `<div class="dropdown-apps-vacio">No hay actividades añadidas todavía. Pulsa "+ Añadir nueva app" para incorporar una.</div>`;
     } else {
-      btn.classList.remove("activo");
-      btn.innerHTML = `<span class="demo-dot offline"></span><span>Modo Drive: Real</span>`;
-      btn.title = "Mostrando solo datos reales vinculados a tus Google Sheets. Pulsa para activar Modo Demo.";
+      actividadesApps.forEach(app => {
+        const sheetUrl = app.urlSheet ? app.urlSheet : (app.sheetId ? `https://docs.google.com/spreadsheets/d/${app.sheetId}/edit` : "");
+        html += `
+          <div class="dropdown-app-item">
+            <div class="dropdown-app-left">
+              <span class="dropdown-app-icon">${app.icono || "🧩"}</span>
+              <div class="dropdown-app-info">
+                <div class="dropdown-app-name">${app.tituloVisible || app.nombre}</div>
+                <div class="dropdown-app-desc">${app.descripcion || "Actividad evaluable"}</div>
+              </div>
+            </div>
+            <div class="dropdown-app-actions">
+              ${sheetUrl ? `<a href="${sheetUrl}" target="_blank" rel="noopener noreferrer" class="dropdown-app-link" title="Abrir Google Sheet en Drive">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                Hoja
+              </a>` : ""}
+            </div>
+          </div>
+        `;
+      });
     }
+    html += `</div>`;
+
+    cont.innerHTML = html;
   }
 
   function aplicarPresetFecha(preset) {
@@ -1326,6 +1433,7 @@
     try {
       const nueva = StorageManager.addCustomApp(nombre, url, bloque);
       state.appsConfiguradas = StorageManager.getAppsList();
+      renderizarMenuDesplegableApps();
       cerrarModalAnadirApp();
       mostrarNotificacion(`✓ Aplicación "${nueva.tituloVisible}" incorporada a ${nueva.bloqueNombre}.`, "success");
       refrescarCalificacionesGrupo();
@@ -1410,6 +1518,7 @@
     if (confirm("¿Estás seguro de eliminar esta aplicación personalizada?")) {
       StorageManager.deleteCustomApp(appId);
       state.appsConfiguradas = StorageManager.getAppsList();
+      renderizarMenuDesplegableApps();
       renderizarListaConfigApps();
       refrescarCalificacionesGrupo();
     }

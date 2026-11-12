@@ -186,14 +186,14 @@ const StorageManager = {
   },
 
   // ==========================================
-  // MODO DEMO / SIMULACIÓN
+  // MODO DEMO / SIMULACIÓN (Desactivado: Siempre datos reales de Drive)
   // ==========================================
   isDemoModeActive() {
-    return localStorage.getItem(this.KEYS.DEMO_MODE) === "true";
+    return false;
   },
 
   setDemoMode(enabled) {
-    localStorage.setItem(this.KEYS.DEMO_MODE, enabled ? "true" : "false");
+    localStorage.removeItem(this.KEYS.DEMO_MODE);
   }
 };
 
