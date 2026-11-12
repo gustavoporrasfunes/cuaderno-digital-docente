@@ -218,18 +218,15 @@ const SheetsService = {
     }
 
     const timestamp = ahora;
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&sheet=${encodeURIComponent(nombrePestana)}&_nocache=${timestamp}`;
+    // Usamos el endpoint GViz oficial que siempre respeta el nombre exacto de pestaña y tiene CORS abierto
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(nombrePestana)}&t=${timestamp}`;
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 3500);
+    const timeout = setTimeout(() => controller.abort(), 4000);
 
     try {
       const res = await fetch(url, {
         signal: controller.signal,
-        cache: "no-store",
-        headers: {
-          "Pragma": "no-cache",
-          "Cache-Control": "no-cache, no-store, must-revalidate"
-        }
+        cache: "no-store"
       });
       clearTimeout(timeout);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -242,6 +239,17 @@ const SheetsService = {
       return lineas;
     } catch(e) {
       clearTimeout(timeout);
+      // Fallback a /export si gviz falla
+      try {
+        const fallbackUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&sheet=${encodeURIComponent(nombrePestana)}&_nocache=${timestamp}`;
+        const res2 = await fetch(fallbackUrl);
+        if (res2.ok) {
+          const text2 = await res2.text();
+          const lineas2 = text2.split(/\r?\n/).filter(l => l.trim().length > 0);
+          return lineas2;
+        }
+      } catch(e2) {}
+
       // Si la petición falla o hace timeout pero tenemos caché previa, devolverla
       if (this._cacheCsvPorGrupo[cacheKey]) {
         return this._cacheCsvPorGrupo[cacheKey].data;
