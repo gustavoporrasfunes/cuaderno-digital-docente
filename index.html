@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuaderno Digital del Profesor | Claves de Música</title>
+  <link rel="icon" type="image/png" href="https://clavesdemusica.com/wp-content/uploads/2023/08/header2.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       0. LANDING PAGE DE ACCESO DOCENTE SEGURO (Contraseña: 1750*Diag0nal*121068)
+       ========================================================================= -->
+  <div id="landing-page-portal" class="landing-portal">
+    <div class="landing-card-box">
+      <!-- Cabecera Corporativa -->
+      <div class="landing-brand-area">
+        <a href="https://clavesdemusica.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://clavesdemusica.com/wp-content/uploads/2023/08/header2.png" alt="Claves de Música" class="landing-logo-img">
+        </a>
+        <div class="landing-badge-security">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <span>Portal Docente Seguro • Claves de Música</span>
+        </div>
+      </div>
+
+      <!-- Contenido Principal de la Landing -->
+      <div class="landing-main-content">
+        <h1 class="landing-main-title">Cuaderno Digital del Profesor</h1>
+        <p class="landing-lead">
+          Plataforma centralizada para la consulta, evaluación y seguimiento en tiempo real de calificaciones:
+        </p>
+
+        <!-- Píldoras de los 2 bloques oficiales de evaluación -->
+        <div class="landing-bloques-preview">
+          <div class="bloque-preview-card bloque-card-lenguaje">
+            <span class="bloque-preview-icon">🎼</span>
+            <div class="bloque-preview-texts">
+              <strong>Lenguaje Musical</strong>
+              <small>Lectura, Equivalencias, Compases, Intervalos y Dictados</small>
+            </div>
+          </div>
+          <div class="bloque-preview-card bloque-card-actividades">
+            <span class="bloque-preview-icon">🧩</span>
+            <div class="bloque-preview-texts">
+              <strong>Actividades Interactivas Evaluables</strong>
+              <small>Pruebas, cuestionarios y aplicaciones ampliables con + Añadir app</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aviso RGPD / Protección de datos de menores -->
+        <div class="landing-rgpd-box">
+          <div class="rgpd-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <div class="rgpd-text">
+            <strong>Protección de Datos y Confidencialidad (RGPD):</strong>
+            <span>Este cuaderno gestiona expedientes y calificaciones de alumnado menor de edad. Acceso restringido exclusivamente a profesorado autorizado bajo secreto profesional.</span>
+          </div>
+        </div>
+
+        <!-- Formulario de acceso -->
+        <form id="form-landing-login" class="landing-form">
+          <label for="landing-password-input" class="landing-input-label">Contraseña de acceso docente:</label>
+          <div class="landing-input-wrapper">
+            <div class="landing-input-prefix-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <input type="password" id="landing-password-input" class="landing-password-field" placeholder="Introduce la contraseña maestra..." required autofocus autocomplete="current-password">
+            <button type="button" class="btn-toggle-eye" id="btn-toggle-landing-eye" title="Mostrar u ocultar contraseña">
+              <svg id="landing-eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+
+          <div id="landing-error-alert" class="landing-error-msg hidden">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+            <span>Contraseña incorrecta. Por favor, verifica la clave docente.</span>
+          </div>
+
+          <button type="submit" class="btn-landing-entrar" id="btn-landing-submit">
+            <span>Entrar al Cuaderno Digital</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </form>
+      </div>
+
+      <div class="landing-footer-note">
+        <span>© Claves de Música • Departamento de Música • Educación Secundaria</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor del Cuaderno Digital (Visible tras autenticación) -->
+  <div id="app-dashboard-wrapper">
+
+  <!-- =========================================================================
+       1. BARRA SUPERIOR (TOPBAR - INSPIRADA EN EDPUZZLE Y CLAVES DE MÚSICA)
+       ========================================================================= -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button type="button" class="btn-toggle-menu" id="btn-toggle-sidebar" title="Alternar menú lateral">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <a href="https://clavesdemusica.com" target="_blank" rel="noopener noreferrer" class="topbar-brand" title="Claves de Música">
+        <img src="https://clavesdemusica.com/wp-content/uploads/2023/08/header2.png" alt="Claves de Música" class="brand-logo-img">
+        <div class="brand-title-badge">
+          <span class="brand-title-main">Cuaderno del Profesor</span>
+          <span class="brand-title-sub">Gestión de Calificaciones</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Barra de Búsqueda Centrada (Captura 1) -->
+    <div class="topbar-center">
+      <div class="search-box">
+        <span class="search-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input type="text" id="input-buscar-alumno" class="search-input" placeholder="Buscar alumno por nombre o apellidos..." autocomplete="off">
+      </div>
+    </div>
+
+    <!-- Acciones Derecha (Ayuda, Notificaciones, Avatar Docente, Logout) -->
+    <div class="topbar-right">
+      <button type="button" class="btn-icon" id="btn-config-sheets" title="Configurar Hojas de Google Drive">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+
+      <!-- Indicador de Sincronización en Tiempo Real -->
+      <div class="live-sync-indicator" id="live-sync-badge" title="Sincronización en tiempo real activa (se actualiza automáticamente)">
+        <span class="live-sync-dot"></span>
+        <span class="live-sync-label">En vivo</span>
+        <span class="live-sync-time" id="live-sync-last-time">en vivo</span>
+      </div>
+
+      <div class="user-profile-badge" title="Sesión activa: Profesor de Música">
+        <span class="user-avatar-circle">G</span>
+        <span class="user-name-text">Profesor</span>
+      </div>
+
+      <button type="button" class="btn-logout" id="btn-docente-logout" title="Cerrar sesión y bloquear cuaderno">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span>Bloquear</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       2. LAYOUT PRINCIPAL (BARRA LATERAL + CONTENIDO)
+       ========================================================================= -->
+  <div class="app-layout">
+    
+    <!-- BARRA LATERAL IZQUIERDA (Captura 1) -->
+    <aside class="sidebar" id="sidebar">
+      
+      <!-- Botón Añadir app (En la posición del botón redondo Agregar nuevo de Edpuzzle) -->
+      <div class="sidebar-btn-agregar-wrap">
+        <button type="button" class="btn-agregar-nuevo btn-anadir-app-trigger" id="btn-sidebar-agregar-app" title="Añadir una nueva aplicación al cuaderno">
+          <span class="btn-agregar-nuevo-icon">+</span>
+          <span>Añadir app</span>
+        </button>
+      </div>
+
+      <!-- Sección Cursos Activos de 1º a 4º de ESO (solo grupos con alumnos) -->
+      <div class="sidebar-seccion-clases">
+        <div class="seccion-clases-header">
+          <span class="seccion-clases-titulo">Cursos activos</span>
+          <div class="seccion-clases-acciones">
+            <button type="button" class="btn-mini-action" id="btn-colapsar-sidebar-clases" title="Colapsar clases">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Contenedor dinámico de grupos filtrados (Requisito 3) -->
+        <div class="lista-clases" id="lista-clases-sidebar">
+          <div class="sidebar-empty">Cargando cursos activos...</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =========================================================================
+         ÁREA PRINCIPAL DE CONTENIDO (Captura 1)
+         ========================================================================= -->
+    <main class="main-content">
+
+      <!-- Tarjeta Superior del Grupo Seleccionado -->
+      <div class="grupo-header-card">
+        <div class="grupo-header-top">
+          <div class="grupo-header-left">
+            <div class="grupo-icono-folder">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+              </svg>
+            </div>
+            <div class="grupo-header-textos">
+              <h2>
+                <span id="header-grupo-titulo">1ESO-A</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </h2>
+              <p id="header-grupo-subtitulo">Clase de Música. 1º de ESO</p>
+            </div>
+            <span class="grupo-header-badge-count" id="badge-total-alumnos">29 alumnos</span>
+          </div>
+
+          <div class="grupo-header-right">
+            <!-- Selector de modo Demo / Datos Reales -->
+            <button type="button" class="btn-modo-demo" id="btn-toggle-demo" title="Alternar entre datos simulados para preview o sincronización real con Drive">
+              <span class="demo-dot offline"></span>
+              <span>Modo Drive: Real</span>
+            </button>
+
+            <!-- Botón Sincronizar Drive -->
+            <button type="button" class="btn-sync-drive" id="btn-sincronizar-drive" title="Volver a leer las hojas de cálculo de Drive">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              <span>Sincronizar Drive</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pestaña Única: Notas (Calificaciones) -->
+        <nav class="grupo-tabs">
+          <span class="grupo-tab-item active">Notas</span>
+        </nav>
+      </div>
+
+      <!-- =========================================================================
+           BARRA DE CONTROLES: SELECTOR DE FECHAS Y ACCIÓN DE DESCARGA (Captura 1)
+           ========================================================================= -->
+      <div class="controles-barra">
+        
+        <!-- Requisito 4: Selector de Rango de Fechas (Idéntico a Captura 1 y 2) -->
+        <div class="controles-fechas-wrap">
+          <div class="filtro-fecha-card" title="Pulsar para cambiar fecha de inicio">
+            <span class="filtro-fecha-label">Fecha de inicio</span>
+            <div class="filtro-fecha-content-row">
+              <span class="filtro-fecha-valor-txt" id="display-fecha-inicio">01 sep.</span>
+              <span class="filtro-fecha-hora-txt">12:00am</span>
+            </div>
+            <input type="date" id="filtro-fecha-inicio" class="filtro-fecha-input-hidden" />
+          </div>
+
+          <div class="filtro-fecha-card" title="Pulsar para cambiar fecha de entrega">
+            <span class="filtro-fecha-label">Fecha de entrega</span>
+            <div class="filtro-fecha-content-row">
+              <span class="filtro-fecha-valor-txt" id="display-fecha-fin">Hoy</span>
+              <span class="filtro-fecha-hora-txt">11:59pm</span>
+            </div>
+            <input type="date" id="filtro-fecha-fin" class="filtro-fecha-input-hidden" />
+          </div>
+
+          <!-- Presets rápidos de fechas -->
+          <div class="presets-fechas-group">
+            <button type="button" class="btn-preset-fecha" data-preset="todo_curso" title="Desde el 1 de septiembre">Todo el curso</button>
+            <button type="button" class="btn-preset-fecha" data-preset="trimestre1" title="1º Trimestre escolar">1º Trimestre</button>
+            <button type="button" class="btn-preset-fecha" data-preset="ultimos_30" title="Últimos 30 días">30 días</button>
+            <button type="button" class="btn-preset-fecha" data-preset="hoy" title="Solo hoy">Hoy</button>
+          </div>
+        </div>
+
+        <!-- Acción: Descargar Notas (Requisito 7) -->
+        <div class="controles-acciones-wrap">
+          <button type="button" class="btn-descargar-notas" id="btn-descargar-notas" title="Descargar actas en Excel o CSV">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>Descargar notas</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           TABLA DE CALIFICACIONES CON MAPA DE CALOR (Requisito 5 - Captura 1)
+           ========================================================================= -->
+      <div class="tabla-wrapper-card">
+        <!-- Barra de sub-controles: flechas de navegación < > y selector de escala (Captura 1) -->
+        <div class="tabla-subcontroles-bar">
+          <div class="btn-group-flechas">
+            <button type="button" class="btn-flecha-pag" id="btn-tabla-prev" title="Desplazar tabla a la izquierda">&lt;</button>
+            <button type="button" class="btn-flecha-pag" id="btn-tabla-next" title="Desplazar tabla a la derecha">&gt;</button>
+          </div>
+          <div style="display:flex; align-items:center; gap: 8px;">
+            <button type="button" class="btn-preset-fecha" id="btn-toggle-escala" style="border:1px solid #d1d5db; background:#ffffff; font-weight:600;" title="Alternar entre escala 0-10 y 0-100 (como en Edpuzzle)">
+              Escala de notas: <strong id="txt-escala-activa" style="color:var(--primary);">0 - 100</strong>
+            </button>
+          </div>
+        </div>
+
+        <div class="tabla-scroll-area" id="tabla-scroll-container">
+          <table class="tabla-calificaciones" id="tabla-calificaciones">
+            <thead>
+              <tr id="tabla-cabecera-tr">
+                <!-- Se inyecta dinámicamente con las cabeceras rotadas estilo Edpuzzle -->
+              </tr>
+            </thead>
+            <tbody id="tabla-cuerpo">
+              <!-- Se inyecta dinámicamente con los alumnos y mapa de calor -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pie de Tabla con Contador y Leyenda del Mapa de Calor -->
+        <div class="tabla-footer-bar">
+          <div class="contador-alumnos" id="contador-alumnos-visibles">
+            Cargando alumnos...
+          </div>
+
+          <!-- Leyenda del Mapa de Calor (Requisito 5) -->
+          <div class="leyenda-mapa-calor">
+            <span style="font-weight: 700; color: var(--text-main);">Mapa de calor:</span>
+            <div class="leyenda-item">
+              <span class="leyenda-color-box nota-rojo"></span>
+              <span>&lt; 5 (Insuficiente)</span>
+            </div>
+            <div class="leyenda-item">
+              <span class="leyenda-color-box nota-naranja"></span>
+              <span>5 - 6 (Suficiente)</span>
+            </div>
+            <div class="leyenda-item">
+              <span class="leyenda-color-box nota-amarillo"></span>
+              <span>6 - 7 (Bien)</span>
+            </div>
+            <div class="leyenda-item">
+              <span class="leyenda-color-box nota-verde"></span>
+              <span>7 - 10 (Notable / Sobresaliente)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+  </div> <!-- Fin #app-dashboard-wrapper -->
+
+  <!-- =========================================================================
+       4. MODAL DETALLE DE ALUMNO (Requisito 6 - Semejante a Captura 2)
+       ========================================================================= -->
+  <div id="modal-detalle-alumno" class="modal-backdrop hidden">
+    <div class="modal-card-detalle-alumno">
+      
+      <!-- Cabecera del Modal de Alumno (Captura 2) -->
+      <div class="modal-alumno-header">
+        <div class="modal-header-info">
+          <h3 class="modal-alumno-title" id="modal-alumno-nombre">Lucía Arance Sánchez</h3>
+          
+          <div class="modal-alumno-meta-global">
+            <span class="modal-nota-badge" id="modal-alumno-nota-global-pill">9.5</span>
+            <span class="modal-nota-label">NOTA GLOBAL</span>
+            <span class="modal-alumno-tiempo-txt" id="modal-alumno-tiempo">Tiempo total invertido: 17 minutos</span>
+          </div>
+        </div>
+
+        <div class="modal-header-nav-controles">
+          <div style="display:flex; align-items:center; gap: 8px;">
+            <div class="modal-paginacion-bar">
+              <button type="button" class="btn-nav-modal" id="btn-modal-anterior">Anterior</button>
+              <span class="modal-contador-paginas" id="modal-alumno-paginacion">1/29</span>
+              <button type="button" class="btn-nav-modal" id="btn-modal-siguiente">Siguiente</button>
+            </div>
+            <button type="button" class="btn-cerrar-modal-x" onclick="window.cerrarModalAlumno()" title="Cerrar detalle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+
+          <!-- Cajas de Fechas en Modal (Idéntico a Captura 2) -->
+          <div class="modal-fechas-preview">
+            <div class="modal-fecha-box">
+              <span>Fecha de inicio</span>
+              <div class="modal-fecha-box-row">
+                <strong id="modal-fecha-inicio-txt">12 oct.</strong>
+                <small>12:00am</small>
+              </div>
+            </div>
+            <div class="modal-fecha-box">
+              <span>Fecha de entrega</span>
+              <div class="modal-fecha-box-row">
+                <strong id="modal-fecha-entrega-txt">Hoy</strong>
+                <small>11:59pm</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cuerpo del Modal: Desglose por cada una de las 5 apps (Captura 2) -->
+      <div class="modal-alumno-scroll-body" id="modal-alumno-desglose-apps">
+        <!-- Inyectado dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       5. MODAL DESCARGAR NOTAS (Requisito 7)
+       ========================================================================= -->
+  <div id="modal-descargar-notas" class="modal-backdrop hidden">
+    <div class="modal-descarga-card">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 12px;">
+        <h3 style="font-size:18px; font-weight:800; color:var(--text-main);">📥 Descargar Calificaciones</h3>
+        <button type="button" class="btn-cerrar-modal-x" onclick="ExportService.cerrarModalDescarga()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <p style="font-size:13px; color:var(--text-muted);">Selecciona el tipo de informe que deseas exportar a formato Excel / CSV:</p>
+
+      <div class="descarga-opciones-list">
+        <!-- Opción A: Solo listado y notas medias -->
+        <label class="descarga-radio-card">
+          <input type="radio" name="tipo_descarga" value="solo_medias" checked>
+          <div class="descarga-radio-textos">
+            <strong>Solo listado de alumnos y sus notas medias</strong>
+            <small>Exporta el listado oficial con la nota global de cada alumno y su tiempo total invertido.</small>
+          </div>
+        </label>
+
+        <!-- Opción B: Todas las notas -->
+        <label class="descarga-radio-card">
+          <input type="radio" name="tipo_descarga" value="todas_las_notas">
+          <div class="descarga-radio-textos">
+            <strong>Descargar todas las notas (Resumen completo)</strong>
+            <small>Exporta todas las columnas con las medias de cada una de las 5 aplicaciones y la nota global.</small>
+          </div>
+        </label>
+
+        <!-- Opción C: Selección de una app específica -->
+        <label class="descarga-radio-card">
+          <input type="radio" name="tipo_descarga" value="app_especifica">
+          <div class="descarga-radio-textos">
+            <strong>Seleccionar aplicación específica</strong>
+            <small>Exporta únicamente las calificaciones y exámenes de la app seleccionada (ej: solo Lectura).</small>
+          </div>
+        </label>
+      </div>
+
+      <!-- Selector de App (visible cuando se elige opción C) -->
+      <div id="wrap-descarga-select-app" class="hidden" style="margin-bottom: 20px;">
+        <label style="font-size:12.5px; font-weight:700; color:var(--text-main);">¿De qué aplicación deseas descargar las notas?</label>
+        <select id="descarga-select-app" class="select-app-descarga"></select>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap: 10px; margin-top: 10px;">
+        <button type="button" class="btn-nav-modal" onclick="ExportService.cerrarModalDescarga()">Cancelar</button>
+        <button type="button" class="btn-anadir-app" id="btn-confirmar-descarga">Descargar Acta (.csv)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       6. MODAL AÑADIR APP + (Requisito 8)
+       ========================================================================= -->
+  <div id="modal-anadir-app" class="modal-backdrop hidden">
+    <div class="modal-anadir-card">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 14px;">
+        <h3 style="font-size:18px; font-weight:800; color:var(--text-main);">➕ Añadir Nueva Aplicación al Cuaderno</h3>
+        <button type="button" class="btn-cerrar-modal-x" onclick="window.cerrarModalAnadirApp()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom: 20px;">
+        Pega el enlace de la Google Sheet donde tengas guardadas las calificaciones de la nueva app para incorporarla a tu cuaderno de clase.
+      </p>
+
+      <form id="form-anadir-app">
+        <div class="form-campo">
+          <label for="anadir-app-nombre">Nombre visible de la aplicación:</label>
+          <input type="text" id="anadir-app-nombre" class="form-input" placeholder="Ej: Ritmo y Figuras / Dictados Melódicos" required>
+        </div>
+
+        <div class="form-campo">
+          <label for="anadir-app-bloque">Bloque de evaluación:</label>
+          <select id="anadir-app-bloque" class="form-input">
+            <option value="actividades_interactivas" selected>Actividades Interactivas Evaluables</option>
+            <option value="lenguaje_musical">Lenguaje Musical</option>
+          </select>
+        </div>
+
+        <div class="form-campo">
+          <label for="anadir-app-url">URL de la Google Sheet en Google Drive:</label>
+          <input type="url" id="anadir-app-url" class="form-input" placeholder="https://docs.google.com/spreadsheets/d/1.../edit" required>
+          <span class="form-ayuda">Asegúrate de que la hoja de Google Drive tenga permiso de lectura compartido ("Cualquiera con el enlace puede ver").</span>
+        </div>
+
+        <div id="anadir-app-error" class="login-error hidden" style="margin-bottom: 14px;"></div>
+
+        <div style="display:flex; justify-content:flex-end; gap: 10px; margin-top: 10px;">
+          <button type="button" class="btn-nav-modal" onclick="window.cerrarModalAnadirApp()">Cancelar</button>
+          <button type="submit" class="btn-anadir-app">Vincular e Incorporar App</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       7. MODAL CONFIGURACIÓN DE HOJAS DE DRIVE
+       ========================================================================= -->
+  <div id="modal-config-apps" class="modal-backdrop hidden">
+    <div class="modal-config-card">
+      <div style="padding: 20px 24px; border-bottom: 1px solid var(--border-color); display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <h3 style="font-size:18px; font-weight:800; color:var(--text-main);">⚙️ Hojas de Google Drive Vinculadas</h3>
+          <p style="font-size:12.5px; color:var(--text-muted); margin-top: 2px;">Comprueba y actualiza las URLs de Google Sheets de tus 5 aplicaciones oficiales.</p>
+        </div>
+        <button type="button" class="btn-cerrar-modal-x" onclick="window.cerrarModalConfigApps()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-config-scroll" id="lista-config-apps-items">
+        <!-- Renderizado dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADER SPINNER -->
+  <div id="app-loader" class="app-loader-backdrop hidden">
+    <div class="spinner"></div>
+    <div class="loader-text" id="app-loader-text">Cargando...</div>
+  </div>
+
+  <!-- TOAST NOTIFICACIONES -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/sheets.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,5647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuaderno Digital del Profesor | Claves de Música</title>
+  <link rel="icon" type="image/png" href="https://clavesdemusica.com/wp-content/uploads/2023/08/header2.png">
+  <style>
+/* ==========================================================================
+   CUADERNO DIGITAL DEL PROFESOR - CLAVES DE MÚSICA (EDPUZZLE STYLE)
+   ========================================================================== */
+
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
+  --primary-focus: rgba(79, 70, 229, 0.25);
+  
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e2e8f0;
+  --main-bg: #f8fafc;
+  --card-bg: #ffffff;
+  
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  --border-color: #e2e8f0;
+  --border-subtle: #f1f5f9;
+
+  /* Mapa de calor oficial (Requisito 5) */
+  --heat-red-bg: #fee2e2;
+  --heat-red-text: #991b1b;
+  --heat-red-border: #f87171;
+
+  --heat-orange-bg: #ffedd5;
+  --heat-orange-text: #9a3412;
+  --heat-orange-border: #fb923c;
+
+  --heat-yellow-bg: #fef9c3;
+  --heat-yellow-text: #854d0e;
+  --heat-yellow-border: #facc15;
+
+  --heat-green-bg: #dcfce7;
+  --heat-green-text: #166534;
+  --heat-green-border: #4ade80;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-modal: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--main-bg);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   BARRA DE NAVEGACIÓN SUPERIOR (TOPBAR - Captura 1)
+   ========================================================================== */
+.topbar {
+  height: 64px;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.btn-toggle-menu {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.btn-toggle-menu:hover {
+  background-color: var(--border-subtle);
+  color: var(--text-main);
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-logo-img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-title-badge {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title-main {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+}
+
+.brand-title-sub {
+  font-size: 11px;
+  color: var(--primary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.topbar-center {
+  flex: 1;
+  max-width: 540px;
+  margin: 0 28px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f1f5f9;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  transition: all 0.2s;
+}
+
+.search-box:focus-within {
+  background-color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-focus);
+}
+
+.search-icon {
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  border: none;
+  background: none;
+  outline: none;
+  width: 100%;
+  font-size: 13.5px;
+  color: var(--text-main);
+}
+
+.search-input::placeholder {
+  color: var(--text-light);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.btn-icon:hover {
+  background-color: var(--border-subtle);
+  color: var(--text-main);
+}
+
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px 4px 4px;
+  border-radius: var(--radius-pill);
+  background-color: #f8fafc;
+  border: 1px solid var(--border-color);
+}
+
+.user-avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.user-name-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.btn-logout {
+  background: none;
+  border: 1px solid #fee2e2;
+  color: #b91c1c;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: #fee2e2;
+}
+
+/* ==========================================================================
+   ESTRUCTURA PRINCIPAL (SIDEBAR + CONTENIDO)
+   ========================================================================== */
+.app-layout {
+  display: flex;
+  min-height: calc(100vh - 64px);
+}
+
+/* ==========================================================================
+   BARRA LATERAL IZQUIERDA (SIDEBAR - Captura 1)
+   ========================================================================== */
+.sidebar {
+  width: 270px;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 16px 12px;
+  gap: 16px;
+}
+
+.sidebar-btn-agregar-wrap {
+  padding: 0 4px;
+}
+
+.btn-agregar-nuevo {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+}
+
+.btn-agregar-nuevo:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+  color: #111827;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.btn-agregar-nuevo-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #ea580c;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.sidebar-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-nav-item a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s;
+}
+
+.sidebar-nav-item a:hover {
+  background-color: var(--border-subtle);
+  color: var(--text-main);
+}
+
+.sidebar-nav-item.active a {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.sidebar-seccion-clases {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border-top: 1px solid var(--border-color);
+  padding-top: 14px;
+}
+
+.seccion-clases-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px 8px 10px;
+}
+
+.seccion-clases-titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.seccion-clases-acciones {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-mini-action {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: all 0.15s;
+}
+
+.btn-mini-action:hover {
+  background-color: var(--border-subtle);
+  color: var(--primary);
+}
+
+.lista-clases {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow-y: auto;
+  max-height: calc(100vh - 170px);
+}
+
+/* Cabecera de cada curso (1º a 4º de ESO) */
+.sidebar-curso-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px 4px 10px;
+  margin-top: 8px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.sidebar-curso-header:first-child {
+  margin-top: 0;
+  border-top: none;
+  padding-top: 2px;
+}
+
+.curso-header-titulo {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.curso-header-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #94a3b8;
+  background-color: #f1f5f9;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+/* Cada grupo/clase de la barra lateral (Requisito 3) */
+.clase-item {
+  width: 100%;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.clase-item:hover {
+  background-color: #f1f5f9;
+}
+
+.clase-item.active {
+  background-color: #dbeafe; /* Azul suave Edpuzzle */
+  border-color: #bfdbfe;
+}
+
+.clase-item-icon {
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.clase-item-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.clase-item-codigo {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clase-item-subtitulo {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clase-item-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+}
+
+.sidebar-footer-acciones {
+  border-top: 1px solid var(--border-color);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.btn-sidebar-secundario {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px dashed #cbd5e1;
+  color: var(--primary);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-sidebar-secundario:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+}
+
+.sidebar-archivado {
+  color: var(--text-light);
+  font-size: 12.5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.sidebar-archivado:hover {
+  background-color: var(--border-subtle);
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   ÁREA DE CONTENIDO PRINCIPAL (Captura 1)
+   ========================================================================== */
+.main-content {
+  flex: 1;
+  background-color: var(--main-bg);
+  padding: 24px 32px 60px 32px;
+  overflow-x: auto;
+}
+
+/* Cabecera del Grupo */
+.grupo-header-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px 24px 0 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.grupo-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.grupo-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.grupo-icono-folder {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background-color: #fef08a; /* Dorado Edpuzzle */
+  color: #ca8a04;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(202, 138, 4, 0.15);
+}
+
+.grupo-header-textos h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.grupo-header-textos p {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.grupo-header-badge-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  background-color: var(--primary-light);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.grupo-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-modo-demo {
+  background-color: #f8fafc;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-modo-demo:hover {
+  background-color: #f1f5f9;
+}
+
+.btn-modo-demo.activo {
+  background-color: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.demo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.demo-dot.online { background-color: #22c55e; }
+.demo-dot.offline { background-color: #cbd5e1; }
+
+.btn-sync-drive {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-sync-drive:hover {
+  background-color: #ffffff;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Pestañas estilo Edpuzzle (Tareas, Miembros, Notas) */
+.grupo-tabs {
+  display: flex;
+  gap: 28px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 4px;
+}
+
+.grupo-tab-item {
+  padding: 12px 2px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.grupo-tab-item:hover {
+  color: var(--text-main);
+}
+
+.grupo-tab-item.active {
+  color: #2563eb; /* Azul Edpuzzle */
+  border-bottom-color: #2563eb;
+}
+
+/* ==========================================================================
+   PANEL DE FILTRO DE FECHAS Y ACCIÓN DE DESCARGA (Captura 1)
+   ========================================================================== */
+.controles-barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.controles-fechas-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Cajas de Fecha de Inicio y Entrega (Estilo idéntico a Captura 1 y 2) */
+.filtro-fecha-card {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 8px 14px;
+  min-width: 155px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.filtro-fecha-card:hover {
+  border-color: #9ca3af;
+}
+
+.filtro-fecha-card:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.filtro-fecha-label {
+  display: block;
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+
+.filtro-fecha-content-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.filtro-fecha-valor-txt {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.filtro-fecha-hora-txt {
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.filtro-fecha-input-hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Navegación < y > sobre la tabla (Captura 1) */
+.tabla-subcontroles-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.btn-group-flechas {
+  display: inline-flex;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.btn-flecha-pag {
+  background: none;
+  border: none;
+  border-right: 1px solid #d1d5db;
+  padding: 5px 14px;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.btn-flecha-pag:last-child {
+  border-right: none;
+}
+
+.btn-flecha-pag:hover {
+  background-color: #f3f4f6;
+}
+
+.presets-fechas-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+}
+
+.btn-preset-fecha {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-preset-fecha:hover {
+  background-color: var(--border-subtle);
+  color: var(--text-main);
+}
+
+.controles-acciones-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botón Descargar Notas (Requisito 7 - Captura 1) */
+.btn-descargar-notas {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s;
+}
+
+.btn-descargar-notas:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: var(--primary);
+}
+
+.btn-anadir-app {
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+  color: #ffffff;
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25);
+  transition: all 0.2s;
+}
+
+.btn-anadir-app:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   TABLA DE CALIFICACIONES CON MAPA DE CALOR (Requisito 5 - Captura 1)
+   ========================================================================== */
+.tabla-wrapper-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.tabla-scroll-area {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.tabla-calificaciones {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* Cabeceras de Tabla */
+.tabla-calificaciones thead {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.th-fija {
+  padding: 16px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.th-alumno {
+  min-width: 260px;
+}
+
+.th-centrada {
+  text-align: center;
+  padding: 16px 14px;
+}
+
+.th-media-global, .th-tiempo-total {
+  min-width: 110px;
+}
+
+.th-content-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.th-titulo-principal {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  text-transform: capitalize;
+}
+
+.th-subtitulo {
+  font-size: 11px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* Cabeceras rotadas estilo Edpuzzle (Captura 1) */
+.th-app-rotada {
+  min-width: 96px;
+  max-width: 125px;
+  padding: 8px 6px 12px 6px;
+  text-align: center;
+  vertical-align: bottom;
+}
+
+.th-rotada-wrap {
+  height: 120px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+  padding-bottom: 10px;
+}
+
+.th-rotada-texto {
+  display: inline-block;
+  transform: rotate(-50deg);
+  transform-origin: bottom left;
+  white-space: nowrap;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 12px;
+}
+
+.th-rotada-meta-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+
+.th-rotada-avatar-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.th-rotada-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  background-color: #ffffff;
+}
+
+.th-rotada-conteo {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Filas de Alumnos */
+.fila-alumno {
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color 0.15s;
+}
+
+.fila-alumno:hover {
+  background-color: #f8fafc;
+}
+
+.td-alumno {
+  padding: 14px 20px;
+  cursor: pointer;
+}
+
+.alumno-nombre-celda {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alumno-avatar-circulo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  color: var(--primary);
+  border: 1px solid #e2e8f0;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.alumno-nombre-texto {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  transition: color 0.15s;
+}
+
+.fila-alumno:hover .alumno-nombre-texto {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.alumno-chevron {
+  color: var(--text-light);
+  opacity: 0;
+  transition: all 0.15s;
+  margin-left: auto;
+}
+
+.fila-alumno:hover .alumno-chevron {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+.td-centrada {
+  text-align: center;
+  padding: 12px 14px;
+}
+
+.td-app-celda {
+  cursor: pointer;
+}
+
+.texto-tiempo {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   PILLS DE NOTA Y MAPA DE CALOR (Requisito 5 - Captura 1)
+   ========================================================================== */
+.pill-nota {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid;
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.pill-nota:hover {
+  transform: scale(1.06);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Colores Oficiales del Mapa de Calor */
+.nota-rojo {
+  background-color: var(--heat-red-bg) !important;
+  color: var(--heat-red-text) !important;
+  border-color: var(--heat-red-border) !important;
+}
+
+.nota-naranja {
+  background-color: var(--heat-orange-bg) !important;
+  color: var(--heat-orange-text) !important;
+  border-color: var(--heat-orange-border) !important;
+}
+
+.nota-amarillo {
+  background-color: var(--heat-yellow-bg) !important;
+  color: var(--heat-yellow-text) !important;
+  border-color: var(--heat-yellow-border) !important;
+}
+
+.nota-verde {
+  background-color: var(--heat-green-bg) !important;
+  color: var(--heat-green-text) !important;
+  border-color: var(--heat-green-border) !important;
+}
+
+.nota-vacio {
+  background-color: #f8fafc !important;
+  color: #94a3b8 !important;
+  border-color: #e2e8f0 !important;
+  font-weight: 500;
+}
+
+.tabla-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background-color: #f8fafc;
+  border-top: 1px solid var(--border-color);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Leyenda del Mapa de Calor */
+.leyenda-mapa-calor {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.leyenda-color-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+
+/* ==========================================================================
+   MODAL DETALLE DE ALUMNO (Requisito 6 - Semejante a Captura 2)
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Modal Detalle Alumno (Idéntico a Captura 2 - Con Scroll Completo de Actividades) */
+.modal-card-detalle-alumno {
+  background-color: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.28);
+  width: 100%;
+  max-width: 940px;
+  height: 88vh;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modal-slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-alumno-header {
+  flex-shrink: 0;
+  padding: 24px 32px 18px 32px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  background-color: #ffffff;
+  z-index: 10;
+}
+
+.modal-alumno-scroll-body {
+  flex: 1 1 auto;
+  min-height: 0; /* IMPRESCINDIBLE: Permite al flex-child contraerse y habilitar el scroll vertical */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 32px 36px 32px;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar moderno, elegante y claramente visible */
+.modal-alumno-scroll-body::-webkit-scrollbar {
+  width: 9px;
+}
+
+.modal-alumno-scroll-body::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 6px;
+}
+
+.modal-alumno-scroll-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 6px;
+  border: 2px solid #f8fafc;
+}
+
+.modal-alumno-scroll-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.modal-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal-alumno-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.4px;
+}
+
+.modal-alumno-meta-global {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.modal-nota-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.modal-nota-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.modal-alumno-tiempo-txt {
+  font-size: 14px;
+  color: #4b5563;
+  margin-top: 4px;
+}
+
+/* Navegación Anterior / 1/29 / Siguiente (Captura 2) */
+.modal-header-nav-controles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.modal-paginacion-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-nav-modal {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 8px 18px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-nav-modal:hover:not(:disabled) {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.btn-nav-modal:disabled {
+  background-color: #f3f4f6;
+  border-color: transparent;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.modal-contador-paginas {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  min-width: 45px;
+  text-align: center;
+}
+
+/* Cajas de Fecha en Modal (Captura 2) */
+.modal-fechas-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-fecha-box {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  min-width: 135px;
+}
+
+.modal-fecha-box span {
+  font-size: 10.5px;
+  color: #6b7280;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.modal-fecha-box-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.modal-fecha-box-row strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.modal-fecha-box-row small {
+  font-size: 10.5px;
+  color: #9ca3af;
+}
+
+/* Agrupación por Aplicación (Requisito 6) */
+.modal-seccion-app {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px dashed #e5e7eb;
+}
+
+.modal-seccion-app:first-child {
+  margin-top: 6px;
+  padding-top: 0;
+  border-top: none;
+}
+
+.modal-seccion-app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-header-icono {
+  font-size: 18px;
+}
+
+.app-header-textos h4 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.app-header-sub {
+  font-size: 10.5px;
+  color: #64748b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-header-media-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* Filas de Pruebas (Captura 2) */
+.modal-item-prueba {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.15s;
+}
+
+.modal-item-prueba:last-child {
+  border-bottom: none;
+}
+
+.modal-item-prueba:hover {
+  background-color: #fafbfc;
+}
+
+.prueba-col-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.prueba-titulo {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: -0.2px;
+}
+
+.prueba-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.prueba-col-progreso {
+  width: 140px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.barra-progreso-verde-linea {
+  width: 100%;
+  height: 3px;
+  background-color: #059669;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   MODAL DE LOGIN DOCENTE (Requisito 2: Bach*1750)
+   ========================================================================== */
+.modal-login-card {
+  background-color: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
+  width: 100%;
+  max-width: 440px;
+  padding: 36px 32px;
+  text-align: center;
+  animation: modal-slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.login-brand-logo {
+  height: 42px;
+  margin-bottom: 20px;
+  object-fit: contain;
+}
+
+.login-candado-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background-color: #eff6ff;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+}
+
+.modal-login-card h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.modal-login-card p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.login-input-wrap {
+  margin-bottom: 18px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--text-main);
+  outline: none;
+  transition: all 0.2s;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.login-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-focus);
+}
+
+.input-shake {
+  animation: shake 0.4s ease-in-out;
+  border-color: #ef4444 !important;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+.login-error {
+  font-size: 12px;
+  color: #dc2626;
+  font-weight: 600;
+  margin-top: 8px;
+  display: block;
+}
+
+.btn-login-submit {
+  width: 100%;
+  background-color: var(--primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-login-submit:hover {
+  background-color: var(--primary-hover);
+}
+
+/* ==========================================================================
+   MODAL DE DESCARGA (Requisito 7)
+   ========================================================================== */
+.modal-descarga-card {
+  background-color: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
+  width: 100%;
+  max-width: 500px;
+  padding: 28px 24px;
+}
+
+.descarga-opciones-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.descarga-radio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.descarga-radio-card:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.descarga-radio-card input[type="radio"] {
+  margin-top: 3px;
+}
+
+.descarga-radio-textos strong {
+  display: block;
+  font-size: 14px;
+  color: var(--text-main);
+}
+
+.descarga-radio-textos small {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.select-app-descarga {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  color: var(--text-main);
+  background-color: #ffffff;
+  outline: none;
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   MODAL AÑADIR APP + (Requisito 8)
+   ========================================================================== */
+.modal-anadir-card {
+  background-color: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
+  width: 100%;
+  max-width: 520px;
+  padding: 28px 26px;
+}
+
+.form-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.form-campo label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.form-input {
+  padding: 10px 14px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  color: var(--text-main);
+  outline: none;
+  transition: all 0.2s;
+}
+
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-focus);
+}
+
+.form-ayuda {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Modal Configuración de Hojas */
+.modal-config-card {
+  background-color: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
+  width: 100%;
+  max-width: 720px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-config-scroll {
+  padding: 20px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.config-app-card {
+  background-color: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.config-app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.config-app-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-vinculo {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.badge-vinculo.online {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.badge-vinculo.offline {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.config-app-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.input-app-url {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  outline: none;
+}
+
+.btn-guardar-url-app {
+  background-color: var(--primary);
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-eliminar-app-custom {
+  background-color: #fee2e2;
+  border: none;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   UTILIDADES (LOADER, TOASTS, HELPER CLASSES)
+   ========================================================================== */
+.hidden {
+  display: none !important;
+}
+
+.app-loader-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  z-index: 2000;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3.5px solid #e2e8f0;
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loader-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 3000;
+}
+
+.toast-item {
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  animation: toast-in 0.25s ease-out;
+}
+
+.toast-success { background-color: #059669; }
+.toast-error { background-color: #dc2626; }
+.toast-warning { background-color: #d97706; }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.toast-fadeout {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: all 0.3s;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 230px;
+  }
+  .main-content {
+    padding: 18px 20px 40px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .topbar-center {
+    display: none;
+  }
+}
+
+
+/* ==========================================================================
+   LANDING PAGE PORTAL DE ACCESO DOCENTE (Seguridad & RGPD)
+   ========================================================================== */
+
+#app-dashboard-wrapper.hidden {
+  display: none !important;
+}
+
+.landing-portal,
+.landing-page-portal {
+  min-height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at top right, #e0e7ff 0%, #f1f5f9 45%, #e2e8f0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 18px;
+  position: relative;
+  z-index: 10000;
+  box-sizing: border-box;
+}
+
+.landing-card-box {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.18), 0 0 1px 1px rgba(0, 0, 0, 0.04);
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 42px 46px;
+  display: flex;
+  flex-direction: column;
+  animation: landingFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+@keyframes landingFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.landing-brand-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.landing-logo-img {
+  height: 48px;
+  max-width: 240px;
+  object-fit: contain;
+}
+
+.landing-badge-security {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.landing-badge-security svg,
+.landing-badge-security i {
+  color: #10b981;
+}
+
+.landing-main-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+}
+
+.landing-lead {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.landing-lead strong {
+  color: #1e293b;
+}
+
+.landing-bloques-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.bloque-preview-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.bloque-preview-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: #e0e7ff;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.bloque-card-actividades .bloque-preview-icon {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.bloque-preview-texts,
+.bloque-preview-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.bloque-preview-texts strong,
+.bloque-preview-info strong {
+  font-size: 13px;
+  color: #1e293b;
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.bloque-preview-texts small,
+.bloque-preview-info small {
+  font-size: 11.5px;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.landing-rgpd-box {
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 12px;
+  color: #92400e;
+  line-height: 1.45;
+  margin-bottom: 22px;
+}
+
+.rgpd-icon svg,
+.landing-rgpd-box i {
+  color: #d97706;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.rgpd-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.landing-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.landing-input-label,
+.landing-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 4px;
+}
+
+.landing-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.landing-input-prefix-icon {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.landing-password-field {
+  width: 100%;
+  padding: 13px 44px 13px 42px !important;
+  font-size: 15px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #0f172a;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+  box-sizing: border-box;
+}
+
+.landing-password-field:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.btn-toggle-eye {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+
+.btn-toggle-eye:hover {
+  color: #475569;
+}
+
+.landing-error-msg,
+.landing-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.landing-error-msg.hidden,
+.landing-error.hidden {
+  display: none !important;
+}
+
+.btn-landing-entrar {
+  margin-top: 8px;
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+  transition: all 0.2s;
+}
+
+.btn-landing-entrar:hover {
+  background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+}
+
+.btn-landing-entrar:active {
+  transform: translateY(0);
+}
+
+.landing-footer-note {
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+  text-align: center;
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+}
+
+.btn-landing-entrar:active {
+  transform: translateY(0);
+}
+
+
+/* ==========================================================================
+   INDICADOR DE SINCRONIZACIÓN EN TIEMPO REAL (TopBar)
+   ========================================================================== */
+
+.live-sync-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  padding: 5px 12px 5px 10px;
+  font-size: 12px;
+}
+
+.live-sync-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-dot 1.8s infinite;
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.live-sync-text {
+  font-weight: 700;
+  color: #065f46;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 11px;
+}
+
+.live-sync-time {
+  color: #64748b;
+  font-size: 11.5px;
+  border-left: 1px solid #cbd5e1;
+  padding-left: 8px;
+}
+
+.btn-live-sync-refresh {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 3px;
+  margin-left: 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 11px;
+}
+
+.btn-live-sync-refresh:hover {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.btn-live-sync-refresh.rotating i {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+
+/* ==========================================================================
+   MODAL ALUMNO: AGRUPACIÓN EN 2 BLOQUES (Lenguaje Musical / Actividades)
+   ========================================================================== */
+
+.modal-bloque-grupo {
+  margin-top: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.modal-bloque-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-bloque-banner.banner-lenguaje_musical {
+  background: linear-gradient(90deg, #eff6ff 0%, #f8fafc 100%);
+  border-left: 4px solid #2563eb;
+}
+
+.modal-bloque-banner.banner-actividades_interactivas {
+  background: linear-gradient(90deg, #fefce8 0%, #f8fafc 100%);
+  border-left: 4px solid #d97706;
+}
+
+.bloque-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.banner-lenguaje_musical .bloque-banner-left i {
+  color: #2563eb;
+  font-size: 16px;
+}
+
+.banner-actividades_interactivas .bloque-banner-left i {
+  color: #d97706;
+  font-size: 16px;
+}
+
+.bloque-banner-titulo {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.bloque-banner-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bloque-badge-promedio {
+  font-size: 12.5px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.bloque-badge-promedio strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-left: 6px;
+  font-weight: 800;
+  font-size: 13.5px;
+  border: 1px solid;
+}
+
+.badge-promedio-verde {
+  background-color: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0 !important;
+}
+
+.badge-promedio-amarillo {
+  background-color: #fefce8;
+  color: #854d0e;
+  border-color: #fde047 !important;
+}
+
+.badge-promedio-naranja {
+  background-color: #fff7ed;
+  color: #c2410c;
+  border-color: #fed7aa !important;
+}
+
+.badge-promedio-rojo {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca !important;
+}
+
+.badge-promedio-gris {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border-color: #cbd5e1 !important;
+}
+
+.modal-bloque-apps-lista {
+  padding: 8px 16px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-bloque-apps-lista .modal-seccion-app {
+  margin-top: 10px;
+  border-top: none;
+  padding-top: 0;
+}
+
+/* Badges de bloque en cabecera rotada de la tabla */
+.th-rotada-bloque-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.th-rotada-bloque-tag.tag-lenguaje {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.th-rotada-bloque-tag.tag-actividad {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+</style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       0. LANDING PAGE DE ACCESO DOCENTE SEGURO (Contraseña: 1750*Diag0nal*121068)
+       ========================================================================= -->
+  <div id="landing-page-portal" class="landing-portal">
+    <div class="landing-card-box">
+      <!-- Cabecera Corporativa -->
+      <div class="landing-brand-area">
+        <a href="https://clavesdemusica.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://clavesdemusica.com/wp-content/uploads/2023/08/header2.png" alt="Claves de Música" class="landing-logo-img">
+        </a>
+        <div class="landing-badge-security">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <span>Portal Docente Seguro • Claves de Música</span>
+        </div>
+      </div>
+
+      <!-- Contenido Principal de la Landing -->
+      <div class="landing-main-content">
+        <h1 class="landing-main-title">Cuaderno Digital del Profesor</h1>
+        <p class="landing-lead">
+          Plataforma centralizada para la consulta, evaluación y seguimiento en tiempo real de calificaciones:
+        </p>
+
+        <!-- Píldoras de los 2 bloques oficiales de evaluación -->
+        <div class="landing-bloques-preview">
+          <div class="bloque-preview-card bloque-card-lenguaje">
+            <span class="bloque-preview-icon">🎼</span>
+            <div class="bloque-preview-texts">
+              <strong>Lenguaje Musical</strong>
+              <small>Lectura, Equivalencias, Compases, Intervalos y Dictados</small>
+            </div>
+          </div>
+          <div class="bloque-preview-card bloque-card-actividades">
+            <span class="bloque-preview-icon">🧩</span>
+            <div class="bloque-preview-texts">
+              <strong>Actividades Interactivas Evaluables</strong>
+              <small>Pruebas, cuestionarios y aplicaciones ampliables con + Añadir app</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aviso RGPD / Protección de datos de menores -->
+        <div class="landing-rgpd-box">
+          <div class="rgpd-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <div class="rgpd-text">
+            <strong>Protección de Datos y Confidencialidad (RGPD):</strong>
+            <span>Este cuaderno gestiona expedientes y calificaciones de alumnado menor de edad. Acceso restringido exclusivamente a profesorado autorizado bajo secreto profesional.</span>
+          </div>
+        </div>
+
+        <!-- Formulario de acceso -->
+        <form id="form-landing-login" class="landing-form">
+          <label for="landing-password-input" class="landing-input-label">Contraseña de acceso docente:</label>
+          <div class="landing-input-wrapper">
+            <div class="landing-input-prefix-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <input type="password" id="landing-password-input" class="landing-password-field" placeholder="Introduce la contraseña maestra..." required autofocus autocomplete="current-password">
+            <button type="button" class="btn-toggle-eye" id="btn-toggle-landing-eye" title="Mostrar u ocultar contraseña">
+              <svg id="landing-eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+
+          <div id="landing-error-alert" class="landing-error-msg hidden">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+            <span>Contraseña incorrecta. Por favor, verifica la clave docente.</span>
+          </div>
+
+          <button type="submit" class="btn-landing-entrar" id="btn-landing-submit">
+            <span>Entrar al Cuaderno Digital</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </form>
+      </div>
+
+      <div class="landing-footer-note">
+        <span>© Claves de Música • Departamento de Música • Educación Secundaria</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor del Cuaderno Digital (Visible tras autenticación) -->
+  <div id="app-dashboard-wrapper">
+
+  <!-- =========================================================================
+       1. BARRA SUPERIOR (TOPBAR - INSPIRADA EN EDPUZZLE Y CLAVES DE MÚSICA)
+       ========================================================================= -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button type="button" class="btn-toggle-menu" id="btn-toggle-sidebar" title="Alternar menú lateral">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <a href="https://clavesdemusica.com" target="_blank" rel="noopener noreferrer" class="topbar-brand" title="Claves de Música">
+        <img src="https://clavesdemusica.com/wp-content/uploads/2023/08/header2.png" alt="Claves de Música" class="brand-logo-img">
+        <div class="brand-title-badge">
+          <span class="brand-title-main">Cuaderno del Profesor</span>
+          <span class="brand-title-sub">Gestión de Calificaciones</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Barra de Búsqueda Centrada (Captura 1) -->
+    <div class="topbar-center">
+      <div class="search-box">
+        <span class="search-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input type="text" id="input-buscar-alumno" class="search-input" placeholder="Buscar alumno por nombre o apellidos..." autocomplete="off">
+      </div>
+    </div>
+
+    <!-- Acciones Derecha (Ayuda, Notificaciones, Avatar Docente, Logout) -->
+    <div class="topbar-right">
+      <button type="button" class="btn-icon" id="btn-config-sheets" title="Configurar Hojas de Google Drive">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+
+      <!-- Indicador de Sincronización en Tiempo Real -->
+      <div class="live-sync-indicator" id="live-sync-badge" title="Sincronización en tiempo real activa (se actualiza automáticamente)">
+        <span class="live-sync-dot"></span>
+        <span class="live-sync-label">En vivo</span>
+        <span class="live-sync-time" id="live-sync-last-time">en vivo</span>
+      </div>
+
+      <div class="user-profile-badge" title="Sesión activa: Profesor de Música">
+        <span class="user-avatar-circle">G</span>
+        <span class="user-name-text">Profesor</span>
+      </div>
+
+      <button type="button" class="btn-logout" id="btn-docente-logout" title="Cerrar sesión y bloquear cuaderno">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span>Bloquear</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       2. LAYOUT PRINCIPAL (BARRA LATERAL + CONTENIDO)
+       ========================================================================= -->
+  <div class="app-layout">
+    
+    <!-- BARRA LATERAL IZQUIERDA (Captura 1) -->
+    <aside class="sidebar" id="sidebar">
+      
+      <!-- Botón Añadir app (En la posición del botón redondo Agregar nuevo de Edpuzzle) -->
+      <div class="sidebar-btn-agregar-wrap">
+        <button type="button" class="btn-agregar-nuevo btn-anadir-app-trigger" id="btn-sidebar-agregar-app" title="Añadir una nueva aplicación al cuaderno">
+          <span class="btn-agregar-nuevo-icon">+</span>
+          <span>Añadir app</span>
+        </button>
+      </div>
+
+      <!-- Sección Cursos Activos de 1º a 4º de ESO (solo grupos con alumnos) -->
+      <div class="sidebar-seccion-clases">
+        <div class="seccion-clases-header">
+          <span class="seccion-clases-titulo">Cursos activos</span>
+          <div class="seccion-clases-acciones">
+            <button type="button" class="btn-mini-action" id="btn-colapsar-sidebar-clases" title="Colapsar clases">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Contenedor dinámico de grupos filtrados (Requisito 3) -->
+        <div class="lista-clases" id="lista-clases-sidebar">
+          <div class="sidebar-empty">Cargando cursos activos...</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =========================================================================
+         ÁREA PRINCIPAL DE CONTENIDO (Captura 1)
+         ========================================================================= -->
+    <main class="main-content">
+
+      <!-- Tarjeta Superior del Grupo Seleccionado -->
+      <div class="grupo-header-card">
+        <div class="grupo-header-top">
+          <div class="grupo-header-left">
+            <div class="grupo-icono-folder">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+              </svg>
+            </div>
+            <div class="grupo-header-textos">
+              <h2>
+                <span id="header-grupo-titulo">1ESO-A</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </h2>
+              <p id="header-grupo-subtitulo">Clase de Música. 1º de ESO</p>
+            </div>
+            <span class="grupo-header-badge-count" id="badge-total-alumnos">29 alumnos</span>
+          </div>
+
+          <div class="grupo-header-right">
+            <!-- Selector de modo Demo / Datos Reales -->
+            <button type="button" class="btn-modo-demo" id="btn-toggle-demo" title="Alternar entre datos simulados para preview o sincronización real con Drive">
+              <span class="demo-dot offline"></span>
+              <span>Modo Drive: Real</span>
+            </button>
+
+            <!-- Botón Sincronizar Drive -->
+            <button type="button" class="btn-sync-drive" id="btn-sincronizar-drive" title="Volver a leer las hojas de cálculo de Drive">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              <span>Sincronizar Drive</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pestaña Única: Notas (Calificaciones) -->
+        <nav class="grupo-tabs">
+          <span class="grupo-tab-item active">Notas</span>
+        </nav>
+      </div>
+
+      <!-- =========================================================================
+           BARRA DE CONTROLES: SELECTOR DE FECHAS Y ACCIÓN DE DESCARGA (Captura 1)
+           ========================================================================= -->
+      <div class="controles-barra">
+        
+        <!-- Requisito 4: Selector de Rango de Fechas (Idéntico a Captura 1 y 2) -->
+        <div class="controles-fechas-wrap">
+          <div class="filtro-fecha-card" title="Pulsar para cambiar fecha de inicio">
+            <span class="filtro-fecha-label">Fecha de inicio</span>
+            <div class="filtro-fecha-content-row">
+              <span class="filtro-fecha-valor-txt" id="display-fecha-inicio">01 sep.</span>
+              <span class="filtro-fecha-hora-txt">12:00am</span>
+            </div>
+            <input type="date" id="filtro-fecha-inicio" class="filtro-fecha-input-hidden" />
+          </div>
+
+          <div class="filtro-fecha-card" title="Pulsar para cambiar fecha de entrega">
+            <span class="filtro-fecha-label">Fecha de entrega</span>
+            <div class="filtro-fecha-content-row">
+              <span class="filtro-fecha-valor-txt" id="display-fecha-fin">Hoy</span>
+              <span class="filtro-fecha-hora-txt">11:59pm</span>
+            </div>
+            <input type="date" id="filtro-fecha-fin" class="filtro-fecha-input-hidden" />
+          </div>
+
+          <!-- Presets rápidos de fechas -->
+          <div class="presets-fechas-group">
+            <button type="button" class="btn-preset-fecha" data-preset="todo_curso" title="Desde el 1 de septiembre">Todo el curso</button>
+            <button type="button" class="btn-preset-fecha" data-preset="trimestre1" title="1º Trimestre escolar">1º Trimestre</button>
+            <button type="button" class="btn-preset-fecha" data-preset="ultimos_30" title="Últimos 30 días">30 días</button>
+            <button type="button" class="btn-preset-fecha" data-preset="hoy" title="Solo hoy">Hoy</button>
+          </div>
+        </div>
+
+        <!-- Acción: Descargar Notas (Requisito 7) -->
+        <div class="controles-acciones-wrap">
+          <button type="button" class="btn-descargar-notas" id="btn-descargar-notas" title="Descargar actas en Excel o CSV">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>Descargar notas</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           TABLA DE CALIFICACIONES CON MAPA DE CALOR (Requisito 5 - Captura 1)
+           ========================================================================= -->
+      <div class="tabla-wrapper-card">
+        <!-- Barra de sub-controles: flechas de navegación < > y selector de escala (Captura 1) -->
+        <div class="tabla-subcontroles-bar">
+          <div class="btn-group-flechas">
+            <button type="button" class="btn-flecha-pag" id="btn-tabla-prev" title="Desplazar tabla a la izquierda">&lt;</button>
+            <button type="button" class="btn-flecha-pag" id="btn-tabla-next" title="Desplazar tabla a la derecha">&gt;</button>
+          </div>
+          <div style="display:flex; align-items:center; gap: 8px;">
+            <button type="button" class="btn-preset-fecha" id="btn-toggle-escala" style="border:1px solid #d1d5db; background:#ffffff; font-weight:600;" title="Alternar entre escala 0-10 y 0-100 (como en Edpuzzle)">
+              Escala de notas: <strong id="txt-escala-activa" style="color:var(--primary);">0 - 100</strong>
+            </button>
+          </div>
+        </div>
+
+        <div class="tabla-scroll-area" id="tabla-scroll-container">
+          <table class="tabla-calificaciones" id="tabla-calificaciones">
+            <thead>
+              <tr id="tabla-cabecera-tr">
+                <!-- Se inyecta dinámicamente con las cabeceras rotadas estilo Edpuzzle -->
+              </tr>
+            </thead>
+            <tbody id="tabla-cuerpo">
+              <!-- Se inyecta dinámicamente con los alumnos y mapa de calor -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pie de Tabla con Contador y Leyenda del Mapa de Calor -->
+        <div class="tabla-footer-bar">
+          <div class="contador-alumnos" id="contador-alumnos-visibles">
+            Cargando alumnos...
+          </div>
+
+          <!-- Leyenda del Mapa de Calor (Requisito 5) -->
+          <div class="leyenda-mapa-calor">
+            <span style="font-weight: 700; color: var(--text-main);">Mapa de calor:</span>
+            <div class="leyenda-item">
+              <span class="leyenda-color-box nota-rojo"></span>
+              <span>&lt; 5 (Insuficiente)</span>
+            </div>
+            <div class="leyenda-item">
+              <span class="leyenda-color-box nota-naranja"></span>
+              <span>5 - 6 (Suficiente)</span>
+            </div>
+            <div class="leyenda-item">
+              <span class="leyenda-color-box nota-amarillo"></span>
+              <span>6 - 7 (Bien)</span>
+            </div>
+            <div class="leyenda-item">
+              <span class="leyenda-color-box nota-verde"></span>
+              <span>7 - 10 (Notable / Sobresaliente)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+  </div> <!-- Fin #app-dashboard-wrapper -->
+
+  <!-- =========================================================================
+       4. MODAL DETALLE DE ALUMNO (Requisito 6 - Semejante a Captura 2)
+       ========================================================================= -->
+  <div id="modal-detalle-alumno" class="modal-backdrop hidden">
+    <div class="modal-card-detalle-alumno">
+      
+      <!-- Cabecera del Modal de Alumno (Captura 2) -->
+      <div class="modal-alumno-header">
+        <div class="modal-header-info">
+          <h3 class="modal-alumno-title" id="modal-alumno-nombre">Lucía Arance Sánchez</h3>
+          
+          <div class="modal-alumno-meta-global">
+            <span class="modal-nota-badge" id="modal-alumno-nota-global-pill">9.5</span>
+            <span class="modal-nota-label">NOTA GLOBAL</span>
+            <span class="modal-alumno-tiempo-txt" id="modal-alumno-tiempo">Tiempo total invertido: 17 minutos</span>
+          </div>
+        </div>
+
+        <div class="modal-header-nav-controles">
+          <div style="display:flex; align-items:center; gap: 8px;">
+            <div class="modal-paginacion-bar">
+              <button type="button" class="btn-nav-modal" id="btn-modal-anterior">Anterior</button>
+              <span class="modal-contador-paginas" id="modal-alumno-paginacion">1/29</span>
+              <button type="button" class="btn-nav-modal" id="btn-modal-siguiente">Siguiente</button>
+            </div>
+            <button type="button" class="btn-cerrar-modal-x" onclick="window.cerrarModalAlumno()" title="Cerrar detalle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+
+          <!-- Cajas de Fechas en Modal (Idéntico a Captura 2) -->
+          <div class="modal-fechas-preview">
+            <div class="modal-fecha-box">
+              <span>Fecha de inicio</span>
+              <div class="modal-fecha-box-row">
+                <strong id="modal-fecha-inicio-txt">12 oct.</strong>
+                <small>12:00am</small>
+              </div>
+            </div>
+            <div class="modal-fecha-box">
+              <span>Fecha de entrega</span>
+              <div class="modal-fecha-box-row">
+                <strong id="modal-fecha-entrega-txt">Hoy</strong>
+                <small>11:59pm</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cuerpo del Modal: Desglose por cada una de las 5 apps (Captura 2) -->
+      <div class="modal-alumno-scroll-body" id="modal-alumno-desglose-apps">
+        <!-- Inyectado dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       5. MODAL DESCARGAR NOTAS (Requisito 7)
+       ========================================================================= -->
+  <div id="modal-descargar-notas" class="modal-backdrop hidden">
+    <div class="modal-descarga-card">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 12px;">
+        <h3 style="font-size:18px; font-weight:800; color:var(--text-main);">📥 Descargar Calificaciones</h3>
+        <button type="button" class="btn-cerrar-modal-x" onclick="ExportService.cerrarModalDescarga()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <p style="font-size:13px; color:var(--text-muted);">Selecciona el tipo de informe que deseas exportar a formato Excel / CSV:</p>
+
+      <div class="descarga-opciones-list">
+        <!-- Opción A: Solo listado y notas medias -->
+        <label class="descarga-radio-card">
+          <input type="radio" name="tipo_descarga" value="solo_medias" checked>
+          <div class="descarga-radio-textos">
+            <strong>Solo listado de alumnos y sus notas medias</strong>
+            <small>Exporta el listado oficial con la nota global de cada alumno y su tiempo total invertido.</small>
+          </div>
+        </label>
+
+        <!-- Opción B: Todas las notas -->
+        <label class="descarga-radio-card">
+          <input type="radio" name="tipo_descarga" value="todas_las_notas">
+          <div class="descarga-radio-textos">
+            <strong>Descargar todas las notas (Resumen completo)</strong>
+            <small>Exporta todas las columnas con las medias de cada una de las 5 aplicaciones y la nota global.</small>
+          </div>
+        </label>
+
+        <!-- Opción C: Selección de una app específica -->
+        <label class="descarga-radio-card">
+          <input type="radio" name="tipo_descarga" value="app_especifica">
+          <div class="descarga-radio-textos">
+            <strong>Seleccionar aplicación específica</strong>
+            <small>Exporta únicamente las calificaciones y exámenes de la app seleccionada (ej: solo Lectura).</small>
+          </div>
+        </label>
+      </div>
+
+      <!-- Selector de App (visible cuando se elige opción C) -->
+      <div id="wrap-descarga-select-app" class="hidden" style="margin-bottom: 20px;">
+        <label style="font-size:12.5px; font-weight:700; color:var(--text-main);">¿De qué aplicación deseas descargar las notas?</label>
+        <select id="descarga-select-app" class="select-app-descarga"></select>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap: 10px; margin-top: 10px;">
+        <button type="button" class="btn-nav-modal" onclick="ExportService.cerrarModalDescarga()">Cancelar</button>
+        <button type="button" class="btn-anadir-app" id="btn-confirmar-descarga">Descargar Acta (.csv)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       6. MODAL AÑADIR APP + (Requisito 8)
+       ========================================================================= -->
+  <div id="modal-anadir-app" class="modal-backdrop hidden">
+    <div class="modal-anadir-card">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 14px;">
+        <h3 style="font-size:18px; font-weight:800; color:var(--text-main);">➕ Añadir Nueva Aplicación al Cuaderno</h3>
+        <button type="button" class="btn-cerrar-modal-x" onclick="window.cerrarModalAnadirApp()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom: 20px;">
+        Pega el enlace de la Google Sheet donde tengas guardadas las calificaciones de la nueva app para incorporarla a tu cuaderno de clase.
+      </p>
+
+      <form id="form-anadir-app">
+        <div class="form-campo">
+          <label for="anadir-app-nombre">Nombre visible de la aplicación:</label>
+          <input type="text" id="anadir-app-nombre" class="form-input" placeholder="Ej: Ritmo y Figuras / Dictados Melódicos" required>
+        </div>
+
+        <div class="form-campo">
+          <label for="anadir-app-bloque">Bloque de evaluación:</label>
+          <select id="anadir-app-bloque" class="form-input">
+            <option value="actividades_interactivas" selected>Actividades Interactivas Evaluables</option>
+            <option value="lenguaje_musical">Lenguaje Musical</option>
+          </select>
+        </div>
+
+        <div class="form-campo">
+          <label for="anadir-app-url">URL de la Google Sheet en Google Drive:</label>
+          <input type="url" id="anadir-app-url" class="form-input" placeholder="https://docs.google.com/spreadsheets/d/1.../edit" required>
+          <span class="form-ayuda">Asegúrate de que la hoja de Google Drive tenga permiso de lectura compartido ("Cualquiera con el enlace puede ver").</span>
+        </div>
+
+        <div id="anadir-app-error" class="login-error hidden" style="margin-bottom: 14px;"></div>
+
+        <div style="display:flex; justify-content:flex-end; gap: 10px; margin-top: 10px;">
+          <button type="button" class="btn-nav-modal" onclick="window.cerrarModalAnadirApp()">Cancelar</button>
+          <button type="submit" class="btn-anadir-app">Vincular e Incorporar App</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       7. MODAL CONFIGURACIÓN DE HOJAS DE DRIVE
+       ========================================================================= -->
+  <div id="modal-config-apps" class="modal-backdrop hidden">
+    <div class="modal-config-card">
+      <div style="padding: 20px 24px; border-bottom: 1px solid var(--border-color); display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <h3 style="font-size:18px; font-weight:800; color:var(--text-main);">⚙️ Hojas de Google Drive Vinculadas</h3>
+          <p style="font-size:12.5px; color:var(--text-muted); margin-top: 2px;">Comprueba y actualiza las URLs de Google Sheets de tus 5 aplicaciones oficiales.</p>
+        </div>
+        <button type="button" class="btn-cerrar-modal-x" onclick="window.cerrarModalConfigApps()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-config-scroll" id="lista-config-apps-items">
+        <!-- Renderizado dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADER SPINNER -->
+  <div id="app-loader" class="app-loader-backdrop hidden">
+    <div class="spinner"></div>
+    <div class="loader-text" id="app-loader-text">Cargando...</div>
+  </div>
+
+  <!-- TOAST NOTIFICACIONES -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- SCRIPTS -->
+  <script>
+/**
+ * CONFIGURACIÓN GLOBAL - CUADERNO DIGITAL DEL PROFESOR
+ * Claves de Música / Edpuzzle Style
+ */
+
+const CONFIG = {
+  // Clave maestra de acceso docente (Requisito 2 y Landing Page Segura)
+  CLAVE_DOCENTE: "1750*Diag0nal*121068",
+
+  // Bloques oficiales de evaluación
+  BLOQUES: {
+    LENGUAJE: "lenguaje_musical",
+    ACTIVIDADES: "actividades_interactivas"
+  },
+  NOMBRES_BLOQUES: {
+    "lenguaje_musical": "Lenguaje Musical",
+    "actividades_interactivas": "Actividades Interactivas Evaluables"
+  },
+
+  // Intervalo de sincronización en tiempo real (milisegundos)
+  INTERVALO_SYNC_MS: 15000,
+
+  // Endpoint oficial del listado de alumnos del centro
+  URL_LISTADO_ALUMNOS: "https://script.google.com/macros/s/AKfycbx_gQN9MXHqm_y6QpAO-S00VsaGwc0CjozRHBtxgah6VBtYbLEZ9SA7-mT-WzALbwjXLw/exec",
+
+  // Imagen corporativa oficial
+  LOGO_CORPORATIVO_URL: "https://clavesdemusica.com/wp-content/uploads/2023/08/header2.png",
+  WEB_OFICIAL_URL: "https://clavesdemusica.com",
+
+  // Las 5 aplicaciones oficiales del bloque "Lenguaje Musical" (Requisito 5)
+  // 1. Calificaciones_Lectura
+  // 2. Calificaciones_Equivalencias
+  // 3. Calificaciones_Compases
+  // 4. Calificaciones_Intervalos
+  // 5. Calificaciones_Dictados
+  APPS_BASE: [
+    {
+      id: "lectura",
+      nombre: "Calificaciones_Lectura",
+      tituloVisible: "Lectura Musical",
+      descripcion: "Identificación de notas en clave de sol",
+      urlSheet: "https://docs.google.com/spreadsheets/d/1dnJ9PbfZVo_5UoF_xDMp5NIHzmAUzVpkpUqhyjRFFL8/edit",
+      sheetId: "1dnJ9PbfZVo_5UoF_xDMp5NIHzmAUzVpkpUqhyjRFFL8",
+      bloque: "lenguaje_musical",
+      bloqueNombre: "Lenguaje Musical",
+      icono: "🎵",
+      color: "#4f46e5"
+    },
+    {
+      id: "equivalencias",
+      nombre: "Calificaciones_Equivalencias",
+      tituloVisible: "Equivalencias Rítmicas",
+      descripcion: "Relaciones de figuras y pulsos",
+      urlSheet: "",
+      sheetId: "",
+      bloque: "lenguaje_musical",
+      bloqueNombre: "Lenguaje Musical",
+      icono: "⏱️",
+      color: "#0891b2"
+    },
+    {
+      id: "compases",
+      nombre: "Calificaciones_Compases",
+      tituloVisible: "Completar Compases",
+      descripcion: "Compases simples y compuestos",
+      urlSheet: "",
+      sheetId: "",
+      bloque: "lenguaje_musical",
+      bloqueNombre: "Lenguaje Musical",
+      icono: "🎼",
+      color: "#d97706"
+    },
+    {
+      id: "intervalos",
+      nombre: "Calificaciones_Intervalos",
+      tituloVisible: "Entrenador de Intervalos",
+      descripcion: "Identificación de intervalos auditivos y visuales",
+      urlSheet: "",
+      sheetId: "",
+      bloque: "lenguaje_musical",
+      bloqueNombre: "Lenguaje Musical",
+      icono: "🎹",
+      color: "#059669"
+    },
+    {
+      id: "dictados",
+      nombre: "Calificaciones_Dictados",
+      tituloVisible: "Dictados Rítmicos",
+      descripcion: "Dictados rítmicos interactivos",
+      urlSheet: "",
+      sheetId: "",
+      bloque: "lenguaje_musical",
+      bloqueNombre: "Lenguaje Musical",
+      icono: "🎧",
+      color: "#7c3aed"
+    }
+  ],
+
+  // Definición de cursos y grupos conocidos para el filtrado dinámico
+  CURSOS_POSIBLES: ["1ESO", "2ESO", "3ESO", "4ESO"],
+  GRUPOS_LETRAS: ["A", "B", "C", "D"],
+
+  // Función para obtener el año académico actual (ej: "2627")
+  obtenerCodigoAnoAcademico() {
+    const ahora = new Date();
+    const ano = ahora.getFullYear();
+    const mes = ahora.getMonth(); // 0 a 11 (8 = Septiembre)
+    const inicio = mes >= 7 ? ano : ano - 1; // Curso empieza en agosto/septiembre
+    const fin = inicio + 1;
+    const strInicio = String(inicio).slice(-2);
+    const strFin = String(fin).slice(-2);
+    return `${strInicio}${strFin}`;
+  },
+
+  // Genera el código del grupo idéntico a la hoja de cálculo (ej: "1ESO-A", "2ESO-B")
+  generarCodigoGrupo(cursoStr, grupoLetra) {
+    return `${cursoStr}-${grupoLetra.toUpperCase()}`;
+  },
+
+  // Mantenido para compatibilidad: devuelve exactamente el nombre de la hoja de cálculo
+  generarCodigoEdpuzzle(cursoStr, grupoLetra) {
+    return `${cursoStr}-${grupoLetra.toUpperCase()}`;
+  },
+
+  // Obtiene el rango de fechas por defecto:
+  // Desde el 1 de septiembre anterior hasta hoy a las 23:59:59 (Requisito 4)
+  obtenerRangoFechasPorDefecto() {
+    const hoy = new Date();
+    const anoActual = hoy.getFullYear();
+    const mesActual = hoy.getMonth(); // 0-11
+    
+    // Si estamos en enero-agosto, el 1 de septiembre anterior fue el año pasado.
+    // Si estamos en septiembre-diciembre, el 1 de septiembre anterior es este año.
+    const anoSeptiembre = mesActual >= 8 ? anoActual : anoActual - 1;
+    const fechaInicio = new Date(anoSeptiembre, 8, 1, 0, 0, 0, 0); // 1 de Septiembre 00:00:00
+
+    const fechaFin = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate(), 23, 59, 59, 999);
+
+    return {
+      inicio: fechaInicio,
+      fin: fechaFin,
+      inicioISO: fechaInicio.toISOString().split("T")[0],
+      finISO: fechaFin.toISOString().split("T")[0]
+    };
+  },
+
+  // Mapa de calor para calificaciones (Requisito 5)
+  // - Por debajo de 5: Rojo
+  // - Entre 5 y 6: Naranja
+  // - Entre 6 y 7: Amarillo
+  // - Entre 7 y 10: Verde
+  obtenerColorNota(nota) {
+    if (nota === null || nota === undefined || isNaN(nota) || nota === "") {
+      return {
+        rango: "vacio",
+        bg: "#f1f5f9",
+        color: "#64748b",
+        border: "#e2e8f0",
+        label: "Sin datos",
+        claseCss: "nota-vacio"
+      };
+    }
+    const n = parseFloat(nota);
+    if (n < 5.0) {
+      return {
+        rango: "insuficiente",
+        bg: "#fee2e2",
+        color: "#991b1b",
+        border: "#f87171",
+        label: "Insuficiente (< 5)",
+        claseCss: "nota-rojo"
+      };
+    } else if (n < 6.0) {
+      return {
+        rango: "suficiente",
+        bg: "#ffedd5",
+        color: "#9a3412",
+        border: "#fb923c",
+        label: "Suficiente (5 - 6)",
+        claseCss: "nota-naranja"
+      };
+    } else if (n < 7.0) {
+      return {
+        rango: "bien",
+        bg: "#fef9c3",
+        color: "#854d0e",
+        border: "#facc15",
+        label: "Bien (6 - 7)",
+        claseCss: "nota-amarillo"
+      };
+    } else {
+      return {
+        rango: "notable-sobresaliente",
+        bg: "#dcfce7",
+        color: "#166534",
+        border: "#4ade80",
+        label: "Notable / Sobresaliente (7 - 10)",
+        claseCss: "nota-verde"
+      };
+    }
+  },
+
+  // Extrae el ID de una URL de Google Sheets
+  extraerSheetId(url) {
+    if (!url || typeof url !== "string") return null;
+    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    return match ? match[1] : null;
+  }
+};
+
+window.CONFIG = CONFIG;
+
+</script>
+  <script>
+/**
+ * GESTIÓN DE ALMACENAMIENTO (SESSION Y LOCAL STORAGE)
+ * Autenticación, persistencia de apps y caché de calificaciones.
+ */
+
+const StorageManager = {
+  KEYS: {
+    AUTH: "cuaderno_auth_docente",
+    APPS: "cuaderno_apps_config_v1",
+    DEMO_MODE: "cuaderno_demo_mode",
+    STUDENTS_CACHE: "cuaderno_students_cache",
+    ACTIVE_GROUP: "cuaderno_active_group_id",
+    DATE_RANGE: "cuaderno_date_range_filter"
+  },
+
+  // ==========================================
+  // AUTENTICACIÓN (Requisito 2)
+  // ==========================================
+  isAuthenticated() {
+    return sessionStorage.getItem(this.KEYS.AUTH) === "true";
+  },
+
+  login(password) {
+    if (password && password.trim() === CONFIG.CLAVE_DOCENTE) {
+      sessionStorage.setItem(this.KEYS.AUTH, "true");
+      return true;
+    }
+    return false;
+  },
+
+  logout() {
+    sessionStorage.removeItem(this.KEYS.AUTH);
+  },
+
+  // ==========================================
+  // APLICACIONES Y HOJAS GOOGLE SHEETS (Requisito 8)
+  // ==========================================
+  getAppsList() {
+    const raw = localStorage.getItem(this.KEYS.APPS);
+    if (!raw) {
+      // Devolver copia profunda de las 5 apps base
+      return JSON.parse(JSON.stringify(CONFIG.APPS_BASE));
+    }
+    try {
+      const stored = JSON.parse(raw);
+      // Asegurar que las apps base siempre existan y en el orden correcto
+      const baseApps = JSON.parse(JSON.stringify(CONFIG.APPS_BASE));
+      const merged = baseApps.map(base => {
+        const custom = stored.find(s => s.id === base.id);
+        const obj = {
+          ...base,
+          bloque: CONFIG.BLOQUES.LENGUAJE,
+          bloqueNombre: CONFIG.NOMBRES_BLOQUES[CONFIG.BLOQUES.LENGUAJE]
+        };
+        if (custom) {
+          obj.urlSheet = custom.urlSheet || base.urlSheet;
+          obj.sheetId = custom.sheetId || base.sheetId;
+          obj.tituloVisible = custom.tituloVisible || base.tituloVisible;
+        }
+        return obj;
+      });
+
+      // Añadir apps adicionales creadas por el profesor con "Añadir app +"
+      const customOnes = stored
+        .filter(s => !CONFIG.APPS_BASE.some(b => b.id === s.id))
+        .map(c => {
+          const b = c.bloque || CONFIG.BLOQUES.ACTIVIDADES;
+          return {
+            ...c,
+            bloque: b,
+            bloqueNombre: CONFIG.NOMBRES_BLOQUES[b] || CONFIG.NOMBRES_BLOQUES[CONFIG.BLOQUES.ACTIVIDADES]
+          };
+        });
+      return [...merged, ...customOnes];
+    } catch(e) {
+      console.error("Error al leer apps del storage:", e);
+      return JSON.parse(JSON.stringify(CONFIG.APPS_BASE));
+    }
+  },
+
+  saveAppsList(appsArray) {
+    try {
+      localStorage.setItem(this.KEYS.APPS, JSON.stringify(appsArray));
+      return true;
+    } catch(e) {
+      console.error("Error al guardar apps:", e);
+      return false;
+    }
+  },
+
+  // Añadir una nueva aplicación (Requisito 8 y división en bloques)
+  addCustomApp(nombre, urlSheet, bloque = CONFIG.BLOQUES.ACTIVIDADES) {
+    const sheetId = CONFIG.extraerSheetId(urlSheet);
+    if (!sheetId) {
+      throw new Error("La URL de Google Sheet proporcionada no contiene un ID válido.");
+    }
+
+    const bloqueTarget = bloque || CONFIG.BLOQUES.ACTIVIDADES;
+    const apps = this.getAppsList();
+    const id = "custom_" + Date.now();
+    const nuevaApp = {
+      id: id,
+      nombre: nombre.trim().replace(/\s+/g, "_"),
+      tituloVisible: nombre.trim(),
+      descripcion: bloqueTarget === CONFIG.BLOQUES.ACTIVIDADES ? "Actividad interactiva evaluable" : "Aplicación de Lenguaje Musical",
+      urlSheet: urlSheet.trim(),
+      sheetId: sheetId,
+      bloque: bloqueTarget,
+      bloqueNombre: CONFIG.NOMBRES_BLOQUES[bloqueTarget] || "Actividades Interactivas Evaluables",
+      icono: bloqueTarget === CONFIG.BLOQUES.ACTIVIDADES ? "🧩" : "🎵",
+      color: bloqueTarget === CONFIG.BLOQUES.ACTIVIDADES ? "#0284c7" : "#4f46e5",
+      esPersonalizada: true,
+      fechaCreacion: new Date().toISOString()
+    };
+
+    apps.push(nuevaApp);
+    this.saveAppsList(apps);
+    return nuevaApp;
+  },
+
+  // Actualizar la URL de una app existente
+  updateAppUrl(appId, urlSheet) {
+    const apps = this.getAppsList();
+    const app = apps.find(a => a.id === appId);
+    if (!app) throw new Error("Aplicación no encontrada");
+
+    const sheetId = CONFIG.extraerSheetId(urlSheet) || "";
+    app.urlSheet = urlSheet.trim();
+    app.sheetId = sheetId;
+    this.saveAppsList(apps);
+    return app;
+  },
+
+  // Eliminar una app personalizada
+  deleteCustomApp(appId) {
+    const apps = this.getAppsList();
+    const filtradas = apps.filter(a => a.id !== appId);
+    this.saveAppsList(filtradas);
+    return filtradas;
+  },
+
+  // ==========================================
+  // GRUPO ACTIVO Y FECHAS
+  // ==========================================
+  getActiveGroupId() {
+    return localStorage.getItem(this.KEYS.ACTIVE_GROUP) || "1ESO-A";
+  },
+
+  setActiveGroupId(groupId) {
+    localStorage.setItem(this.KEYS.ACTIVE_GROUP, groupId);
+  },
+
+  getDateRange() {
+    const raw = localStorage.getItem(this.KEYS.DATE_RANGE);
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        return {
+          inicioISO: parsed.inicioISO,
+          finISO: parsed.finISO
+        };
+      } catch(e) {}
+    }
+    return CONFIG.obtenerRangoFechasPorDefecto();
+  },
+
+  saveDateRange(inicioISO, finISO) {
+    localStorage.setItem(this.KEYS.DATE_RANGE, JSON.stringify({ inicioISO, finISO }));
+  },
+
+  // ==========================================
+  // MODO DEMO / SIMULACIÓN
+  // ==========================================
+  isDemoModeActive() {
+    return localStorage.getItem(this.KEYS.DEMO_MODE) === "true";
+  },
+
+  setDemoMode(enabled) {
+    localStorage.setItem(this.KEYS.DEMO_MODE, enabled ? "true" : "false");
+  }
+};
+
+window.StorageManager = StorageManager;
+
+</script>
+  <script>
+/**
+ * GESTIÓN DE CONSULTAS A GOOGLE SHEETS Y ENDPOINTS DE ALUMNOS
+ * Descarga de CSV, parsing con soporte de fechas, tiempos y filtros.
+ */
+
+const SheetsService = {
+  // Caché en memoria durante la sesión
+  _cacheGruposValidos: null,
+  _cacheAlumnosPorGrupo: {},
+  _cacheCalificacionesPorApp: {},
+
+  // ==========================================
+  // OBTENER GRUPOS CON ALUMNOS (Requisito 3)
+  // ==========================================
+  async obtenerGruposConAlumnos() {
+    if (this._cacheGruposValidos && this._cacheGruposValidos.length > 0) {
+      return this._cacheGruposValidos;
+    }
+
+    const gruposEncontrados = [];
+    const promesas = [];
+
+    // Combinaciones de cursos y letras posibles
+    for (const curso of CONFIG.CURSOS_POSIBLES) {
+      for (const letra of CONFIG.GRUPOS_LETRAS) {
+        promesas.push(
+          this._consultarAlumnosGrupo(curso, letra)
+            .then(alumnos => {
+              if (alumnos && alumnos.length > 0) {
+                const idGrupo = `${curso}-${letra}`;
+                const numCurso = curso.replace(/\D/g, "");
+                
+                gruposEncontrados.push({
+                  id: idGrupo,
+                  curso: curso,
+                  letra: letra,
+                  codigo: idGrupo,
+                  titulo: idGrupo,
+                  subtitulo: `Clase de Música. ${numCurso}º de ESO`,
+                  numAlumnos: alumnos.length,
+                  alumnos: alumnos
+                });
+                this._cacheAlumnosPorGrupo[idGrupo] = alumnos;
+              }
+            })
+            .catch(err => {
+              console.warn(`Error al verificar grupo ${curso}-${letra}:`, err);
+            })
+        );
+      }
+    }
+
+    await Promise.all(promesas);
+
+    // Si la red no devolvió nada (ej: sin conexión directa al Apps Script), usar caché de respaldo
+    if (gruposEncontrados.length === 0) {
+      console.warn("Usando alumnos_cache.json de respaldo...");
+      try {
+        const cacheData = {"1ESO-A": ["Arance Sánchez, Lucía", "Arrieta Senra, Nicolás", "Baena Suárez, Noelia", "Baena Suárez, Raúl", "Barba Romero, Rocío", "Barua Conde, Lucca Naon", "Boza Payán, Carmen", "Campos Hidalgo, Hugo", "Delgado Echegoyan, Rocío", "Fernández Berrocal, Manuel", "Gómez Carmona, Dylan Andrés", "González Guerra, Abel", "Lin, Zixuan", "Luceño Guzmán, Rodrigo", "Molina Reina, Daniela", "Mondir, Mohamed", "Morgado Santos, Oriana", "Negrón Garófano, Enrique", "Olivares Benítez, Isidoro", "Orellana Cazorla, Salvador", "Romero Cid, Julia", "Romero Hermoso, Teresa", "Romero Rodríguez, Inés", "Sánchez-Arjona Santos, Emma", "Segura Lobón, Vega", "Simino Ramos, Lara", "Toscano Soto, Mireya", "Tsyrul, Anna", "Villalón Rubio, Leo"], "1ESO-B": ["Abreu Álvarez, Ana María", "Alvez Macías, Javier", "Barrios Paraíso, Cherezade", "Bustos Benítez, Kira", "Cárdenas Salas, Sophia", "Delgado Naya, Lucía", "Faus Zürcher, Inés", "Fernández Ruiz, Manuel", "Hurtado Hernández, Rubén", "Lama De Luque, Lucía", "Lara García, Dolores", "León Fernández, Juan Manuel", "Muñoz Quintero, Gabriela", "Parra Triano, Esperanza Triana", "Peña González, Claudia", "Pérez Márquez, Nacho", "Polvillo Orden, Manuel", "Poncelet Villarejo, Inés", "Postigo Gómez, Carlos", "Pozo Oliva, José Manuel", "Ramírez de Aguilera Mazo, Pablo", "Romero Pérez, Juan José", "Rubio González, Claudia", "Rubio Rosales, Jesús", "Rubio Rosales, Lola", "Sánchez De Paz, Ángela", "Santos Romero, Ezequiel", "Sosa Sanabria, Cecilio"], "1ESO-C": ["Berenjeno Mesa, Jaime", "Berradi García, Inas", "Bezze Soto, Lucas", "Castejón Santos, Guillermo", "Conde El Ghazouani, Ayman", "De Alba Ruiz, Rafael", "Díaz Cotán, Lucía", "Díaz Román, Triana", "Fernández Luna, Jesús", "García Rodríguez, José Antonio", "García Rodríguez, María", "González Ramos, Aitor", "Guerrero Miranda, Victoria", "Hidalgo Aguilar, Daniel", "Lefevre López, Santiago", "López Martín, Jorge", "López Moral, Arun", "Manso Márquez, Vera", "Márquez Míguez, Nicolás", "Martín Seoane, Martina", "Mora Martín, Mario", "Otero Ortega, José", "Ramírez Hidalgo, Adrián", "Rodríguez Contreras, Hugo", "Salas Huidobro, Alejandra", "Sánchez Tortolero, Alejandra", "Soriano De Serpa Pimentel, Mariana", "Vargas Arellano, Alba", "Vázquez Muñoz, Macarena"], "2ESO-A": ["Aguilar Rodríguez, Antonio", "Benítez Arce, José Antonio", "Caballero Cumplido, José Antonio", "Domínguez Benítez, Eire", "Garfia Gutiérrez, Hugo", "Gordillo Jaramillo, Juan Pablo", "Guzmán Castellón, Gonzálo", "Hernández Gutiérrez, Nadia", "López Leiva, Abel", "Marqués Ortega, Alejandro", "Medina Chamorro, Ainara", "Méndez Palomo, Alejandra", "Monge Peterova, Teresa Trinidad", "Montañez Pozo, Saray", "Peña Marín, Antonio", "Respaldo Bazán, Oscar", "Rosales Sollo, Sergio", "Rubio Magro, Ayla", "Ruiz de Alarcón Carmona, María", "Ruiz Slienger, Milo", "Salas García, Javier", "Sánchez-Garrido Martín, Daniel", "Sivianes Hidalgo, Blanca", "Suárez Muñoz, Angela"], "2ESO-B": ["Amine, Aya", "Barroso Garrido, Adrián", "Carbonero Casadiego, Daniela", "Del Bosch Olivares, José Pablo", "Del Valle Ruiz, Marco", "Delgado García, Alba", "Denton Álvarez, James", "Egea Gemba, Lorenzo", "Espinosa López, David", "Fernández Ibáñez, Esperanza", "Fernández Márquez, Jesús", "Fernández Muñoz, Esperanza", "Galván Martínez, Ángela", "Gotor Rodríguez, Iván", "Guerra López, Lola", "Jaime Gómez, Carlos", "Jurado Agraz, Lola", "Linares Mora, Adriana", "Montané Rivera, Paula", "Moreno Fernández, Aitor", "Murciano Losada, Marina", "Ortiz Domínguez, Marcos", "Parrilla Caro, Eva", "Romero Fernández, Valeria", "Suárez García, Aitor", "Zapico Señas, Gonzalo"], "2ESO-C": ["Blanco Herrera, Emilio", "Camino Martínez, Guillermo", "Caparrós Rodríguez, Mario", "Cherradi Amezean, Mohammed Saad", "Delgado García, Pablo", "Fernández Berrocal, Matías", "Fernández Moreno, Lorenzo", "Fernández Moreno, Pepe", "Gómez Garrido, Julia", "Hidalgo Wolf, Leo", "León Campos, Amanda", "López Raposo, Martina", "López Zapata, Manuel", "Maldonado Domínguez, Alejandro David", "Marín Pérez, María", "Martín Castillo, Alba", "Parra Oyarzun, Juan Antonio", "Romero Carrascal, Valentina", "Santos Aguilar, Abraham", "Segura Lobón, Ariadna", "Vidal García, Pablo", "Zambrano Romero, Ana"]};
+        for (const [idGrupo, lista] of Object.entries(cacheData)) {
+          if (lista && lista.length > 0) {
+            const [curso, letra] = idGrupo.split("-");
+            const numCurso = curso.replace(/\D/g, "");
+            const alumnosObjs = lista.map(nombreCompleto => ({
+              textoDesplegable: nombreCompleto,
+              nombreOriginal: nombreCompleto.split(",")[1]?.trim() || "",
+              apellidosOriginal: nombreCompleto.split(",")[0]?.trim() || nombreCompleto
+            }));
+
+            gruposEncontrados.push({
+              id: idGrupo,
+              curso: curso,
+              letra: letra,
+              codigo: idGrupo,
+              titulo: idGrupo,
+              subtitulo: `Clase de Música. ${numCurso}º de ESO`,
+              numAlumnos: alumnosObjs.length,
+              alumnos: alumnosObjs
+            });
+            this._cacheAlumnosPorGrupo[idGrupo] = alumnosObjs;
+          }
+        }
+      } catch(e) {
+        console.error("No se pudo cargar alumnos_cache.json:", e);
+      }
+    }
+
+    // Ordenar los grupos de forma natural (1ESO-A, 1ESO-B, 1ESO-C, 2ESO-A...)
+    gruposEncontrados.sort((a, b) => a.id.localeCompare(b.id));
+    this._cacheGruposValidos = gruposEncontrados;
+    return gruposEncontrados;
+  },
+
+  // Consulta individual al Apps Script oficial
+  async _consultarAlumnosGrupo(curso, letra) {
+    const url = `${CONFIG.URL_LISTADO_ALUMNOS}?curso=${encodeURIComponent(curso)}&grupo=${encodeURIComponent(letra)}`;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+
+    try {
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data.alumnos) ? data.alumnos : [];
+    } catch(e) {
+      clearTimeout(timeout);
+      return [];
+    }
+  },
+
+  // Obtiene los alumnos de un grupo específico
+  async obtenerAlumnosDeGrupo(idGrupo) {
+    if (this._cacheAlumnosPorGrupo[idGrupo]) {
+      return this._cacheAlumnosPorGrupo[idGrupo];
+    }
+    const grupos = await this.obtenerGruposConAlumnos();
+    const grp = grupos.find(g => g.id === idGrupo);
+    return grp ? grp.alumnos : [];
+  },
+
+  // ==========================================
+  // OBTENER Y PROCESAR CALIFICACIONES DE UNA APP
+  // ==========================================
+  async obtenerCalificacionesApp(app, idGrupo, rangoFechas) {
+    const cacheKey = `${app.id}_${idGrupo}`;
+
+    // Si no tiene sheetId vinculado
+    if (!app.sheetId) {
+      if (StorageManager.isDemoModeActive()) {
+        return this._generarDatosSimuladosApp(app, idGrupo, rangoFechas);
+      }
+      return {
+        id: app.id,
+        appId: app.id,
+        nombre: app.nombre,
+        titulo: app.tituloVisible,
+        tienePruebas: false,
+        totalPruebas: 0,
+        alumnosDatos: {}
+      };
+    }
+
+    try {
+      // 1. Intentar descargar CSV de la pestaña del grupo (ej: 1ESO-A)
+      // Google Sheets soporta CORS abierto en /export?format=csv&sheet=...
+      const lineasCsv = await this._descargarCsvGrupo(app.sheetId, idGrupo);
+      const pruebas = this._parsearCsvCalificaciones(lineasCsv, idGrupo);
+
+      // Si no hay filas de prueba en la pestaña del grupo, intentar pestaña general
+      let pruebasFinales = pruebas;
+      if (pruebas.length === 0) {
+        // Intentar pestaña "A", "B", etc. o "Medias_y_Resumen"
+        const letraGrupo = idGrupo.split("-")[1] || "A";
+        const altCsv = await this._descargarCsvGrupo(app.sheetId, letraGrupo);
+        const altPruebas = this._parsearCsvCalificaciones(altCsv, idGrupo);
+        if (altPruebas.length > 0) {
+          pruebasFinales = altPruebas;
+        }
+      }
+
+      // Si aún así no hay pruebas y estamos en modo demo, permitir preview
+      if (pruebasFinales.length === 0 && StorageManager.isDemoModeActive()) {
+        return this._generarDatosSimuladosApp(app, idGrupo, rangoFechas);
+      }
+
+      // 2. Filtrar pruebas por el rango de fechas (Requisito 4)
+      const pruebasFiltradas = pruebasFinales.filter(p => {
+        if (!p.fecha) return true; // Si no tiene fecha, se incluye
+        const t = p.fecha.getTime();
+        return t >= rangoFechas.inicio.getTime() && t <= rangoFechas.fin.getTime();
+      });
+
+      // 3. Regla de negocio (Requisito 5):
+      // "Si no se han realizado pruebas en alguna de las apps debe obviarse de esta pantalla,
+      // es decir, sólo deben aparecer resultados a partir de la primera prueba."
+      const tienePruebas = pruebasFiltradas.length > 0;
+
+      // 4. Agrupar por alumno y calcular medias y tiempos
+      const alumnosDatos = {};
+      for (const p of pruebasFiltradas) {
+        const nombreNormalizado = this.normalizarNombre(p.nombreAlumno);
+        if (!alumnosDatos[nombreNormalizado]) {
+          alumnosDatos[nombreNormalizado] = {
+            nombreOriginal: p.nombreAlumno,
+            pruebas: [],
+            sumaNotas: 0,
+            sumaSegundos: 0,
+            notaMedia: 0,
+            totalPruebas: 0
+          };
+        }
+        alumnosDatos[nombreNormalizado].pruebas.push(p);
+        alumnosDatos[nombreNormalizado].sumaNotas += p.nota;
+        alumnosDatos[nombreNormalizado].sumaSegundos += (p.segundos || 60);
+      }
+
+      // Calcular medias finales por alumno
+      for (const key in alumnosDatos) {
+        const ad = alumnosDatos[key];
+        ad.totalPruebas = ad.pruebas.length;
+        ad.notaMedia = ad.totalPruebas > 0 ? (ad.sumaNotas / ad.totalPruebas) : null;
+      }
+
+      return {
+        id: app.id,
+        appId: app.id,
+        nombre: app.nombre,
+        titulo: app.tituloVisible,
+        tituloVisible: app.tituloVisible,
+        bloque: app.bloque || CONFIG.BLOQUES.LENGUAJE,
+        bloqueNombre: app.bloqueNombre || CONFIG.NOMBRES_BLOQUES[CONFIG.BLOQUES.LENGUAJE],
+        color: app.color,
+        icono: app.icono,
+        tienePruebas: tienePruebas,
+        totalPruebas: pruebasFiltradas.length,
+        alumnosDatos: alumnosDatos
+      };
+    } catch(err) {
+      console.warn(`Error al consultar calificaciones de ${app.nombre}:`, err);
+      if (StorageManager.isDemoModeActive()) {
+        return this._generarDatosSimuladosApp(app, idGrupo, rangoFechas);
+      }
+      return {
+        id: app.id,
+        appId: app.id,
+        nombre: app.nombre,
+        titulo: app.tituloVisible,
+        tituloVisible: app.tituloVisible,
+        bloque: app.bloque || CONFIG.BLOQUES.LENGUAJE,
+        bloqueNombre: app.bloqueNombre || CONFIG.NOMBRES_BLOQUES[CONFIG.BLOQUES.LENGUAJE],
+        tienePruebas: false,
+        totalPruebas: 0,
+        alumnosDatos: {},
+        error: err.message
+      };
+    }
+  },
+
+  // Descarga el CSV de una pestaña de Google Sheet sin caché (Tiempo Real)
+  async _descargarCsvGrupo(sheetId, nombrePestana) {
+    const timestamp = Date.now();
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&sheet=${encodeURIComponent(nombrePestana)}&_nocache=${timestamp}`;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 7000);
+
+    try {
+      const res = await fetch(url, {
+        signal: controller.signal,
+        cache: "no-store",
+        headers: {
+          "Pragma": "no-cache",
+          "Cache-Control": "no-cache, no-store, must-revalidate"
+        }
+      });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      return text.split(/\r?\n/).filter(l => l.trim().length > 0);
+    } catch(e) {
+      clearTimeout(timeout);
+      throw e;
+    }
+  },
+
+  // Parsea las filas CSV a objetos de calificación
+  _parsearCsvCalificaciones(lineas, idGrupo) {
+    if (!lineas || lineas.length <= 1) return [];
+
+    // Fila 1: Cabeceras
+    const cabeceras = this._parsearLineaCsv(lineas[0]).map(c => c.toLowerCase().trim());
+    
+    // Identificar índices de columnas
+    let idxNombre = cabeceras.findIndex(c => c.includes("nombre"));
+    if (idxNombre === -1) idxNombre = 0;
+
+    let idxNotaMedia = cabeceras.findIndex(c => c.includes("media"));
+    let idxPuntos = cabeceras.findIndex(c => c.includes("punto") || c.includes("puntuaci"));
+    let idxNivel = cabeceras.findIndex(c => c.includes("nivel") || c.includes("dictado") || c.includes("intervalo"));
+    let idxTiempo = cabeceras.findIndex(c => c.includes("tiempo"));
+    let idxFecha = cabeceras.findIndex(c => c.includes("fecha") || c.includes("hora"));
+
+    const resultados = [];
+
+    for (let i = 1; i < lineas.length; i++) {
+      const celdas = this._parsearLineaCsv(lineas[i]);
+      if (celdas.length <= 1) continue;
+
+      const nombre = celdas[idxNombre]?.trim();
+      if (!nombre || nombre.toLowerCase().includes("test_") || nombre.toLowerCase() === "nombre") continue;
+
+      // Obtener la nota de esta prueba (o la media de la fila si solo hay 1 columna de nota)
+      let notaStr = "";
+      if (idxPuntos !== -1 && celdas[idxPuntos] !== undefined && celdas[idxPuntos] !== "") {
+        notaStr = celdas[idxPuntos];
+      } else if (idxNotaMedia !== -1 && celdas[idxNotaMedia] !== undefined && celdas[idxNotaMedia] !== "") {
+        notaStr = celdas[idxNotaMedia];
+      }
+
+      // Convertir "9,5" o "9.5" a float
+      const notaNum = this.parsearNota(notaStr);
+      if (notaNum === null) continue;
+
+      const nivelStr = idxNivel !== -1 ? (celdas[idxNivel] || "") : "";
+      const tiempoStr = idxTiempo !== -1 ? (celdas[idxTiempo] || "") : "";
+      const fechaStr = idxFecha !== -1 ? (celdas[idxFecha] || "") : "";
+
+      const fechaObj = this.parsearFecha(fechaStr);
+      const segundos = this.parsearTiempoASegundos(tiempoStr);
+
+      resultados.push({
+        nombreAlumno: nombre,
+        nota: notaNum,
+        nivel: nivelStr || "Prueba estándar",
+        tiempoTexto: tiempoStr || `${Math.round(segundos / 60)} min`,
+        segundos: segundos,
+        fecha: fechaObj,
+        fechaVisible: this.formatearFechaVisible(fechaObj)
+      });
+    }
+
+    return resultados;
+  },
+
+  // Parser robusto de líneas CSV que respeta comillas dobles y comas internas
+  _parsearLineaCsv(linea) {
+    const res = [];
+    let cur = "";
+    let inQuotes = false;
+    for (let i = 0; i < linea.length; i++) {
+      const c = linea[i];
+      if (c === '"') {
+        if (inQuotes && linea[i + 1] === '"') {
+          cur += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (c === ',' && !inQuotes) {
+        res.push(cur);
+        cur = "";
+      } else {
+        cur += c;
+      }
+    }
+    res.push(cur);
+    return res;
+  },
+
+  // Convierte cadenas como "9,5" o "10" o "8.25" a número 0-10
+  parsearNota(str) {
+    if (str === null || str === undefined) return null;
+    let s = String(str).replace(",", ".").trim();
+    const num = parseFloat(s);
+    if (isNaN(num)) return null;
+    return Math.min(10, Math.max(0, num));
+  },
+
+  // Convierte textos de tiempo ("1 Minuto", "45 seg", "17 min", "02:15") a segundos
+  parsearTiempoASegundos(str) {
+    if (!str) return 60; // 1 min por defecto
+    const s = String(str).toLowerCase().trim();
+
+    // Formato mm:ss
+    if (s.includes(":")) {
+      const partes = s.split(":");
+      const min = parseInt(partes[0], 10) || 0;
+      const sec = parseInt(partes[1], 10) || 0;
+      return (min * 60) + sec;
+    }
+
+    // "X min" o "X minutos"
+    const matchMin = s.match(/(\d+)\s*(min|m)/);
+    if (matchMin) {
+      return parseInt(matchMin[1], 10) * 60;
+    }
+
+    // "X seg" o "X segundos"
+    const matchSeg = s.match(/(\d+)\s*(s|seg)/);
+    if (matchSeg) {
+      return parseInt(matchSeg[1], 10);
+    }
+
+    const soloNum = parseInt(s, 10);
+    if (!isNaN(soloNum)) {
+      // Si es un número pequeño (< 30), interpretarlo como minutos
+      return soloNum <= 30 ? soloNum * 60 : soloNum;
+    }
+
+    return 60;
+  },
+
+  // Formatea segundos a texto legible ("17 min", "1 min 20 s")
+  formatearSegundos(segundos) {
+    if (!segundos || segundos <= 0) return "0 min";
+    const min = Math.floor(segundos / 60);
+    const seg = segundos % 60;
+    if (min === 0) return `${seg} seg`;
+    if (seg === 0) return `${min} min`;
+    return `${min} min ${seg} s`;
+  },
+
+  // Parsea fechas de Google Sheets (formato "dd/MM/yyyy HH:mm:ss" o ISO o Date(y,m,d))
+  parsearFecha(str) {
+    if (!str) return new Date();
+    const s = String(str).trim();
+
+    // Formato GViz: Date(2026,10,6,13,11,18)
+    const matchGviz = s.match(/Date\((\d+),(\d+),(\d+)(?:,(\d+),(\d+),(\d+))?\)/);
+    if (matchGviz) {
+      const y = parseInt(matchGviz[1], 10);
+      const m = parseInt(matchGviz[2], 10);
+      const d = parseInt(matchGviz[3], 10);
+      const hh = parseInt(matchGviz[4] || 0, 10);
+      const mm = parseInt(matchGviz[5] || 0, 10);
+      const ss = parseInt(matchGviz[6] || 0, 10);
+      return new Date(y, m, d, hh, mm, ss);
+    }
+
+    // Formato español: "6/11/2026 13:11:18" o "06/11/2026"
+    const partesEsp = s.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})(?:\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?/);
+    if (partesEsp) {
+      const d = parseInt(partesEsp[1], 10);
+      const m = parseInt(partesEsp[2], 10) - 1;
+      const y = parseInt(partesEsp[3], 10);
+      const hh = parseInt(partesEsp[4] || 12, 10);
+      const mm = parseInt(partesEsp[5] || 0, 10);
+      const ss = parseInt(partesEsp[6] || 0, 10);
+      return new Date(y, m, d, hh, mm, ss);
+    }
+
+    const t = Date.parse(s);
+    if (!isNaN(t)) return new Date(t);
+
+    return new Date();
+  },
+
+  // Formato visual amigable de fecha estilo Edpuzzle (ej: "nov. 6º" o "06 nov. 2026, 13:11")
+  formatearFechaVisible(fecha) {
+    if (!fecha || !(fecha instanceof Date) || isNaN(fecha.getTime())) return "";
+    const meses = ["ene.", "feb.", "mar.", "abr.", "may.", "jun.", "jul.", "ago.", "sep.", "oct.", "nov.", "dic."];
+    const m = meses[fecha.getMonth()];
+    const d = fecha.getDate();
+    const hh = String(fecha.getHours()).padStart(2, "0");
+    const mm = String(fecha.getMinutes()).padStart(2, "0");
+    return `${m} ${d}º - ${hh}:${mm}`;
+  },
+
+  // Normaliza nombres para comparación flexible (acentos, mayúsculas, comas)
+  normalizarNombre(nombre) {
+    if (!nombre) return "";
+    return nombre
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]/g, "")
+      .trim();
+  },
+
+  // Obtiene lista de palabras/tokens normalizados para comparar sin importar el orden
+  obtenerTokensNombre(nombre) {
+    if (!nombre) return [];
+    return nombre
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter(t => t.length >= 2)
+      .sort();
+  },
+
+  // Comprueba si dos cadenas representan el mismo alumno (ej: "Arance Sánchez, Lucía" vs "Lucía Arance Sánchez")
+  sonMismoAlumno(a, b) {
+    if (!a || !b) return false;
+    const na = this.normalizarNombre(a);
+    const nb = this.normalizarNombre(b);
+    if (na === nb) return true;
+    if (na.length > 5 && nb.includes(na)) return true;
+    if (nb.length > 5 && na.includes(nb)) return true;
+
+    // Comparar por palabras ordenadas alfabéticamente
+    const tokA = this.obtenerTokensNombre(a);
+    const tokB = this.obtenerTokensNombre(b);
+    if (tokA.length > 0 && tokB.length > 0) {
+      if (tokA.join("_") === tokB.join("_")) return true;
+      // Si ambos tienen más de 2 palabras y comparten al menos 2 palabras clave
+      const comunes = tokA.filter(t => tokB.includes(t));
+      if (comunes.length >= 2 && comunes.length >= Math.min(tokA.length, tokB.length) - 1) {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  // =========================================================================
+  // GENERADOR DE DATOS DE SIMULACIÓN PARA PREVIEW IDÉNTICO A CAPTURA 1 Y 2
+  // =========================================================================
+  _generarDatosSimuladosApp(app, idGrupo, rangoFechas) {
+    // Si estamos en 1ESO-A, replicar las notas de CAPTURA_1.png y CAPTURA_2.png
+    const alumnos = this._cacheAlumnosPorGrupo[idGrupo] || [];
+    const alumnosDatos = {};
+
+    // Puntuaciones base para los primeros alumnos de la captura 1
+    const notasCaptura = {
+      "arancesanchezlucia": [10.0, 8.4, 6.7, 10.0, 10.0],
+      "arrietasenranicolas": [10.0, 9.5, 10.0, 8.9, 8.4],
+      "baenasuareznoelia": [10.0, 9.2, 8.4, 10.0, 10.0],
+      "baenasuarezraul": [10.0, 10.0, 10.0, 10.0, 10.0],
+      "barbaromerorocio": [8.4, 10.0, 10.0, 10.0, 6.7]
+    };
+
+    // Tiempos invertidos de la captura 1
+    const tiemposCaptura = {
+      "arancesanchezlucia": 17 * 60,
+      "arrietasenranicolas": 39 * 60,
+      "baenasuareznoelia": 17 * 60,
+      "baenasuarezraul": 19 * 60,
+      "barbaromerorocio": 23 * 60
+    };
+
+    // Títulos de actividades de CAPTURA_2.png
+    const actividadesCaptura2 = [
+      { tit: "U1. LAS CUALIDADES DEL SONIDO (VIII). LA INTENSIDAD", fecha: "2026-11-11T10:00:00" },
+      { tit: "U1. LAS CUALIDADES DEL SONIDO. LA DURACIÓN (VI). SIGNOS DE PROLONGACIÓN (VII)", fecha: "2026-11-02T11:15:00" },
+      { tit: "U1. LAS CUALIDADES DEL SONIDO (VI). LA DURACIÓN", fecha: "2026-11-02T10:45:00" },
+      { tit: "U1. LAS CUALIDADES DEL SONIDO (VII). LA DURACIÓN. SIGNOS DE PROLONGACIÓN", fecha: "2026-11-02T09:30:00" },
+      { tit: "U1. LAS CUALIDADES DEL SONIDO (V). LA ALTURA", fecha: "2026-10-27T12:00:00" }
+    ];
+
+    // Asignar una actividad correspondiente según la app
+    const appIndex = CONFIG.APPS_BASE.findIndex(b => b.id === app.id);
+    const idxAct = appIndex >= 0 ? appIndex : 0;
+
+    let totalPruebasGlobal = 0;
+
+    for (let i = 0; i < alumnos.length; i++) {
+      const al = alumnos[i];
+      const norm = this.normalizarNombre(al.textoDesplegable);
+      
+      let notaFinal = 0;
+      let segundos = 0;
+      let listaPruebas = [];
+
+      if (notasCaptura[norm]) {
+        notaFinal = notasCaptura[norm][idxAct % notasCaptura[norm].length];
+        segundos = Math.round((tiemposCaptura[norm] || 1200) / 5);
+        
+        // Generar las pruebas del alumno para esta app
+        const actInfo = actividadesCaptura2[idxAct % actividadesCaptura2.length];
+        const fechaObj = new Date(actInfo.fecha);
+
+        // Si la prueba cae dentro del rango de fechas
+        if (fechaObj >= rangoFechas.inicio && fechaObj <= rangoFechas.fin) {
+          listaPruebas.push({
+            nombreAlumno: al.textoDesplegable,
+            nota: notaFinal,
+            nivel: actInfo.tit,
+            tiempoTexto: `${Math.round(segundos / 60)} min`,
+            segundos: segundos,
+            fecha: fechaObj,
+            fechaVisible: this.formatearFechaVisible(fechaObj)
+          });
+        }
+      } else {
+        // Alumnos restantes: notas generadas aleatoriamente realistas (entre 5.5 y 10)
+        // Pseudo-aleatorio consistente basado en el índice
+        const seed = (i * 17 + idxAct * 31) % 100;
+        notaFinal = Math.round((5.5 + (seed / 100) * 4.5) * 10) / 10;
+        segundos = (2 + (seed % 6)) * 60;
+        
+        const fechaObj = new Date(2026, 10, (i % 8) + 1, 10, seed % 60);
+        if (fechaObj >= rangoFechas.inicio && fechaObj <= rangoFechas.fin) {
+          listaPruebas.push({
+            nombreAlumno: al.textoDesplegable,
+            nota: notaFinal,
+            nivel: `${app.tituloVisible} - Ejercicio Unidad ${(idxAct + 1)}`,
+            tiempoTexto: `${Math.round(segundos / 60)} min`,
+            segundos: segundos,
+            fecha: fechaObj,
+            fechaVisible: this.formatearFechaVisible(fechaObj)
+          });
+        }
+      }
+
+      if (listaPruebas.length > 0) {
+        totalPruebasGlobal += listaPruebas.length;
+        alumnosDatos[norm] = {
+          nombreOriginal: al.textoDesplegable,
+          pruebas: listaPruebas,
+          sumaNotas: listaPruebas.reduce((acc, p) => acc + p.nota, 0),
+          sumaSegundos: listaPruebas.reduce((acc, p) => acc + p.segundos, 0),
+          notaMedia: notaFinal,
+          totalPruebas: listaPruebas.length
+        };
+      }
+    }
+
+    return {
+      id: app.id,
+      appId: app.id,
+      nombre: app.nombre,
+      titulo: app.tituloVisible,
+      tituloVisible: app.tituloVisible,
+      bloque: app.bloque || CONFIG.BLOQUES.LENGUAJE,
+      bloqueNombre: app.bloqueNombre || CONFIG.NOMBRES_BLOQUES[CONFIG.BLOQUES.LENGUAJE],
+      color: app.color,
+      icono: app.icono,
+      tienePruebas: totalPruebasGlobal > 0,
+      totalPruebas: totalPruebasGlobal,
+      alumnosDatos: alumnosDatos
+    };
+  }
+};
+
+window.SheetsService = SheetsService;
+
+</script>
+  <script>
+/**
+ * EXPORTACIÓN DE CALIFICACIONES (Requisito 7)
+ * Permite descargar:
+ * 1. Solo listado de alumnos y sus notas medias.
+ * 2. Todas las notas (resumen completo).
+ * 3. Selección de una aplicación específica (ej: solo lectura).
+ */
+
+const ExportService = {
+  // Modal de opciones de descarga
+  mostrarModalDescarga(grupoActual, datosFiltrados, appsVisibles) {
+    const modal = document.getElementById("modal-descargar-notas");
+    if (!modal) return;
+
+    // Rellenar selector de apps
+    const selectApp = document.getElementById("descarga-select-app");
+    if (selectApp) {
+      selectApp.innerHTML = "";
+      appsVisibles.forEach(app => {
+        const opt = document.createElement("option");
+        opt.value = app.id;
+        opt.textContent = `${app.icono || "📊"} ${app.tituloVisible} (${app.nombre})`;
+        selectApp.appendChild(opt);
+      });
+    }
+
+    modal.classList.remove("hidden");
+  },
+
+  cerrarModalDescarga() {
+    const modal = document.getElementById("modal-descargar-notas");
+    if (modal) modal.classList.add("hidden");
+  },
+
+  // Ejecuta la descarga según la opción elegida
+  ejecutarDescarga(tipoOpcion, grupoActual, matrizDatos, appsVisibles, appIdSeleccionada, formato = "csv") {
+    const fechaHoy = new Date().toISOString().split("T")[0];
+    let nombreArchivo = "";
+    let filasCsv = [];
+
+    // =========================================================================
+    // CASO 1: SOLO LISTADO DE ALUMNOS Y SUS NOTAS MEDIAS (Requisito 7.1)
+    // =========================================================================
+    if (tipoOpcion === "solo_medias") {
+      nombreArchivo = `Acta_Medias_${grupoActual.codigo || grupoActual.id}_${fechaHoy}.${formato}`;
+      
+      // Cabecera
+      filasCsv.push([
+        "Grupo",
+        "Apellidos y Nombre",
+        "Nota Media Global",
+        "Tiempo Total Invertido (min)",
+        "Total Actividades Realizadas",
+        "Calificación Cualitativa"
+      ]);
+
+      matrizDatos.forEach(fila => {
+        const cal = fila.notaMediaGlobal !== null ? fila.notaMediaGlobal.toFixed(2) : "Sin datos";
+        const cualitativa = fila.notaMediaGlobal !== null ? this._obtenerTextoCualitativo(fila.notaMediaGlobal) : "No presentado";
+        const tiempoMin = Math.round((fila.tiempoTotalSegundos || 0) / 60);
+
+        filasCsv.push([
+          grupoActual.codigo || grupoActual.id,
+          fila.alumno.textoDesplegable,
+          cal,
+          tiempoMin,
+          fila.totalPruebasRealizadas || 0,
+          cualitativa
+        ]);
+      });
+    }
+
+    // =========================================================================
+    // CASO 2: TODAS LAS NOTAS (RESUMEN COMPLETO DE TODAS LAS APPS) (Requisito 7.2)
+    // =========================================================================
+    else if (tipoOpcion === "todas_las_notas") {
+      nombreArchivo = `Acta_Completa_${grupoActual.codigo || grupoActual.id}_${fechaHoy}.${formato}`;
+
+      // Cabecera con todas las columnas de apps
+      const cabecera = [
+        "Grupo",
+        "Apellidos y Nombre",
+        "Nota Media Global",
+        "Tiempo Total Invertido (min)"
+      ];
+
+      appsVisibles.forEach(app => {
+        cabecera.push(`Media: ${app.tituloVisible}`);
+      });
+
+      filasCsv.push(cabecera);
+
+      matrizDatos.forEach(fila => {
+        const cal = fila.notaMediaGlobal !== null ? fila.notaMediaGlobal.toFixed(2) : "Sin datos";
+        const tiempoMin = Math.round((fila.tiempoTotalSegundos || 0) / 60);
+
+        const filaCsv = [
+          grupoActual.codigo || grupoActual.id,
+          fila.alumno.textoDesplegable,
+          cal,
+          tiempoMin
+        ];
+
+        appsVisibles.forEach(app => {
+          const datoApp = fila.appsNotas[app.id];
+          if (datoApp && datoApp.notaMedia !== null && datoApp.notaMedia !== undefined) {
+            filaCsv.push(datoApp.notaMedia.toFixed(2));
+          } else {
+            filaCsv.push("-");
+          }
+        });
+
+        filasCsv.push(filaCsv);
+      });
+    }
+
+    // =========================================================================
+    // CASO 3: APLICACIÓN ESPECÍFICA (ej: solo notas de Lectura) (Requisito 7.3)
+    // =========================================================================
+    else if (tipoOpcion === "app_especifica") {
+      const app = appsVisibles.find(a => a.id === appIdSeleccionada) || appsVisibles[0];
+      nombreArchivo = `Acta_${app ? app.nombre : "App"}_${grupoActual.codigo || grupoActual.id}_${fechaHoy}.${formato}`;
+
+      filasCsv.push([
+        "Grupo",
+        "Apellidos y Nombre",
+        `Nota Media (${app ? app.tituloVisible : "App"})`,
+        "Total Intentos",
+        "Tiempo Invertido (min)",
+        "Desglose de Pruebas (Fecha - Nota - Nivel)"
+      ]);
+
+      matrizDatos.forEach(fila => {
+        const datoApp = fila.appsNotas[app.id];
+        if (datoApp && datoApp.notaMedia !== null) {
+          const tiempoMin = Math.round((datoApp.sumaSegundos || 0) / 60);
+          const desglose = (datoApp.pruebas || []).map(p => 
+            `[${p.fechaVisible || "Fecha"}: ${p.nota.toFixed(1)} pts (${p.nivel || ""})]`
+          ).join(" | ");
+
+          filasCsv.push([
+            grupoActual.codigo || grupoActual.id,
+            fila.alumno.textoDesplegable,
+            datoApp.notaMedia.toFixed(2),
+            datoApp.pruebas.length,
+            tiempoMin,
+            desglose
+          ]);
+        } else {
+          filasCsv.push([
+            grupoActual.codigo || grupoActual.id,
+            fila.alumno.textoDesplegable,
+            "Sin datos",
+            0,
+            0,
+            "Sin pruebas realizadas"
+          ]);
+        }
+      });
+    }
+
+    // Generar y disparar la descarga
+    this._descargarArchivoCsv(filasCsv, nombreArchivo);
+    this.cerrarModalDescarga();
+  },
+
+  // Genera el archivo CSV con BOM para visualización perfecta en Excel
+  _descargarArchivoCsv(matrizFilas, nombreArchivo) {
+    const contenidoCsv = matrizFilas.map(fila => 
+      fila.map(celda => {
+        let str = String(celda ?? "");
+        // Escapar comillas dobles
+        if (str.includes('"') || str.includes(';') || str.includes(',') || str.includes('\n')) {
+          str = `"${str.replace(/"/g, '""')}"`;
+        }
+        return str;
+      }).join(";") // Usamos punto y coma para Excel en español
+    ).join("\r\n");
+
+    // BOM UTF-8 (\uFEFF) para que Excel abra caracteres con tildes y ñ sin corromperlos
+    const blob = new Blob(["\uFEFF" + contenidoCsv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = nombreArchivo;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  },
+
+  _obtenerTextoCualitativo(nota) {
+    if (nota < 5) return "Insuficiente";
+    if (nota < 6) return "Suficiente";
+    if (nota < 7) return "Bien";
+    if (nota < 9) return "Notable";
+    return "Sobresaliente";
+  }
+};
+
+window.ExportService = ExportService;
+
+</script>
+  <script>
+/**
+ * CONTROLADOR PRINCIPAL DEL CUADERNO DIGITAL DEL PROFESOR
+ * Gestión de interfaz, vistas, modales, mapa de calor y navegación.
+ */
+
+(function() {
+  // Estado local de la aplicación
+  let state = {
+    autenticado: false,
+    gruposDisponibles: [],
+    grupoSeleccionado: null,
+    appsConfiguradas: [],
+    appsConPruebas: [],
+    alumnosGrupo: [],
+    matrizCalificaciones: [],
+    filtroBusqueda: "",
+    rangoFechas: {
+      inicio: null,
+      fin: null,
+      inicioISO: "",
+      finISO: ""
+    },
+    alumnoModalActual: null,
+    indiceAlumnoModal: 0,
+    cargando: false,
+    escalaCien: true // Por defecto 0-100 para reproducir fielmente la Captura 1 y 2 (95, 100, 84...)
+  };
+
+  // Avatar SVG oficial del profesor estilo Edpuzzle (Captura 1 y 2)
+  const SVG_AVATAR_DOCENTE = `
+    <div style="display:inline-flex; align-items:center; gap:4px;">
+      <svg width="24" height="24" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="18" fill="#FDE68A"/>
+        <circle cx="18" cy="15" r="9" fill="#FCD34D"/>
+        <path d="M9 14C9 9 13 6 18 6C23 6 27 9 27 14C27 11 23 8 18 8C13 8 9 11 9 14Z" fill="#D97706"/>
+        <circle cx="14" cy="15" r="3" stroke="#1F2937" stroke-width="1.5" fill="none"/>
+        <circle cx="22" cy="15" r="3" stroke="#1F2937" stroke-width="1.5" fill="none"/>
+        <line x1="17" y1="15" x2="19" y2="15" stroke="#1F2937" stroke-width="1.5"/>
+        <path d="M15 20C16 21 20 21 21 20" stroke="#92400E" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M12 28C12 24 14 23 18 23C22 23 24 24 24 28" fill="#3B82F6"/>
+        <polygon points="18,23 16.5,27 18,29 19.5,27" fill="#EF4444"/>
+      </svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12h1M6 8v8M10 5v14M14 9v6M18 11v2M21 12h1"/>
+      </svg>
+    </div>
+  `;
+
+  function formatearNotaValor(nota) {
+    if (nota === null || nota === undefined || isNaN(nota) || nota === "") return "-";
+    const n = parseFloat(nota);
+    return state.escalaCien ? Math.round(n * 10) : n.toFixed(1);
+  }
+
+  function formatearFechaCorta(fecha) {
+    if (!fecha || !(fecha instanceof Date) || isNaN(fecha.getTime())) return "";
+    const meses = ["ene.", "feb.", "mar.", "abr.", "may.", "jun.", "jul.", "ago.", "sep.", "oct.", "nov.", "dic."];
+    return `${fecha.getDate()} ${meses[fecha.getMonth()]}`;
+  }
+
+  function actualizarTextosFechas() {
+    const dInicio = document.getElementById("display-fecha-inicio");
+    const dFin = document.getElementById("display-fecha-fin");
+    if (dInicio && state.rangoFechas.inicio) {
+      dInicio.textContent = formatearFechaCorta(state.rangoFechas.inicio);
+    }
+    if (dFin && state.rangoFechas.fin) {
+      const hoy = new Date();
+      if (state.rangoFechas.fin.toDateString() === hoy.toDateString()) {
+        dFin.textContent = "Hoy";
+      } else {
+        dFin.textContent = formatearFechaCorta(state.rangoFechas.fin);
+      }
+    }
+  }
+
+  // =========================================================================
+  // INICIALIZACIÓN
+  // =========================================================================
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => initApp());
+  } else {
+    initApp();
+  }
+
+  async function initApp() {
+    // Modo preview rápido por URL si se requiere
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("demo") === "1" || urlParams.get("preview") === "1") {
+      StorageManager.login(CONFIG.CLAVE_DOCENTE);
+      StorageManager.setDemoMode(true);
+    }
+
+    // 1. Rango de fechas por defecto (Requisito 4: 1 sept anterior a hoy)
+    const rangoDef = StorageManager.getDateRange();
+    state.rangoFechas = {
+      inicio: new Date(rangoDef.inicioISO + "T00:00:00"),
+      fin: new Date(rangoDef.finISO + "T23:59:59"),
+      inicioISO: rangoDef.inicioISO,
+      finISO: rangoDef.finISO
+    };
+
+    // Actualizar campos de fecha en la UI
+    const inputInicio = document.getElementById("filtro-fecha-inicio");
+    const inputFin = document.getElementById("filtro-fecha-fin");
+    if (inputInicio) inputInicio.value = state.rangoFechas.inicioISO;
+    if (inputFin) inputFin.value = state.rangoFechas.finISO;
+    actualizarTextosFechas();
+
+    // 2. Comprobar autenticación (Requisito 2 y Landing Page Segura)
+    state.autenticado = StorageManager.isAuthenticated();
+    if (!state.autenticado) {
+      mostrarLandingPage();
+    } else {
+      ocultarLandingPage();
+      await cargarCuadernoDocente();
+      iniciarSincronizacionTiempoReal();
+      if (urlParams.get("modal") !== null) {
+        const modalIdx = parseInt(urlParams.get("modal") || "0", 10);
+        const appId = urlParams.get("app");
+        const scrollPos = parseInt(urlParams.get("scroll") || "0", 10);
+        setTimeout(() => {
+          abrirModalAlumno(modalIdx, appId);
+          if (scrollPos > 0) {
+            setTimeout(() => {
+              const cont = document.getElementById("modal-alumno-desglose-apps");
+              if (cont) cont.scrollTop = scrollPos;
+            }, 250);
+          }
+        }, 350);
+      }
+    }
+
+    // 3. Vincular eventos globales de la interfaz
+    vincularEventosUI();
+  }
+
+  // =========================================================================
+  // GESTIÓN DE LA LANDING PAGE DE ACCESO SEGURO (Clave: 1750*Diag0nal*121068)
+  // =========================================================================
+  function mostrarLandingPage() {
+    const landing = document.getElementById("landing-page-portal");
+    const dashboard = document.getElementById("app-dashboard-wrapper");
+    if (landing) landing.classList.remove("hidden");
+    if (dashboard) dashboard.classList.add("hidden");
+
+    const inputPass = document.getElementById("landing-password-input");
+    if (inputPass) {
+      inputPass.value = "";
+      setTimeout(() => inputPass.focus(), 250);
+    }
+  }
+
+  function ocultarLandingPage() {
+    const landing = document.getElementById("landing-page-portal");
+    const dashboard = document.getElementById("app-dashboard-wrapper");
+    if (landing) landing.classList.add("hidden");
+    if (dashboard) dashboard.classList.remove("hidden");
+  }
+
+  function procesarLandingLogin() {
+    const inputPass = document.getElementById("landing-password-input");
+    const errorMsg = document.getElementById("landing-error-alert");
+    const clave = inputPass ? inputPass.value : "";
+
+    if (StorageManager.login(clave)) {
+      state.autenticado = true;
+      if (errorMsg) errorMsg.classList.add("hidden");
+      ocultarLandingPage();
+      cargarCuadernoDocente();
+      iniciarSincronizacionTiempoReal();
+    } else {
+      if (errorMsg) {
+        errorMsg.textContent = "Contraseña incorrecta. Por favor, introduce la clave autorizada.";
+        errorMsg.classList.remove("hidden");
+      }
+      if (inputPass) {
+        inputPass.classList.add("input-shake");
+        setTimeout(() => inputPass.classList.remove("input-shake"), 500);
+        inputPass.select();
+      }
+    }
+  }
+
+  function procesarLogout() {
+    if (confirm("¿Deseas cerrar la sesión docente de tu cuaderno de calificaciones?")) {
+      StorageManager.logout();
+      state.autenticado = false;
+      location.reload();
+    }
+  }
+
+  // =========================================================================
+  // CARGA DE DATOS DEL CUADERNO
+  // =========================================================================
+  async function cargarCuadernoDocente() {
+    mostrarLoader("Cargando grupos y alumnos...");
+
+    // Cargar apps configuradas
+    state.appsConfiguradas = StorageManager.getAppsList();
+
+    try {
+      // Requisito 3: Solo los grupos en los que haya alumnos dentro de la hoja común
+      state.gruposDisponibles = await SheetsService.obtenerGruposConAlumnos();
+      
+      // Renderizar sidebar de grupos (Requisito 3)
+      renderizarSidebarGrupos();
+
+      // Seleccionar grupo activo guardado o el primero disponible
+      const idGuardado = StorageManager.getActiveGroupId();
+      const grupoTarget = state.gruposDisponibles.find(g => g.id === idGuardado) || state.gruposDisponibles[0];
+
+      if (grupoTarget) {
+        await seleccionarGrupo(grupoTarget.id);
+      } else {
+        ocultarLoader();
+        mostrarEstadoVacio("No se han encontrado grupos con alumnos en el listado común.");
+      }
+    } catch(err) {
+      console.error("Error al cargar grupos:", err);
+      ocultarLoader();
+      mostrarNotificacion("Error al conectar con el listado de alumnos.", "error");
+    }
+  }
+
+  // =========================================================================
+  // RENDERIZADO DE LA BARRA LATERAL (Cursos activos ordenados de 1º a 4º de ESO)
+  // =========================================================================
+  function renderizarSidebarGrupos() {
+    const contenedor = document.getElementById("lista-clases-sidebar");
+    if (!contenedor) return;
+
+    contenedor.innerHTML = "";
+
+    if (!state.gruposDisponibles || state.gruposDisponibles.length === 0) {
+      contenedor.innerHTML = `<div class="sidebar-empty">No hay cursos activos con alumnos</div>`;
+      return;
+    }
+
+    // Agrupar por curso (1º ESO, 2º ESO, 3º ESO, 4º ESO)
+    const gruposPorCurso = {};
+    state.gruposDisponibles.forEach(grp => {
+      const numCurso = parseInt(grp.curso.replace(/\D/g, "") || "1", 10);
+      if (!gruposPorCurso[numCurso]) {
+        gruposPorCurso[numCurso] = [];
+      }
+      gruposPorCurso[numCurso].push(grp);
+    });
+
+    // Ordenar estrictamente de 1º a 4º de ESO
+    const cursosOrdenados = Object.keys(gruposPorCurso).map(Number).sort((a, b) => a - b);
+
+    cursosOrdenados.forEach(numCurso => {
+      const listaGrupos = gruposPorCurso[numCurso];
+
+      // Cabecera separadora del curso (1º de ESO, 2º de ESO...)
+      const cursoHeader = document.createElement("div");
+      cursoHeader.className = "sidebar-curso-header";
+      cursoHeader.innerHTML = `
+        <span class="curso-header-titulo">${numCurso}º de ESO</span>
+        <span class="curso-header-badge">${listaGrupos.length} grupo${listaGrupos.length > 1 ? 's' : ''}</span>
+      `;
+      contenedor.appendChild(cursoHeader);
+
+      // Grupos de este curso ordenados por letra (A, B, C...)
+      listaGrupos.sort((a, b) => a.letra.localeCompare(b.letra));
+
+      listaGrupos.forEach(grp => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `clase-item ${state.grupoSeleccionado && state.grupoSeleccionado.id === grp.id ? "active" : ""}`;
+        btn.dataset.grupoId = grp.id;
+
+        btn.innerHTML = `
+          <div class="clase-item-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+            </svg>
+          </div>
+          <div class="clase-item-info">
+            <span class="clase-item-codigo">${grp.titulo}</span>
+            <span class="clase-item-subtitulo">Grupo ${grp.letra} • ${grp.numAlumnos} al.</span>
+          </div>
+          <div class="clase-item-badge">${grp.numAlumnos}</div>
+        `;
+
+        btn.addEventListener("click", () => {
+          seleccionarGrupo(grp.id);
+        });
+
+        contenedor.appendChild(btn);
+      });
+    });
+  }
+
+  // =========================================================================
+  // SELECCIÓN Y CARGA DE UN GRUPO (Requisitos 4 y 5)
+  // =========================================================================
+  async function seleccionarGrupo(idGrupo) {
+    const grp = state.gruposDisponibles.find(g => g.id === idGrupo);
+    if (!grp) return;
+
+    state.grupoSeleccionado = grp;
+    StorageManager.setActiveGroupId(idGrupo);
+
+    // Actualizar clase activa en sidebar
+    document.querySelectorAll(".clase-item").forEach(el => {
+      if (el.dataset.grupoId === idGrupo) {
+        el.classList.add("active");
+      } else {
+        el.classList.remove("active");
+      }
+    });
+
+    // Actualizar cabecera del grupo (Estilo Edpuzzle - Captura 1)
+    const titGrupo = document.getElementById("header-grupo-titulo");
+    const subGrupo = document.getElementById("header-grupo-subtitulo");
+    const countAlumnos = document.getElementById("badge-total-alumnos");
+    
+    if (titGrupo) titGrupo.textContent = grp.titulo;
+    if (subGrupo) subGrupo.textContent = grp.subtitulo;
+    if (countAlumnos) countAlumnos.textContent = `${grp.numAlumnos} alumnos`;
+
+    // Cargar calificaciones de este grupo
+    await refrescarCalificacionesGrupo();
+  }
+
+  // =========================================================================
+  // OBTENCIÓN Y CÁLCULO DE CALIFICACIONES DE TODAS LAS APPS
+  // =========================================================================
+  async function refrescarCalificacionesGrupo() {
+    if (!state.grupoSeleccionado) return;
+
+    mostrarLoader(`Cargando notas de ${state.grupoSeleccionado.titulo}...`);
+
+    try {
+      // 1. Obtener lista de alumnos del grupo
+      state.alumnosGrupo = await SheetsService.obtenerAlumnosDeGrupo(state.grupoSeleccionado.id);
+
+      // 2. Consultar las notas de cada app para este grupo y rango de fechas
+      const appsResultados = [];
+      for (const app of state.appsConfiguradas) {
+        const resultadoApp = await SheetsService.obtenerCalificacionesApp(
+          app,
+          state.grupoSeleccionado.id,
+          state.rangoFechas
+        );
+        appsResultados.push(resultadoApp);
+      }
+
+      // 3. Regla de negocio (Requisito 5):
+      // "Si no se han realizado pruebas en alguna de las apps debe obviarse de esta pantalla,
+      // es decir, sólo deben aparecer resultados a partir de la primera prueba."
+      state.appsConPruebas = appsResultados.filter(ar => ar.tienePruebas === true);
+
+      // 4. Construir la matriz de datos por alumno
+      state.matrizCalificaciones = construirMatrizAlumnos(state.alumnosGrupo, appsResultados);
+
+      // 5. Renderizar tabla con mapa de calor
+      renderizarTablaCalificaciones();
+
+      ocultarLoader();
+    } catch(err) {
+      console.error("Error al refrescar calificaciones:", err);
+      ocultarLoader();
+      mostrarNotificacion("Error al procesar las calificaciones.", "error");
+    }
+  }
+
+  // =========================================================================
+  // SINCRONIZACIÓN EN TIEMPO REAL (En vivo desde Google Sheets)
+  // =========================================================================
+  let timerSincronizacionAuto = null;
+  let timerIndicadorTiempo = null;
+  let sincronizandoSilencioso = false;
+  let ultimaSyncTimestamp = Date.now();
+
+  function iniciarSincronizacionTiempoReal() {
+    if (timerSincronizacionAuto) clearInterval(timerSincronizacionAuto);
+    if (timerIndicadorTiempo) clearInterval(timerIndicadorTiempo);
+
+    // Consulta automática cada 15 segundos sin bloquear la pantalla
+    timerSincronizacionAuto = setInterval(async () => {
+      await sincronizarEnTiempoReal(false);
+    }, CONFIG.INTERVALO_SYNC_MS || 15000);
+
+    // Actualizador visual de "hace X segundos" cada 2 segundos
+    timerIndicadorTiempo = setInterval(actualizarIndicadorTiempoReal, 2000);
+
+    // Sincronización instantánea al volver a la pestaña (focus o visibilidad)
+    window.addEventListener("focus", () => sincronizarEnTiempoReal(true));
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) sincronizarEnTiempoReal(true);
+    });
+  }
+
+  async function sincronizarEnTiempoReal(forzar = false) {
+    if (sincronizandoSilencioso || !state.autenticado || !state.grupoSeleccionado) return;
+    sincronizandoSilencioso = true;
+
+    const badgeLive = document.getElementById("live-sync-badge");
+    const btnSync = document.getElementById("btn-sincronizar-drive");
+    if (badgeLive) badgeLive.classList.add("syncing");
+    if (btnSync) btnSync.classList.add("spinning");
+
+    try {
+      // 1. Re-consultar las notas de cada app con bypass de caché HTTP
+      const appsResultados = [];
+      for (const app of state.appsConfiguradas) {
+        const resultadoApp = await SheetsService.obtenerCalificacionesApp(
+          app,
+          state.grupoSeleccionado.id,
+          state.rangoFechas
+        );
+        appsResultados.push(resultadoApp);
+      }
+
+      state.appsConPruebas = appsResultados.filter(ar => ar.tienePruebas === true);
+      const nuevaMatriz = construirMatrizAlumnos(state.alumnosGrupo, appsResultados);
+
+      // Comprobar si hubo cambios reales en los datos
+      const matrizAnteriorJson = JSON.stringify(state.matrizCalificaciones.map(m => ({ id: m.index, n: m.notaMediaGlobal, t: m.totalPruebasRealizadas })));
+      const matrizNuevaJson = JSON.stringify(nuevaMatriz.map(m => ({ id: m.index, n: m.notaMediaGlobal, t: m.totalPruebasRealizadas })));
+      const hayCambios = matrizAnteriorJson !== matrizNuevaJson;
+
+      if (hayCambios || forzar) {
+        state.matrizCalificaciones = nuevaMatriz;
+        renderizarTablaCalificaciones();
+
+        // Si el modal de un alumno está abierto en este instante, actualizar sus datos en vivo
+        const modalAlumno = document.getElementById("modal-detalle-alumno");
+        if (modalAlumno && !modalAlumno.classList.contains("hidden") && state.alumnoModalActual) {
+          window.abrirModalAlumno(state.alumnoModalActual.index);
+        }
+
+        if (hayCambios) {
+          mostrarNotificacion("⚡ Calificaciones actualizadas en tiempo real desde Google Sheets.", "success");
+        }
+      }
+
+      ultimaSyncTimestamp = Date.now();
+      actualizarIndicadorTiempoReal();
+    } catch(err) {
+      console.warn("Sincronización en tiempo real:", err);
+    } finally {
+      sincronizandoSilencioso = false;
+      if (badgeLive) badgeLive.classList.remove("syncing");
+      if (btnSync) btnSync.classList.remove("spinning");
+    }
+  }
+
+  function actualizarIndicadorTiempoReal() {
+    const elTexto = document.getElementById("live-sync-last-time");
+    if (!elTexto) return;
+    const segs = Math.max(0, Math.round((Date.now() - ultimaSyncTimestamp) / 1000));
+    if (segs < 5) {
+      elTexto.textContent = "en vivo";
+    } else if (segs < 60) {
+      elTexto.textContent = `hace ${segs}s`;
+    } else {
+      const mins = Math.floor(segs / 60);
+      elTexto.textContent = `hace ${mins}m`;
+    }
+  }
+
+  // Construye la fila de datos para cada alumno con sus medias y tiempos
+  function construirMatrizAlumnos(alumnos, appsResultados) {
+    const matriz = [];
+
+    alumnos.forEach((al, index) => {
+      const norm = SheetsService.normalizarNombre(al.textoDesplegable);
+      
+      let sumaNotasApps = 0;
+      let totalAppsConNota = 0;
+      let tiempoTotalSegundos = 0;
+      let totalPruebasRealizadas = 0;
+      const appsNotas = {};
+
+      // Recorrer cada una de las apps en orden oficial
+      appsResultados.forEach(appRes => {
+        // Buscar las notas del alumno en esta app
+        let datoAlumno = appRes.alumnosDatos[norm];
+        
+        // Si no coincide exactamente por nombre normalizado, buscar de forma flexible
+        if (!datoAlumno) {
+          for (const k in appRes.alumnosDatos) {
+            const ad = appRes.alumnosDatos[k];
+            if (SheetsService.sonMismoAlumno(ad.nombreOriginal || k, al.textoDesplegable)) {
+              datoAlumno = ad;
+              break;
+            }
+          }
+        }
+
+        const idK = appRes.id || appRes.appId;
+        if (datoAlumno && datoAlumno.notaMedia !== null && datoAlumno.totalPruebas > 0) {
+          const objNota = {
+            notaMedia: datoAlumno.notaMedia,
+            totalPruebas: datoAlumno.totalPruebas,
+            sumaSegundos: datoAlumno.sumaSegundos,
+            pruebas: datoAlumno.pruebas || []
+          };
+          appsNotas[idK] = objNota;
+          if (appRes.appId) appsNotas[appRes.appId] = objNota;
+          if (appRes.id) appsNotas[appRes.id] = objNota;
+          sumaNotasApps += datoAlumno.notaMedia;
+          totalAppsConNota++;
+          tiempoTotalSegundos += (datoAlumno.sumaSegundos || 0);
+          totalPruebasRealizadas += datoAlumno.totalPruebas;
+        } else {
+          const objVacio = {
+            notaMedia: null,
+            totalPruebas: 0,
+            sumaSegundos: 0,
+            pruebas: []
+          };
+          appsNotas[idK] = objVacio;
+          if (appRes.appId) appsNotas[appRes.appId] = objVacio;
+          if (appRes.id) appsNotas[appRes.id] = objVacio;
+        }
+      });
+
+      // Nota media global del alumno (media de las apps o de todas las pruebas)
+      const notaMediaGlobal = totalAppsConNota > 0 ? (sumaNotasApps / totalAppsConNota) : null;
+
+      matriz.push({
+        index: index,
+        alumno: al,
+        notaMediaGlobal: notaMediaGlobal,
+        tiempoTotalSegundos: tiempoTotalSegundos,
+        tiempoTotalTexto: SheetsService.formatearSegundos(tiempoTotalSegundos),
+        totalPruebasRealizadas: totalPruebasRealizadas,
+        appsNotas: appsNotas
+      });
+    });
+
+    return matriz;
+  }
+
+  // =========================================================================
+  // RENDERIZADO DE LA TABLA DE CALIFICACIONES (Requisito 5)
+  // =========================================================================
+  function renderizarTablaCalificaciones() {
+    const contenedorThead = document.getElementById("tabla-cabecera-tr");
+    const contenedorTbody = document.getElementById("tabla-cuerpo");
+    const contadorFiltro = document.getElementById("contador-alumnos-visibles");
+
+    if (!contenedorThead || !contenedorTbody) return;
+
+    // 1. Renderizar Cabecera de la Tabla
+    // Columna 1: Alumno
+    // Columna 2: Nota Media Global
+    // Columna 3: Tiempo Total Invertido
+    // Columnas 4+: Las apps con pruebas (Requisito 5)
+    let htmlCabecera = `
+      <th class="th-fija th-alumno">
+        <div class="th-content-left">
+          <span>Nombre del Alumno</span>
+        </div>
+      </th>
+      <th class="th-centrada th-media-global">
+        <div class="th-content-center">
+          <span class="th-titulo-principal">Nota global</span>
+          <span class="th-subtitulo">de ${state.escalaCien ? '100' : '10'}</span>
+        </div>
+      </th>
+      <th class="th-centrada th-tiempo-total">
+        <div class="th-content-center">
+          <span class="th-titulo-principal">tiempo total</span>
+          <span class="th-subtitulo">invertido</span>
+        </div>
+      </th>
+    `;
+
+    // Renderizar cabeceras rotadas estilo Edpuzzle con distintivo de bloque claramente debajo del título
+    state.appsConPruebas.forEach((app, idx) => {
+      const esActividad = app.bloque === CONFIG.BLOQUES.ACTIVIDADES;
+      htmlCabecera += `
+        <th class="th-app-rotada ${esActividad ? 'th-bloque-actividad' : 'th-bloque-lenguaje'}" title="${app.titulo} (${app.nombre}) - ${app.bloqueNombre || 'Lenguaje Musical'}">
+          <div class="th-rotada-wrap">
+            <span class="th-rotada-texto">${app.titulo}</span>
+          </div>
+          <div class="th-rotada-meta-area">
+            <span class="th-rotada-bloque-tag ${esActividad ? 'tag-actividad' : 'tag-lenguaje'}">${esActividad ? '🧩 Actividad' : '🎼 Lenguaje'}</span>
+            <div class="th-rotada-avatar-box">
+              ${SVG_AVATAR_DOCENTE}
+              <span class="th-rotada-conteo">${app.totalPruebas} act.</span>
+            </div>
+          </div>
+        </th>
+      `;
+    });
+
+    contenedorThead.innerHTML = htmlCabecera;
+
+    // 2. Filtrar alumnos por búsqueda de texto
+    const q = (state.filtroBusqueda || "").toLowerCase().trim();
+    const filasFiltradas = state.matrizCalificaciones.filter(f => {
+      if (!q) return true;
+      const nom = f.alumno.textoDesplegable.toLowerCase();
+      return nom.includes(q);
+    });
+
+    if (contadorFiltro) {
+      contadorFiltro.textContent = `${filasFiltradas.length} de ${state.matrizCalificaciones.length} alumnos`;
+    }
+
+    // 3. Renderizar Filas de Alumnos
+    if (filasFiltradas.length === 0) {
+      contenedorTbody.innerHTML = `
+        <tr>
+          <td colspan="${3 + state.appsConPruebas.length}" class="td-sin-resultados">
+            <div class="empty-state-inner">
+              <span class="empty-state-icon">🔍</span>
+              <p>No se encontraron alumnos con el criterio de búsqueda.</p>
+            </div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    let htmlCuerpo = "";
+    filasFiltradas.forEach((fila, pos) => {
+      // Cálculo del mapa de calor para la nota global
+      const infoColorGlobal = CONFIG.obtenerColorNota(fila.notaMediaGlobal);
+      const strNotaGlobal = formatearNotaValor(fila.notaMediaGlobal);
+
+      htmlCuerpo += `
+        <tr class="fila-alumno" data-index="${fila.index}">
+          <!-- Columna 1: Alumno (Click para abrir Modal Detalle - Requisito 6) -->
+          <td class="td-alumno" onclick="window.abrirModalAlumno(${fila.index})">
+            <div class="alumno-nombre-celda">
+              <span class="alumno-avatar-circulo">${fila.alumno.textoDesplegable.charAt(0)}</span>
+              <span class="alumno-nombre-texto" title="Pulsar para ver detalle del alumno">${fila.alumno.textoDesplegable}</span>
+              <svg class="alumno-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </td>
+
+          <!-- Columna 2: Nota Media Global (Mapa de Calor - Requisito 5) -->
+          <td class="td-centrada">
+            <div class="celda-nota-wrap">
+              <div class="pill-nota ${infoColorGlobal.claseCss}" 
+                   style="background-color: ${infoColorGlobal.bg}; color: ${infoColorGlobal.color}; border-color: ${infoColorGlobal.border};"
+                   title="Nota Media Global: ${strNotaGlobal} (${infoColorGlobal.label})">
+                <span>${strNotaGlobal}</span>
+              </div>
+              <div class="celda-nota-linea" style="background-color: ${infoColorGlobal.border};"></div>
+            </div>
+          </td>
+
+          <!-- Columna 3: Tiempo Total Invertido -->
+          <td class="td-centrada">
+            <span class="texto-tiempo">${fila.tiempoTotalTexto}</span>
+          </td>
+      `;
+
+      // Columnas de cada una de las Apps con Pruebas (Requisito 5)
+      state.appsConPruebas.forEach(app => {
+        const appKey = app.id || app.appId;
+        const datoApp = fila.appsNotas[appKey];
+        if (datoApp && datoApp.notaMedia !== null && datoApp.totalPruebas > 0) {
+          const infoColor = CONFIG.obtenerColorNota(datoApp.notaMedia);
+          const strNotaApp = formatearNotaValor(datoApp.notaMedia);
+          htmlCuerpo += `
+            <td class="td-centrada td-app-celda" onclick="window.abrirModalAlumno(${fila.index}, '${app.id}')">
+              <div class="celda-nota-wrap">
+                <div class="pill-nota ${infoColor.claseCss}" 
+                     style="background-color: ${infoColor.bg}; color: ${infoColor.color}; border-color: ${infoColor.border};"
+                     title="${app.titulo}: ${strNotaApp} (${datoApp.totalPruebas} prueba${datoApp.totalPruebas > 1 ? 's' : ''})">
+                  <span>${strNotaApp}</span>
+                </div>
+                <div class="celda-nota-linea" style="background-color: ${infoColor.border};"></div>
+              </div>
+            </td>
+          `;
+        } else {
+          // Sin pruebas realizadas por este alumno en esta app
+          htmlCuerpo += `
+            <td class="td-centrada td-app-celda">
+              <div class="pill-nota nota-vacio" title="Sin exámenes realizados en esta app">-</div>
+            </td>
+          `;
+        }
+      });
+
+      htmlCuerpo += `</tr>`;
+    });
+
+    contenedorTbody.innerHTML = htmlCuerpo;
+  }
+
+  // =========================================================================
+  // MODAL DETALLE DE ALUMNO (Requisito 6 - Semejante a Captura 2)
+  // =========================================================================
+  window.abrirModalAlumno = function(indexAlumno, appIdScroll = null) {
+    const fila = state.matrizCalificaciones.find(f => f.index === indexAlumno);
+    if (!fila) return;
+
+    state.alumnoModalActual = fila;
+    state.indiceAlumnoModal = state.matrizCalificaciones.indexOf(fila);
+
+    const modal = document.getElementById("modal-detalle-alumno");
+    if (!modal) return;
+
+    // 1. Cabecera del modal: Nombre, Nota Global, Tiempo Total y Paginación
+    const elNombre = document.getElementById("modal-alumno-nombre");
+    const elNotaGlobalPill = document.getElementById("modal-alumno-nota-global-pill");
+    const elTiempo = document.getElementById("modal-alumno-tiempo");
+    const elPaginacion = document.getElementById("modal-alumno-paginacion");
+    const btnAnterior = document.getElementById("btn-modal-anterior");
+    const btnSiguiente = document.getElementById("btn-modal-siguiente");
+    const elFechaInicio = document.getElementById("modal-fecha-inicio-txt");
+    const elFechaEntrega = document.getElementById("modal-fecha-entrega-txt");
+
+    if (elNombre) elNombre.textContent = fila.alumno.textoDesplegable;
+    
+    // Nota global
+    const infoColor = CONFIG.obtenerColorNota(fila.notaMediaGlobal);
+    if (elNotaGlobalPill) {
+      elNotaGlobalPill.textContent = formatearNotaValor(fila.notaMediaGlobal);
+      elNotaGlobalPill.className = `modal-nota-badge ${infoColor.claseCss}`;
+      elNotaGlobalPill.style.backgroundColor = infoColor.bg;
+      elNotaGlobalPill.style.color = infoColor.color;
+      elNotaGlobalPill.style.borderColor = infoColor.border;
+    }
+
+    if (elTiempo) {
+      const minTot = Math.round((fila.tiempoTotalSegundos || 0) / 60);
+      elTiempo.textContent = `Tiempo total invertido: ${minTot} minutos`;
+    }
+
+    // Paginación (1/29) estilo Edpuzzle
+    const totalAlumnos = state.matrizCalificaciones.length;
+    const numActual = state.indiceAlumnoModal + 1;
+    if (elPaginacion) elPaginacion.textContent = `${numActual}/${totalAlumnos}`;
+    
+    if (btnAnterior) btnAnterior.disabled = (state.indiceAlumnoModal === 0);
+    if (btnSiguiente) btnSiguiente.disabled = (state.indiceAlumnoModal >= totalAlumnos - 1);
+
+    // Fechas visibles idénticas a Captura 2
+    if (elFechaInicio) elFechaInicio.textContent = formatearFechaCorta(state.rangoFechas.inicio) || "12 oct.";
+    if (elFechaEntrega) {
+      const hoy = new Date();
+      elFechaEntrega.textContent = state.rangoFechas.fin.toDateString() === hoy.toDateString() ? "Hoy" : formatearFechaCorta(state.rangoFechas.fin);
+    }
+
+    // 2. Cuerpo del modal: Desglose agrupado en los dos bloques oficiales (Requisito del usuario)
+    // - Bloque 1: Lenguaje Musical
+    // - Bloque 2: Actividades Interactivas Evaluables
+    const contenedorApps = document.getElementById("modal-alumno-desglose-apps");
+    if (contenedorApps) {
+      let htmlDesglose = "";
+      let totalAppsMostradas = 0;
+
+      const bloquesConfig = [
+        {
+          id: CONFIG.BLOQUES.LENGUAJE,
+          titulo: CONFIG.NOMBRES_BLOQUES[CONFIG.BLOQUES.LENGUAJE] || "Lenguaje Musical",
+          icono: "🎼",
+          descripcion: "Lectura, Equivalencias, Compases, Intervalos y Dictados rítmicos",
+          apps: state.appsConPruebas.filter(a => a.bloque !== CONFIG.BLOQUES.ACTIVIDADES)
+        },
+        {
+          id: CONFIG.BLOQUES.ACTIVIDADES,
+          titulo: CONFIG.NOMBRES_BLOQUES[CONFIG.BLOQUES.ACTIVIDADES] || "Actividades Interactivas Evaluables",
+          icono: "🧩",
+          descripcion: "Pruebas y actividades evaluables ampliables (+ Añadir app)",
+          apps: state.appsConPruebas.filter(a => a.bloque === CONFIG.BLOQUES.ACTIVIDADES)
+        }
+      ];
+
+      bloquesConfig.forEach(bloqueInfo => {
+        // Filtrar apps del bloque que tengan pruebas para este alumno
+        const appsConPruebasAlumno = bloqueInfo.apps.filter(app => {
+          const appKey = app.id || app.appId;
+          const datoApp = fila.appsNotas[appKey];
+          return datoApp && datoApp.pruebas && datoApp.pruebas.length > 0;
+        });
+
+        // Si el alumno no tiene pruebas en este bloque, se obvia de la pantalla
+        if (appsConPruebasAlumno.length === 0) return;
+
+        totalAppsMostradas += appsConPruebasAlumno.length;
+
+        // Calcular media del bloque
+        const sumaMedias = appsConPruebasAlumno.reduce((acc, app) => {
+          const appKey = app.id || app.appId;
+          return acc + (fila.appsNotas[appKey].notaMedia || 0);
+        }, 0);
+        const mediaBloque = sumaMedias / appsConPruebasAlumno.length;
+        const infoMediaBloque = CONFIG.obtenerColorNota(mediaBloque);
+        const strMediaBloque = formatearNotaValor(mediaBloque);
+
+        htmlDesglose += `
+          <div class="modal-bloque-grupo modal-bloque-${bloqueInfo.id}">
+            <!-- Encabezado del Bloque -->
+            <div class="modal-bloque-banner">
+              <div class="bloque-banner-left">
+                <span class="bloque-banner-icono">${bloqueInfo.icono}</span>
+                <div class="bloque-banner-textos">
+                  <h3 class="bloque-banner-titulo">${bloqueInfo.titulo}</h3>
+                  <span class="bloque-banner-sub">${appsConPruebasAlumno.length} aplicación${appsConPruebasAlumno.length > 1 ? 'es' : ''} realizada${appsConPruebasAlumno.length > 1 ? 's' : ''}</span>
+                </div>
+              </div>
+              <div class="bloque-banner-right">
+                <span class="bloque-banner-media-label">Media del bloque:</span>
+                <div class="pill-nota ${infoMediaBloque.claseCss}"
+                     style="background-color:${infoMediaBloque.bg}; color:${infoMediaBloque.color}; border-color:${infoMediaBloque.border};">
+                  ${strMediaBloque}
+                </div>
+              </div>
+            </div>
+
+            <!-- Lista de aplicaciones del bloque -->
+            <div class="modal-bloque-apps-lista">
+        `;
+
+        appsConPruebasAlumno.forEach(app => {
+          const appKey = app.id || app.appId;
+          const datoApp = fila.appsNotas[appKey];
+          const infoNotaApp = CONFIG.obtenerColorNota(datoApp.notaMedia);
+          const strMediaApp = formatearNotaValor(datoApp.notaMedia);
+
+          htmlDesglose += `
+            <div class="modal-seccion-app" id="modal-app-${app.id}">
+              <!-- Cabecera de la App -->
+              <div class="modal-seccion-app-header">
+                <div class="app-header-left">
+                  <span class="app-header-icono">${app.icono || '🎵'}</span>
+                  <div class="app-header-textos">
+                    <h4>${app.tituloVisible || app.titulo || app.nombre}</h4>
+                    <span class="app-header-sub">${app.nombre}</span>
+                  </div>
+                </div>
+                <div class="app-header-right">
+                  <span class="app-header-media-label">Nota media:</span>
+                  <div class="pill-nota ${infoNotaApp.claseCss}"
+                       style="background-color:${infoNotaApp.bg}; color:${infoNotaApp.color}; border-color:${infoNotaApp.border};">
+                    ${strMediaApp}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lista de pruebas individuales de esta app (Captura 2) -->
+              <div class="modal-lista-pruebas">
+          `;
+
+          datoApp.pruebas.forEach(prueba => {
+            const infoP = CONFIG.obtenerColorNota(prueba.nota);
+            const strP = formatearNotaValor(prueba.nota);
+
+            htmlDesglose += `
+              <div class="modal-item-prueba">
+                <!-- Calificación -->
+                <div class="prueba-col-nota">
+                  <div class="pill-nota ${infoP.claseCss}"
+                       style="background-color:${infoP.bg}; color:${infoP.color}; border-color:${infoP.border};">
+                    ${strP}
+                  </div>
+                </div>
+
+                <!-- Avatar pequeño musical docente (Idéntico a Captura 2) -->
+                <div class="prueba-col-avatar">
+                  ${SVG_AVATAR_DOCENTE}
+                </div>
+
+                <!-- Información de la actividad y fecha -->
+                <div class="prueba-col-info">
+                  <strong class="prueba-titulo">${prueba.nivel || app.tituloVisible || app.titulo || app.nombre}</strong>
+                  <div class="prueba-meta">
+                    <span class="prueba-fecha">${prueba.fechaVisible || 'nov. 11º'}</span>
+                    <span class="prueba-tiempo-bullet">•</span>
+                    <span class="prueba-tiempo">${prueba.tiempoTexto || '1 min'}</span>
+                  </div>
+                </div>
+
+                <!-- Barra de progreso verde línea (Idéntico a Captura 2) -->
+                <div class="prueba-col-progreso">
+                  <div class="barra-progreso-verde-linea"></div>
+                </div>
+              </div>
+            `;
+          });
+
+          htmlDesglose += `
+              </div>
+            </div>
+          `;
+        });
+
+        htmlDesglose += `
+            </div>
+          </div>
+        `;
+      });
+
+      if (totalAppsMostradas === 0) {
+        htmlDesglose = `
+          <div class="empty-state-inner" style="padding: 40px 20px;">
+            <span class="empty-state-icon">📋</span>
+            <p>Este alumno no tiene calificaciones registradas en el período de fechas seleccionado.</p>
+          </div>
+        `;
+      }
+
+      contenedorApps.innerHTML = htmlDesglose;
+      contenedorApps.scrollTop = 0;
+    }
+
+    modal.classList.remove("hidden");
+
+    // Si se pulsó en la celda de una app específica, hacer scroll suave hasta esa sección
+    if (appIdScroll) {
+      setTimeout(() => {
+        const targetAppEl = document.getElementById(`modal-app-${appIdScroll}`);
+        if (targetAppEl) {
+          targetAppEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 120);
+    }
+  };
+
+  window.cerrarModalAlumno = function() {
+    const modal = document.getElementById("modal-detalle-alumno");
+    if (modal) modal.classList.add("hidden");
+  };
+
+  function navegarAlumnoModal(delta) {
+    const nuevoIndice = state.indiceAlumnoModal + delta;
+    if (nuevoIndice >= 0 && nuevoIndice < state.matrizCalificaciones.length) {
+      const nuevoAlumno = state.matrizCalificaciones[nuevoIndice];
+      window.abrirModalAlumno(nuevoAlumno.index);
+    }
+  }
+
+  // =========================================================================
+  // VINCULACIÓN DE EVENTOS DE INTERFAZ
+  // =========================================================================
+  function vincularEventosUI() {
+    // 1. Landing Page Login y Toggle Contraseña
+    const formLanding = document.getElementById("form-landing-login");
+    if (formLanding) {
+      formLanding.addEventListener("submit", (e) => {
+        e.preventDefault();
+        procesarLandingLogin();
+      });
+    }
+
+    const btnEye = document.getElementById("btn-toggle-landing-eye");
+    const inPass = document.getElementById("landing-password-input");
+    if (btnEye && inPass) {
+      btnEye.addEventListener("click", () => {
+        const isPass = inPass.type === "password";
+        inPass.type = isPass ? "text" : "password";
+        btnEye.classList.toggle("active", isPass);
+      });
+    }
+
+    const btnLogout = document.getElementById("btn-docente-logout");
+    if (btnLogout) {
+      btnLogout.addEventListener("click", procesarLogout);
+    }
+
+    // 2. Filtro de Búsqueda
+    const inputBuscar = document.getElementById("input-buscar-alumno");
+    if (inputBuscar) {
+      inputBuscar.addEventListener("input", (e) => {
+        state.filtroBusqueda = e.target.value;
+        renderizarTablaCalificaciones();
+      });
+    }
+
+    // 3. Filtro de Fechas (Requisito 4)
+    const inputFechaInicio = document.getElementById("filtro-fecha-inicio");
+    const inputFechaFin = document.getElementById("filtro-fecha-fin");
+    
+    const actualizarRango = () => {
+      const vInicio = inputFechaInicio ? inputFechaInicio.value : "";
+      const vFin = inputFechaFin ? inputFechaFin.value : "";
+      if (vInicio && vFin) {
+        state.rangoFechas = {
+          inicio: new Date(vInicio + "T00:00:00"),
+          fin: new Date(vFin + "T23:59:59"),
+          inicioISO: vInicio,
+          finISO: vFin
+        };
+        StorageManager.saveDateRange(vInicio, vFin);
+        actualizarTextosFechas();
+        refrescarCalificacionesGrupo();
+      }
+    };
+
+    if (inputFechaInicio) inputFechaInicio.addEventListener("change", actualizarRango);
+    if (inputFechaFin) inputFechaFin.addEventListener("change", actualizarRango);
+
+    // Flechas de navegación horizontal de tabla (Captura 1)
+    const btnPrev = document.getElementById("btn-tabla-prev");
+    const btnNext = document.getElementById("btn-tabla-next");
+    const scrollContainer = document.getElementById("tabla-scroll-container");
+    if (btnPrev && scrollContainer) {
+      btnPrev.addEventListener("click", () => {
+        scrollContainer.scrollBy({ left: -220, behavior: "smooth" });
+      });
+    }
+    if (btnNext && scrollContainer) {
+      btnNext.addEventListener("click", () => {
+        scrollContainer.scrollBy({ left: 220, behavior: "smooth" });
+      });
+    }
+
+    // Alternar escala de notas (0-10 vs 0-100 como en Edpuzzle)
+    const btnEscala = document.getElementById("btn-toggle-escala");
+    const txtEscala = document.getElementById("txt-escala-activa");
+    if (btnEscala) {
+      btnEscala.addEventListener("click", () => {
+        state.escalaCien = !state.escalaCien;
+        if (txtEscala) txtEscala.textContent = state.escalaCien ? "0 - 100" : "0 - 10";
+        renderizarTablaCalificaciones();
+        if (state.alumnoModalActual) {
+          window.abrirModalAlumno(state.alumnoModalActual.index);
+        }
+      });
+    }
+
+    // Botones de filtro rápido de fechas
+    document.querySelectorAll(".btn-preset-fecha").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const preset = btn.dataset.preset;
+        aplicarPresetFecha(preset);
+      });
+    });
+
+    // 4. Botón Descargar Notas (Requisito 7)
+    const btnDescargar = document.getElementById("btn-descargar-notas");
+    if (btnDescargar) {
+      btnDescargar.addEventListener("click", () => {
+        if (!state.grupoSeleccionado) {
+          mostrarNotificacion("Selecciona primero una clase para descargar notas.", "warning");
+          return;
+        }
+        ExportService.mostrarModalDescarga(
+          state.grupoSeleccionado,
+          state.matrizCalificaciones,
+          state.appsConPruebas
+        );
+      });
+    }
+
+    // Radio buttons en el modal de descarga
+    const radiosDescarga = document.querySelectorAll("input[name='tipo_descarga']");
+    const wrapSelectApp = document.getElementById("wrap-descarga-select-app");
+    radiosDescarga.forEach(r => {
+      r.addEventListener("change", () => {
+        if (wrapSelectApp) {
+          if (r.value === "app_especifica") {
+            wrapSelectApp.classList.remove("hidden");
+          } else {
+            wrapSelectApp.classList.add("hidden");
+          }
+        }
+      });
+    });
+
+    const btnConfirmarDescarga = document.getElementById("btn-confirmar-descarga");
+    if (btnConfirmarDescarga) {
+      btnConfirmarDescarga.addEventListener("click", () => {
+        const seleccion = document.querySelector("input[name='tipo_descarga']:checked");
+        const tipo = seleccion ? seleccion.value : "solo_medias";
+        const selectApp = document.getElementById("descarga-select-app");
+        const appId = selectApp ? selectApp.value : "";
+
+        ExportService.ejecutarDescarga(
+          tipo,
+          state.grupoSeleccionado,
+          state.matrizCalificaciones,
+          state.appsConPruebas,
+          appId
+        );
+      });
+    }
+
+    // 5. Botón "Añadir app +" (Requisito 8)
+    const btnsAnadirApp = document.querySelectorAll(".btn-anadir-app-trigger");
+    btnsAnadirApp.forEach(btn => {
+      btn.addEventListener("click", () => {
+        abrirModalAnadirApp();
+      });
+    });
+
+    const formAnadirApp = document.getElementById("form-anadir-app");
+    if (formAnadirApp) {
+      formAnadirApp.addEventListener("submit", (e) => {
+        e.preventDefault();
+        procesarAnadirApp();
+      });
+    }
+
+    // 6. Botón Configuración de Hojas de Drive
+    const btnConfigSheets = document.getElementById("btn-config-sheets");
+    if (btnConfigSheets) {
+      btnConfigSheets.addEventListener("click", () => {
+        abrirModalConfigApps();
+      });
+    }
+
+    // 7. Colapsar/expandir cursos en el sidebar
+    const btnColapsar = document.getElementById("btn-colapsar-sidebar-clases");
+    if (btnColapsar) {
+      btnColapsar.addEventListener("click", () => {
+        const contenedor = document.getElementById("lista-clases-sidebar");
+        if (contenedor) {
+          const isHidden = contenedor.style.display === "none";
+          contenedor.style.display = isHidden ? "flex" : "none";
+          btnColapsar.style.transform = isHidden ? "rotate(0deg)" : "rotate(180deg)";
+        }
+      });
+    }
+
+    // 7. Navegación modal alumno (Captura 2)
+    const btnModalAnt = document.getElementById("btn-modal-anterior");
+    const btnModalSig = document.getElementById("btn-modal-siguiente");
+    if (btnModalAnt) btnModalAnt.addEventListener("click", () => navegarAlumnoModal(-1));
+    if (btnModalSig) btnModalSig.addEventListener("click", () => navegarAlumnoModal(1));
+
+    // Cerrar modales con tecla Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        window.cerrarModalAlumno();
+        ExportService.cerrarModalDescarga();
+        cerrarModalAnadirApp();
+        cerrarModalConfigApps();
+      }
+    });
+
+    // 8. Botón Sincronizar / Refrescar Drive y Badge En Vivo
+    const btnSync = document.getElementById("btn-sincronizar-drive");
+    if (btnSync) {
+      btnSync.addEventListener("click", () => {
+        sincronizarEnTiempoReal(true);
+      });
+    }
+
+    const badgeLive = document.getElementById("live-sync-badge");
+    if (badgeLive) {
+      badgeLive.addEventListener("click", () => {
+        sincronizarEnTiempoReal(true);
+      });
+    }
+
+    // 9. Modo Demo / Simulación Toggle
+    const btnToggleDemo = document.getElementById("btn-toggle-demo");
+    if (btnToggleDemo) {
+      actualizarBotonDemo(btnToggleDemo);
+      btnToggleDemo.addEventListener("click", () => {
+        const actual = StorageManager.isDemoModeActive();
+        StorageManager.setDemoMode(!actual);
+        actualizarBotonDemo(btnToggleDemo);
+        refrescarCalificacionesGrupo();
+      });
+    }
+  }
+
+  function actualizarBotonDemo(btn) {
+    const activo = StorageManager.isDemoModeActive();
+    if (activo) {
+      btn.classList.add("activo");
+      btn.innerHTML = `<span class="demo-dot online"></span><span>Modo Demo: Activo</span>`;
+      btn.title = "Mostrando datos simulados para apps sin exámenes. Pulsa para ver solo datos reales de Drive.";
+    } else {
+      btn.classList.remove("activo");
+      btn.innerHTML = `<span class="demo-dot offline"></span><span>Modo Drive: Real</span>`;
+      btn.title = "Mostrando solo datos reales vinculados a tus Google Sheets. Pulsa para activar Modo Demo.";
+    }
+  }
+
+  function aplicarPresetFecha(preset) {
+    const hoy = new Date();
+    const inputInicio = document.getElementById("filtro-fecha-inicio");
+    const inputFin = document.getElementById("filtro-fecha-fin");
+
+    let fInicio = new Date();
+    let fFin = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate(), 23, 59, 59);
+
+    if (preset === "todo_curso") {
+      const def = CONFIG.obtenerRangoFechasPorDefecto();
+      fInicio = def.inicio;
+    } else if (preset === "trimestre1") {
+      const y = hoy.getMonth() >= 8 ? hoy.getFullYear() : hoy.getFullYear() - 1;
+      fInicio = new Date(y, 8, 1); // 1 sept
+      fFin = new Date(y, 11, 22, 23, 59, 59); // 22 dic
+    } else if (preset === "ultimos_30") {
+      fInicio = new Date(hoy.getTime() - (30 * 24 * 60 * 60 * 1000));
+    } else if (preset === "hoy") {
+      fInicio = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate(), 0, 0, 0);
+    }
+
+    const isoInicio = fInicio.toISOString().split("T")[0];
+    const isoFin = fFin.toISOString().split("T")[0];
+
+    if (inputInicio) inputInicio.value = isoInicio;
+    if (inputFin) inputFin.value = isoFin;
+
+    state.rangoFechas = {
+      inicio: fInicio,
+      fin: fFin,
+      inicioISO: isoInicio,
+      finISO: isoFin
+    };
+    StorageManager.saveDateRange(isoInicio, isoFin);
+    actualizarTextosFechas();
+    refrescarCalificacionesGrupo();
+  }
+
+  // =========================================================================
+  // GESTIÓN DEL MODAL "AÑADIR APP +" (Requisito 8)
+  // =========================================================================
+  function abrirModalAnadirApp() {
+    const modal = document.getElementById("modal-anadir-app");
+    if (modal) {
+      modal.classList.remove("hidden");
+      const inNombre = document.getElementById("anadir-app-nombre");
+      const inUrl = document.getElementById("anadir-app-url");
+      const msgError = document.getElementById("anadir-app-error");
+      if (inNombre) inNombre.value = "";
+      if (inUrl) inUrl.value = "";
+      if (msgError) msgError.classList.add("hidden");
+    }
+  }
+
+  window.cerrarModalAnadirApp = function() {
+    const modal = document.getElementById("modal-anadir-app");
+    if (modal) modal.classList.add("hidden");
+  };
+
+  function procesarAnadirApp() {
+    const inNombre = document.getElementById("anadir-app-nombre");
+    const inUrl = document.getElementById("anadir-app-url");
+    const msgError = document.getElementById("anadir-app-error");
+
+    const nombre = inNombre ? inNombre.value.trim() : "";
+    const url = inUrl ? inUrl.value.trim() : "";
+
+    if (!nombre || !url) {
+      if (msgError) {
+        msgError.textContent = "Por favor, completa tanto el nombre como la URL de la hoja.";
+        msgError.classList.remove("hidden");
+      }
+      return;
+    }
+
+    const selBloque = document.getElementById("anadir-app-bloque");
+    const bloque = selBloque ? selBloque.value : CONFIG.BLOQUES.ACTIVIDADES;
+
+    try {
+      const nueva = StorageManager.addCustomApp(nombre, url, bloque);
+      state.appsConfiguradas = StorageManager.getAppsList();
+      cerrarModalAnadirApp();
+      mostrarNotificacion(`✓ Aplicación "${nueva.tituloVisible}" incorporada a ${nueva.bloqueNombre}.`, "success");
+      refrescarCalificacionesGrupo();
+    } catch(err) {
+      if (msgError) {
+        msgError.textContent = err.message || "URL no válida. Asegúrate de pegar un enlace de Google Sheet.";
+        msgError.classList.remove("hidden");
+      }
+    }
+  }
+
+  // =========================================================================
+  // GESTIÓN DEL MODAL CONFIGURACIÓN DE HOJAS
+  // =========================================================================
+  function abrirModalConfigApps() {
+    const modal = document.getElementById("modal-config-apps");
+    if (!modal) return;
+
+    renderizarListaConfigApps();
+    modal.classList.remove("hidden");
+  }
+
+  window.cerrarModalConfigApps = function() {
+    const modal = document.getElementById("modal-config-apps");
+    if (modal) modal.classList.add("hidden");
+  };
+
+  function renderizarListaConfigApps() {
+    const contenedor = document.getElementById("lista-config-apps-items");
+    if (!contenedor) return;
+
+    const apps = StorageManager.getAppsList();
+    let html = "";
+
+    apps.forEach(app => {
+      const estadoVinculo = app.sheetId 
+        ? `<span class="badge-vinculo online">✓ Vinculada (${app.sheetId.slice(0, 8)}...)</span>`
+        : `<span class="badge-vinculo offline">⚠️ Pendiente de vincular</span>`;
+
+      html += `
+        <div class="config-app-card" data-app-id="${app.id}">
+          <div class="config-app-header">
+            <div class="config-app-title">
+              <span>${app.icono || '📊'}</span>
+              <strong>${app.tituloVisible}</strong>
+              <small>(${app.nombre})</small>
+            </div>
+            ${estadoVinculo}
+          </div>
+          <div class="config-app-body">
+            <label>URL de Google Sheet en Drive:</label>
+            <div class="config-app-input-row">
+              <input type="url" class="input-app-url" value="${app.urlSheet || ''}" placeholder="https://docs.google.com/spreadsheets/d/.../edit" />
+              <button type="button" class="btn-guardar-url-app" onclick="window.guardarUrlApp('${app.id}', this)">Guardar</button>
+              ${app.esPersonalizada ? `<button type="button" class="btn-eliminar-app-custom" onclick="window.eliminarAppCustom('${app.id}')" title="Eliminar app">🗑️</button>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    contenedor.innerHTML = html;
+  }
+
+  window.guardarUrlApp = function(appId, btnElement) {
+    const card = btnElement.closest(".config-app-card");
+    const input = card.querySelector(".input-app-url");
+    const url = input ? input.value.trim() : "";
+
+    try {
+      StorageManager.updateAppUrl(appId, url);
+      state.appsConfiguradas = StorageManager.getAppsList();
+      mostrarNotificacion("URL de Google Sheet guardada con éxito.", "success");
+      renderizarListaConfigApps();
+      refrescarCalificacionesGrupo();
+    } catch(e) {
+      mostrarNotificacion("Error al guardar la URL.", "error");
+    }
+  };
+
+  window.eliminarAppCustom = function(appId) {
+    if (confirm("¿Estás seguro de eliminar esta aplicación personalizada?")) {
+      StorageManager.deleteCustomApp(appId);
+      state.appsConfiguradas = StorageManager.getAppsList();
+      renderizarListaConfigApps();
+      refrescarCalificacionesGrupo();
+    }
+  };
+
+  // =========================================================================
+  // UTILIDADES DE INTERFAZ (LOADER Y NOTIFICACIONES)
+  // =========================================================================
+  function mostrarLoader(texto = "Cargando...") {
+    state.cargando = true;
+    const loader = document.getElementById("app-loader");
+    const loaderTxt = document.getElementById("app-loader-text");
+    if (loader) loader.classList.remove("hidden");
+    if (loaderTxt) loaderTxt.textContent = texto;
+  }
+
+  function ocultarLoader() {
+    state.cargando = false;
+    const loader = document.getElementById("app-loader");
+    if (loader) loader.classList.add("hidden");
+  }
+
+  function mostrarNotificacion(mensaje, tipo = "info") {
+    const contenedor = document.getElementById("toast-container");
+    if (!contenedor) return;
+
+    const toast = document.createElement("div");
+    toast.className = `toast-item toast-${tipo}`;
+    toast.innerHTML = `<span>${mensaje}</span>`;
+    contenedor.appendChild(toast);
+
+    setTimeout(() => {
+      toast.classList.add("toast-fadeout");
+      setTimeout(() => toast.remove(), 400);
+    }, 3500);
+  }
+
+  function mostrarEstadoVacio(mensaje) {
+    const tbody = document.getElementById("tabla-cuerpo");
+    if (tbody) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" class="td-sin-resultados">
+            <div class="empty-state-inner">
+              <span class="empty-state-icon">⚠️</span>
+              <p>${mensaje}</p>
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+})();
+
+</script>
+</body>
+</html>
