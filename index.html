@@ -245,9 +245,9 @@
            ========================================================================= -->
       <div class="controles-barra">
         
-        <!-- Requisito 4: Selector de Rango de Fechas (Idéntico a Captura 1 y 2) -->
+        <!-- Requisito 4: Selector de Rango de Fechas (Idéntico a Captura 1 y 2 - Despliegue fluido) -->
         <div class="controles-fechas-wrap">
-          <div class="filtro-fecha-card" title="Pulsar para cambiar fecha de inicio">
+          <div class="filtro-fecha-card" id="card-fecha-inicio" title="Pulsar para abrir calendario y cambiar fecha de inicio">
             <span class="filtro-fecha-label">Fecha de inicio</span>
             <div class="filtro-fecha-content-row">
               <span class="filtro-fecha-valor-txt" id="display-fecha-inicio">01 sep.</span>
@@ -256,7 +256,7 @@
             <input type="date" id="filtro-fecha-inicio" class="filtro-fecha-input-hidden" />
           </div>
 
-          <div class="filtro-fecha-card" title="Pulsar para cambiar fecha de entrega">
+          <div class="filtro-fecha-card" id="card-fecha-fin" title="Pulsar para abrir calendario y cambiar fecha de entrega">
             <span class="filtro-fecha-label">Fecha de entrega</span>
             <div class="filtro-fecha-content-row">
               <span class="filtro-fecha-valor-txt" id="display-fecha-fin">Hoy</span>
@@ -294,8 +294,8 @@
             <button type="button" class="btn-flecha-pag" id="btn-tabla-next" title="Desplazar tabla a la derecha">&gt;</button>
           </div>
           <div style="display:flex; align-items:center; gap: 8px;">
-            <button type="button" class="btn-preset-fecha" id="btn-toggle-escala" style="border:1px solid #d1d5db; background:#ffffff; font-weight:600;" title="Alternar entre escala 0-10 y 0-100 (como en Edpuzzle)">
-              Escala de notas: <strong id="txt-escala-activa" style="color:var(--primary);">0 - 100</strong>
+            <button type="button" class="btn-preset-fecha" id="btn-toggle-escala" style="border:1px solid #d1d5db; background:#ffffff; font-weight:600;" title="Escala oficial de calificaciones 0 - 10 (pulsar para alternar)">
+              Escala de notas: <strong id="txt-escala-activa" style="color:var(--primary);">0 - 10</strong>
             </button>
           </div>
         </div>

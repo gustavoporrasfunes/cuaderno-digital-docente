@@ -23,7 +23,7 @@
     alumnoModalActual: null,
     indiceAlumnoModal: 0,
     cargando: false,
-    escalaCien: true // Por defecto 0-100 para reproducir fielmente la Captura 1 y 2 (95, 100, 84...)
+    escalaCien: false // Escala oficial de calificaciones 0 - 10 por defecto
   };
 
   // Avatar SVG oficial del profesor estilo Edpuzzle (Captura 1 y 2)
@@ -49,7 +49,11 @@
   function formatearNotaValor(nota) {
     if (nota === null || nota === undefined || isNaN(nota) || nota === "") return "-";
     const n = parseFloat(nota);
-    return state.escalaCien ? Math.round(n * 10) : n.toFixed(1);
+    if (state.escalaCien) {
+      return Math.round(n * 10);
+    }
+    // Escala oficial 0 a 10: entero sin decimales (ej: 10, 8) o con decimal (ej: 9.5, 6.7)
+    return Number(n.toFixed(1)).toString();
   }
 
   function formatearFechaCorta(fecha) {
@@ -337,16 +341,17 @@
       // 1. Obtener lista de alumnos del grupo
       state.alumnosGrupo = await SheetsService.obtenerAlumnosDeGrupo(state.grupoSeleccionado.id);
 
-      // 2. Consultar las notas de cada app para este grupo y rango de fechas
-      const appsResultados = [];
-      for (const app of state.appsConfiguradas) {
-        const resultadoApp = await SheetsService.obtenerCalificacionesApp(
-          app,
-          state.grupoSeleccionado.id,
-          state.rangoFechas
-        );
-        appsResultados.push(resultadoApp);
-      }
+      // 2. Consultar las notas de todas las apps en paralelo simultáneo (Ultra-rápido)
+      const appsResultados = await Promise.all(
+        state.appsConfiguradas.map(app => 
+          SheetsService.obtenerCalificacionesApp(
+            app,
+            state.grupoSeleccionado.id,
+            state.rangoFechas,
+            forzar
+          )
+        )
+      );
 
       // 3. Regla de negocio (Requisito 5):
       // "Si no se han realizado pruebas en alguna de las apps debe obviarse de esta pantalla,
@@ -404,16 +409,17 @@
     if (btnSync) btnSync.classList.add("spinning");
 
     try {
-      // 1. Re-consultar las notas de cada app con bypass de caché HTTP
-      const appsResultados = [];
-      for (const app of state.appsConfiguradas) {
-        const resultadoApp = await SheetsService.obtenerCalificacionesApp(
-          app,
-          state.grupoSeleccionado.id,
-          state.rangoFechas
-        );
-        appsResultados.push(resultadoApp);
-      }
+      // 1. Re-consultar las notas de todas las apps en paralelo simultáneo con bypass de caché HTTP
+      const appsResultados = await Promise.all(
+        state.appsConfiguradas.map(app => 
+          SheetsService.obtenerCalificacionesApp(
+            app,
+            state.grupoSeleccionado.id,
+            state.rangoFechas,
+            forzar
+          )
+        )
+      );
 
       state.appsConPruebas = appsResultados.filter(ar => ar.tienePruebas === true);
       const nuevaMatriz = construirMatrizAlumnos(state.alumnosGrupo, appsResultados);
@@ -435,6 +441,8 @@
 
         if (hayCambios) {
           mostrarNotificacion("⚡ Calificaciones actualizadas en tiempo real desde Google Sheets.", "success");
+        } else if (forzar) {
+          mostrarNotificacion("✓ Datos sincronizados con Google Drive.", "info");
         }
       }
 
@@ -995,6 +1003,37 @@
 
     if (inputFechaInicio) inputFechaInicio.addEventListener("change", actualizarRango);
     if (inputFechaFin) inputFechaFin.addEventListener("change", actualizarRango);
+
+    // Apertura fluida instantánea del calendario nativo al hacer clic en las tarjetas de fecha
+    const cardInicio = document.getElementById("card-fecha-inicio");
+    if (cardInicio && inputFechaInicio) {
+      cardInicio.addEventListener("click", (e) => {
+        try {
+          if (typeof inputFechaInicio.showPicker === "function") {
+            inputFechaInicio.showPicker();
+          } else {
+            inputFechaInicio.focus();
+          }
+        } catch(err) {
+          inputFechaInicio.focus();
+        }
+      });
+    }
+
+    const cardFin = document.getElementById("card-fecha-fin");
+    if (cardFin && inputFechaFin) {
+      cardFin.addEventListener("click", (e) => {
+        try {
+          if (typeof inputFechaFin.showPicker === "function") {
+            inputFechaFin.showPicker();
+          } else {
+            inputFechaFin.focus();
+          }
+        } catch(err) {
+          inputFechaFin.focus();
+        }
+      });
+    }
 
     // Flechas de navegación horizontal de tabla (Captura 1)
     const btnPrev = document.getElementById("btn-tabla-prev");

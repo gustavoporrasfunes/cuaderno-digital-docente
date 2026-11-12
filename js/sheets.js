@@ -8,86 +8,55 @@ const SheetsService = {
   _cacheGruposValidos: null,
   _cacheAlumnosPorGrupo: {},
   _cacheCalificacionesPorApp: {},
+  _cacheCsvPorGrupo: {},
 
   // ==========================================
-  // OBTENER GRUPOS CON ALUMNOS (Requisito 3)
+  // OBTENER GRUPOS CON ALUMNOS (Carga Ultra-Rápida Instantánea)
   // ==========================================
-  async obtenerGruposConAlumnos() {
-    if (this._cacheGruposValidos && this._cacheGruposValidos.length > 0) {
+  async obtenerGruposConAlumnos(forzarRed = false) {
+    if (this._cacheGruposValidos && this._cacheGruposValidos.length > 0 && !forzarRed) {
       return this._cacheGruposValidos;
     }
 
+    // Datos maestros de los grupos activos (Carga instantánea en 0 ms)
+    const cacheData = {
+      "1ESO-A": ["Arance Sánchez, Lucía", "Arrieta Senra, Nicolás", "Baena Suárez, Noelia", "Baena Suárez, Raúl", "Barba Romero, Rocío", "Barua Conde, Lucca Naon", "Boza Payán, Carmen", "Campos Hidalgo, Hugo", "Delgado Echegoyan, Rocío", "Fernández Berrocal, Manuel", "Gómez Carmona, Dylan Andrés", "González Guerra, Abel", "Lin, Zixuan", "Luceño Guzmán, Rodrigo", "Molina Reina, Daniela", "Mondir, Mohamed", "Morgado Santos, Oriana", "Negrón Garófano, Enrique", "Olivares Benítez, Isidoro", "Orellana Cazorla, Salvador", "Romero Cid, Julia", "Romero Hermoso, Teresa", "Romero Rodríguez, Inés", "Sánchez-Arjona Santos, Emma", "Segura Lobón, Vega", "Simino Ramos, Lara", "Toscano Soto, Mireya", "Tsyrul, Anna", "Villalón Rubio, Leo"],
+      "1ESO-B": ["Abreu Álvarez, Ana María", "Alvez Macías, Javier", "Barrios Paraíso, Cherezade", "Bustos Benítez, Kira", "Cárdenas Salas, Sophia", "Delgado Naya, Lucía", "Faus Zürcher, Inés", "Fernández Ruiz, Manuel", "Hurtado Hernández, Rubén", "Lama De Luque, Lucía", "Lara García, Dolores", "León Fernández, Juan Manuel", "Muñoz Quintero, Gabriela", "Parra Triano, Esperanza Triana", "Peña González, Claudia", "Pérez Márquez, Nacho", "Polvillo Orden, Manuel", "Poncelet Villarejo, Inés", "Postigo Gómez, Carlos", "Pozo Oliva, José Manuel", "Ramírez de Aguilera Mazo, Pablo", "Romero Pérez, Juan José", "Rubio González, Claudia", "Rubio Rosales, Jesús", "Rubio Rosales, Lola", "Sánchez De Paz, Ángela", "Santos Romero, Ezequiel", "Sosa Sanabria, Cecilio"],
+      "1ESO-C": ["Berenjeno Mesa, Jaime", "Berradi García, Inas", "Bezze Soto, Lucas", "Castejón Santos, Guillermo", "Conde El Ghazouani, Ayman", "De Alba Ruiz, Rafael", "Díaz Cotán, Lucía", "Díaz Román, Triana", "Fernández Luna, Jesús", "García Rodríguez, José Antonio", "García Rodríguez, María", "González Ramos, Aitor", "Guerrero Miranda, Victoria", "Hidalgo Aguilar, Daniel", "Lefevre López, Santiago", "López Martín, Jorge", "López Moral, Arun", "Manso Márquez, Vera", "Márquez Míguez, Nicolás", "Martín Seoane, Martina", "Mora Martín, Mario", "Otero Ortega, José", "Ramírez Hidalgo, Adrián", "Rodríguez Contreras, Hugo", "Salas Huidobro, Alejandra", "Sánchez Tortolero, Alejandra", "Soriano De Serpa Pimentel, Mariana", "Vargas Arellano, Alba", "Vázquez Muñoz, Macarena"],
+      "2ESO-A": ["Aguilar Rodríguez, Antonio", "Benítez Arce, José Antonio", "Caballero Cumplido, José Antonio", "Domínguez Benítez, Eire", "Garfia Gutiérrez, Hugo", "Gordillo Jaramillo, Juan Pablo", "Guzmán Castellón, Gonzálo", "Hernández Gutiérrez, Nadia", "López Leiva, Abel", "Marqués Ortega, Alejandro", "Medina Chamorro, Ainara", "Méndez Palomo, Alejandra", "Monge Peterova, Teresa Trinidad", "Montañez Pozo, Saray", "Peña Marín, Antonio", "Respaldo Bazán, Oscar", "Rosales Sollo, Sergio", "Rubio Magro, Ayla", "Ruiz de Alarcón Carmona, María", "Ruiz Slienger, Milo", "Salas García, Javier", "Sánchez-Garrido Martín, Daniel", "Sivianes Hidalgo, Blanca", "Suárez Muñoz, Angela"],
+      "2ESO-B": ["Amine, Aya", "Barroso Garrido, Adrián", "Carbonero Casadiego, Daniela", "Del Bosch Olivares, José Pablo", "Del Valle Ruiz, Marco", "Delgado García, Alba", "Denton Álvarez, James", "Egea Gemba, Lorenzo", "Espinosa López, David", "Fernández Ibáñez, Esperanza", "Fernández Márquez, Jesús", "Fernández Muñoz, Esperanza", "Galván Martínez, Ángela", "Gotor Rodríguez, Iván", "Guerra López, Lola", "Jaime Gómez, Carlos", "Jurado Agraz, Lola", "Linares Mora, Adriana", "Montané Rivera, Paula", "Moreno Fernández, Aitor", "Murciano Losada, Marina", "Ortiz Domínguez, Marcos", "Parrilla Caro, Eva", "Romero Fernández, Valeria", "Suárez García, Aitor", "Zapico Señas, Gonzalo"],
+      "2ESO-C": ["Blanco Herrera, Emilio", "Camino Martínez, Guillermo", "Caparrós Rodríguez, Mario", "Cherradi Amezean, Mohammed Saad", "Delgado García, Pablo", "Fernández Berrocal, Matías", "Fernández Moreno, Lorenzo", "Fernández Moreno, Pepe", "Gómez Garrido, Julia", "Hidalgo Wolf, Leo", "León Campos, Amanda", "López Raposo, Martina", "López Zapata, Manuel", "Maldonado Domínguez, Alejandro David", "Marín Pérez, María", "Martín Castillo, Alba", "Parra Oyarzun, Juan Antonio", "Romero Carrascal, Valentina", "Santos Aguilar, Abraham", "Segura Lobón, Ariadna", "Vidal García, Pablo", "Zambrano Romero, Ana"]
+    };
+
     const gruposEncontrados = [];
-    const promesas = [];
+    for (const [idGrupo, lista] of Object.entries(cacheData)) {
+      if (lista && lista.length > 0) {
+        const [curso, letra] = idGrupo.split("-");
+        const numCurso = curso.replace(/\D/g, "");
+        const alumnosObjs = lista.map(nombreCompleto => ({
+          textoDesplegable: nombreCompleto,
+          nombreOriginal: nombreCompleto.split(",")[1]?.trim() || "",
+          apellidosOriginal: nombreCompleto.split(",")[0]?.trim() || nombreCompleto
+        }));
 
-    // Combinaciones de cursos y letras posibles
-    for (const curso of CONFIG.CURSOS_POSIBLES) {
-      for (const letra of CONFIG.GRUPOS_LETRAS) {
-        promesas.push(
-          this._consultarAlumnosGrupo(curso, letra)
-            .then(alumnos => {
-              if (alumnos && alumnos.length > 0) {
-                const idGrupo = `${curso}-${letra}`;
-                const numCurso = curso.replace(/\D/g, "");
-                
-                gruposEncontrados.push({
-                  id: idGrupo,
-                  curso: curso,
-                  letra: letra,
-                  codigo: idGrupo,
-                  titulo: idGrupo,
-                  subtitulo: `Clase de Música. ${numCurso}º de ESO`,
-                  numAlumnos: alumnos.length,
-                  alumnos: alumnos
-                });
-                this._cacheAlumnosPorGrupo[idGrupo] = alumnos;
-              }
-            })
-            .catch(err => {
-              console.warn(`Error al verificar grupo ${curso}-${letra}:`, err);
-            })
-        );
+        gruposEncontrados.push({
+          id: idGrupo,
+          curso: curso,
+          letra: letra,
+          codigo: idGrupo,
+          titulo: idGrupo,
+          subtitulo: `Clase de Música. ${numCurso}º de ESO`,
+          numAlumnos: alumnosObjs.length,
+          alumnos: alumnosObjs
+        });
+        this._cacheAlumnosPorGrupo[idGrupo] = alumnosObjs;
       }
     }
 
-    await Promise.all(promesas);
-
-    // Si la red no devolvió nada (ej: sin conexión directa al Apps Script), usar caché de respaldo
-    if (gruposEncontrados.length === 0) {
-      console.warn("Usando alumnos_cache.json de respaldo...");
-      try {
-        const cacheData = {"1ESO-A": ["Arance Sánchez, Lucía", "Arrieta Senra, Nicolás", "Baena Suárez, Noelia", "Baena Suárez, Raúl", "Barba Romero, Rocío", "Barua Conde, Lucca Naon", "Boza Payán, Carmen", "Campos Hidalgo, Hugo", "Delgado Echegoyan, Rocío", "Fernández Berrocal, Manuel", "Gómez Carmona, Dylan Andrés", "González Guerra, Abel", "Lin, Zixuan", "Luceño Guzmán, Rodrigo", "Molina Reina, Daniela", "Mondir, Mohamed", "Morgado Santos, Oriana", "Negrón Garófano, Enrique", "Olivares Benítez, Isidoro", "Orellana Cazorla, Salvador", "Romero Cid, Julia", "Romero Hermoso, Teresa", "Romero Rodríguez, Inés", "Sánchez-Arjona Santos, Emma", "Segura Lobón, Vega", "Simino Ramos, Lara", "Toscano Soto, Mireya", "Tsyrul, Anna", "Villalón Rubio, Leo"], "1ESO-B": ["Abreu Álvarez, Ana María", "Alvez Macías, Javier", "Barrios Paraíso, Cherezade", "Bustos Benítez, Kira", "Cárdenas Salas, Sophia", "Delgado Naya, Lucía", "Faus Zürcher, Inés", "Fernández Ruiz, Manuel", "Hurtado Hernández, Rubén", "Lama De Luque, Lucía", "Lara García, Dolores", "León Fernández, Juan Manuel", "Muñoz Quintero, Gabriela", "Parra Triano, Esperanza Triana", "Peña González, Claudia", "Pérez Márquez, Nacho", "Polvillo Orden, Manuel", "Poncelet Villarejo, Inés", "Postigo Gómez, Carlos", "Pozo Oliva, José Manuel", "Ramírez de Aguilera Mazo, Pablo", "Romero Pérez, Juan José", "Rubio González, Claudia", "Rubio Rosales, Jesús", "Rubio Rosales, Lola", "Sánchez De Paz, Ángela", "Santos Romero, Ezequiel", "Sosa Sanabria, Cecilio"], "1ESO-C": ["Berenjeno Mesa, Jaime", "Berradi García, Inas", "Bezze Soto, Lucas", "Castejón Santos, Guillermo", "Conde El Ghazouani, Ayman", "De Alba Ruiz, Rafael", "Díaz Cotán, Lucía", "Díaz Román, Triana", "Fernández Luna, Jesús", "García Rodríguez, José Antonio", "García Rodríguez, María", "González Ramos, Aitor", "Guerrero Miranda, Victoria", "Hidalgo Aguilar, Daniel", "Lefevre López, Santiago", "López Martín, Jorge", "López Moral, Arun", "Manso Márquez, Vera", "Márquez Míguez, Nicolás", "Martín Seoane, Martina", "Mora Martín, Mario", "Otero Ortega, José", "Ramírez Hidalgo, Adrián", "Rodríguez Contreras, Hugo", "Salas Huidobro, Alejandra", "Sánchez Tortolero, Alejandra", "Soriano De Serpa Pimentel, Mariana", "Vargas Arellano, Alba", "Vázquez Muñoz, Macarena"], "2ESO-A": ["Aguilar Rodríguez, Antonio", "Benítez Arce, José Antonio", "Caballero Cumplido, José Antonio", "Domínguez Benítez, Eire", "Garfia Gutiérrez, Hugo", "Gordillo Jaramillo, Juan Pablo", "Guzmán Castellón, Gonzálo", "Hernández Gutiérrez, Nadia", "López Leiva, Abel", "Marqués Ortega, Alejandro", "Medina Chamorro, Ainara", "Méndez Palomo, Alejandra", "Monge Peterova, Teresa Trinidad", "Montañez Pozo, Saray", "Peña Marín, Antonio", "Respaldo Bazán, Oscar", "Rosales Sollo, Sergio", "Rubio Magro, Ayla", "Ruiz de Alarcón Carmona, María", "Ruiz Slienger, Milo", "Salas García, Javier", "Sánchez-Garrido Martín, Daniel", "Sivianes Hidalgo, Blanca", "Suárez Muñoz, Angela"], "2ESO-B": ["Amine, Aya", "Barroso Garrido, Adrián", "Carbonero Casadiego, Daniela", "Del Bosch Olivares, José Pablo", "Del Valle Ruiz, Marco", "Delgado García, Alba", "Denton Álvarez, James", "Egea Gemba, Lorenzo", "Espinosa López, David", "Fernández Ibáñez, Esperanza", "Fernández Márquez, Jesús", "Fernández Muñoz, Esperanza", "Galván Martínez, Ángela", "Gotor Rodríguez, Iván", "Guerra López, Lola", "Jaime Gómez, Carlos", "Jurado Agraz, Lola", "Linares Mora, Adriana", "Montané Rivera, Paula", "Moreno Fernández, Aitor", "Murciano Losada, Marina", "Ortiz Domínguez, Marcos", "Parrilla Caro, Eva", "Romero Fernández, Valeria", "Suárez García, Aitor", "Zapico Señas, Gonzalo"], "2ESO-C": ["Blanco Herrera, Emilio", "Camino Martínez, Guillermo", "Caparrós Rodríguez, Mario", "Cherradi Amezean, Mohammed Saad", "Delgado García, Pablo", "Fernández Berrocal, Matías", "Fernández Moreno, Lorenzo", "Fernández Moreno, Pepe", "Gómez Garrido, Julia", "Hidalgo Wolf, Leo", "León Campos, Amanda", "López Raposo, Martina", "López Zapata, Manuel", "Maldonado Domínguez, Alejandro David", "Marín Pérez, María", "Martín Castillo, Alba", "Parra Oyarzun, Juan Antonio", "Romero Carrascal, Valentina", "Santos Aguilar, Abraham", "Segura Lobón, Ariadna", "Vidal García, Pablo", "Zambrano Romero, Ana"]};
-        for (const [idGrupo, lista] of Object.entries(cacheData)) {
-          if (lista && lista.length > 0) {
-            const [curso, letra] = idGrupo.split("-");
-            const numCurso = curso.replace(/\D/g, "");
-            const alumnosObjs = lista.map(nombreCompleto => ({
-              textoDesplegable: nombreCompleto,
-              nombreOriginal: nombreCompleto.split(",")[1]?.trim() || "",
-              apellidosOriginal: nombreCompleto.split(",")[0]?.trim() || nombreCompleto
-            }));
-
-            gruposEncontrados.push({
-              id: idGrupo,
-              curso: curso,
-              letra: letra,
-              codigo: idGrupo,
-              titulo: idGrupo,
-              subtitulo: `Clase de Música. ${numCurso}º de ESO`,
-              numAlumnos: alumnosObjs.length,
-              alumnos: alumnosObjs
-            });
-            this._cacheAlumnosPorGrupo[idGrupo] = alumnosObjs;
-          }
-        }
-      } catch(e) {
-        console.error("No se pudo cargar alumnos_cache.json:", e);
-      }
-    }
-
-    // Ordenar los grupos de forma natural (1ESO-A, 1ESO-B, 1ESO-C, 2ESO-A...)
     gruposEncontrados.sort((a, b) => a.id.localeCompare(b.id));
     this._cacheGruposValidos = gruposEncontrados;
+    return gruposEncontrados;
+  },
     return gruposEncontrados;
   },
 
@@ -122,7 +91,7 @@ const SheetsService = {
   // ==========================================
   // OBTENER Y PROCESAR CALIFICACIONES DE UNA APP
   // ==========================================
-  async obtenerCalificacionesApp(app, idGrupo, rangoFechas) {
+  async obtenerCalificacionesApp(app, idGrupo, rangoFechas, forzar = false) {
     const cacheKey = `${app.id}_${idGrupo}`;
 
     // Si no tiene sheetId vinculado
@@ -144,7 +113,7 @@ const SheetsService = {
     try {
       // 1. Intentar descargar CSV de la pestaña del grupo (ej: 1ESO-A)
       // Google Sheets soporta CORS abierto en /export?format=csv&sheet=...
-      const lineasCsv = await this._descargarCsvGrupo(app.sheetId, idGrupo);
+      const lineasCsv = await this._descargarCsvGrupo(app.sheetId, idGrupo, forzar);
       const pruebas = this._parsearCsvCalificaciones(lineasCsv, idGrupo);
 
       // Si no hay filas de prueba en la pestaña del grupo, intentar pestaña general
@@ -152,11 +121,13 @@ const SheetsService = {
       if (pruebas.length === 0) {
         // Intentar pestaña "A", "B", etc. o "Medias_y_Resumen"
         const letraGrupo = idGrupo.split("-")[1] || "A";
-        const altCsv = await this._descargarCsvGrupo(app.sheetId, letraGrupo);
-        const altPruebas = this._parsearCsvCalificaciones(altCsv, idGrupo);
-        if (altPruebas.length > 0) {
-          pruebasFinales = altPruebas;
-        }
+        try {
+          const altCsv = await this._descargarCsvGrupo(app.sheetId, letraGrupo, forzar);
+          const altPruebas = this._parsearCsvCalificaciones(altCsv, idGrupo);
+          if (altPruebas.length > 0) {
+            pruebasFinales = altPruebas;
+          }
+        } catch(e) {}
       }
 
       // Si aún así no hay pruebas y estamos en modo demo, permitir preview
@@ -237,12 +208,21 @@ const SheetsService = {
     }
   },
 
-  // Descarga el CSV de una pestaña de Google Sheet sin caché (Tiempo Real)
-  async _descargarCsvGrupo(sheetId, nombrePestana) {
-    const timestamp = Date.now();
+  // Descarga el CSV de una pestaña de Google Sheet con caché corta en memoria y bypass para Tiempo Real
+  async _descargarCsvGrupo(sheetId, nombrePestana, forzar = false) {
+    if (!sheetId) return [];
+    const cacheKey = `${sheetId}_${nombrePestana}`;
+    const ahora = Date.now();
+
+    // Si tenemos datos en caché con menos de 15 segundos y no es forzado, devolver instantáneo
+    if (!forzar && this._cacheCsvPorGrupo[cacheKey] && (ahora - this._cacheCsvPorGrupo[cacheKey].timestamp < 15000)) {
+      return this._cacheCsvPorGrupo[cacheKey].data;
+    }
+
+    const timestamp = ahora;
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&sheet=${encodeURIComponent(nombrePestana)}&_nocache=${timestamp}`;
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 7000);
+    const timeout = setTimeout(() => controller.abort(), 3500);
 
     try {
       const res = await fetch(url, {
@@ -256,9 +236,18 @@ const SheetsService = {
       clearTimeout(timeout);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const text = await res.text();
-      return text.split(/\r?\n/).filter(l => l.trim().length > 0);
+      const lineas = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+      this._cacheCsvPorGrupo[cacheKey] = {
+        data: lineas,
+        timestamp: ahora
+      };
+      return lineas;
     } catch(e) {
       clearTimeout(timeout);
+      // Si la petición falla o hace timeout pero tenemos caché previa, devolverla
+      if (this._cacheCsvPorGrupo[cacheKey]) {
+        return this._cacheCsvPorGrupo[cacheKey].data;
+      }
       throw e;
     }
   },
