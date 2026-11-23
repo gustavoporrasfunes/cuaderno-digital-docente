@@ -4300,14 +4300,16 @@ const SheetsService = {
     if (na.length > 5 && nb.includes(na)) return true;
     if (nb.length > 5 && na.includes(nb)) return true;
 
-    // Comparar por palabras ordenadas alfabéticamente
+    // Comparar por palabras ordenadas alfabéticamente (ej: "Baena Suárez, Raúl" === "Raúl Baena Suárez")
     const tokA = this.obtenerTokensNombre(a);
     const tokB = this.obtenerTokensNombre(b);
     if (tokA.length > 0 && tokB.length > 0) {
       if (tokA.join("_") === tokB.join("_")) return true;
-      // Si ambos tienen más de 2 palabras y comparten al menos 2 palabras clave
+      // Solo permitir coincidencia parcial si TODOS los tokens del nombre más corto están en el más largo
+      // (ej. segundo nombre compuesto omitido), evitando confundir hermanos que comparten ambos apellidos
       const comunes = tokA.filter(t => tokB.includes(t));
-      if (comunes.length >= 2 && comunes.length >= Math.min(tokA.length, tokB.length) - 1) {
+      const minLen = Math.min(tokA.length, tokB.length);
+      if (minLen >= 2 && comunes.length === minLen && tokA.length !== tokB.length) {
         return true;
       }
     }
