@@ -143,6 +143,7 @@ body {
 }
 
 .search-box {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -2766,3 +2767,169 @@ body {
 .btn-dropdown-config:hover {
   background: #f1f5f9;
 }
+
+/* ==========================================================================
+   MEJORA 1: BUSCADOR GLOBAL DE ALUMNOS EN TODOS LOS CURSOS
+   ========================================================================== */
+.btn-clear-search {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border-radius: 50%;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.btn-clear-search:hover {
+  background-color: #e2e8f0;
+  color: var(--text-main);
+}
+
+.dropdown-busqueda-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.16), 0 4px 12px -2px rgba(15, 23, 42, 0.08);
+  max-height: 380px;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 8px 0;
+  animation: busquedaFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dropdown-busqueda-panel.hidden {
+  display: none;
+}
+
+@keyframes busquedaFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.busqueda-header {
+  padding: 6px 16px 8px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.busqueda-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  gap: 12px;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.busqueda-item:last-child {
+  border-bottom: none;
+}
+
+.busqueda-item:hover, .busqueda-item.selected {
+  background-color: #f1f5f9;
+}
+
+.busqueda-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.busqueda-item-nombre {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.busqueda-item-curso {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.busqueda-item-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  background-color: #e0e7ff;
+  color: #4338ca;
+}
+
+.busqueda-item-badge.badge-actual {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.busqueda-empty {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   MEJORA 2: BOTÓN Y MODAL DE INFORME EN PDF PARA FAMILIAS
+   ========================================================================== */
+.btn-informe-pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.btn-informe-pdf:hover {
+  background: linear-gradient(135deg, #4338ca 0%, #312e81 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35);
+}
+
+.btn-informe-pdf:active {
+  transform: translateY(0);
+}
+
+.btn-informe-pdf svg {
+  flex-shrink: 0;
+}
+

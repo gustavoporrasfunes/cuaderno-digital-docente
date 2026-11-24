@@ -974,6 +974,151 @@
   }
 
   // =========================================================================
+  // MEJORA 1: BÚSQUEDA GLOBAL DE ALUMNOS EN TODOS LOS CURSOS
+  // =========================================================================
+  function normalizarTextoParaBusqueda(str) {
+    return (str || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+  }
+
+  function buscarAlumnosGlobalmente(termino) {
+    const q = normalizarTextoParaBusqueda(termino);
+    if (!q || q.length < 2) return [];
+
+    const resultados = [];
+    const grupos = state.gruposDisponibles || [];
+
+    grupos.forEach(grp => {
+      const listaAlumnos = grp.alumnos || [];
+      listaAlumnos.forEach(al => {
+        const nom = normalizarTextoParaBusqueda(al.textoDesplegable);
+        const original = normalizarTextoParaBusqueda(al.nombreOriginal);
+        const apellidos = normalizarTextoParaBusqueda(al.apellidosOriginal);
+
+        if (nom.includes(q) || original.includes(q) || apellidos.includes(q)) {
+          const esGrupoActual = state.grupoSeleccionado && (state.grupoSeleccionado.id === grp.id);
+          resultados.push({
+            alumno: al,
+            grupo: grp,
+            esGrupoActual: esGrupoActual
+          });
+        }
+      });
+    });
+
+    // Ordenar: primero los alumnos del grupo actual, luego por curso e id de grupo y nombre de alumno
+    resultados.sort((a, b) => {
+      if (a.esGrupoActual && !b.esGrupoActual) return -1;
+      if (!a.esGrupoActual && b.esGrupoActual) return 1;
+      const compGrupo = a.grupo.id.localeCompare(b.grupo.id);
+      if (compGrupo !== 0) return compGrupo;
+      return a.alumno.textoDesplegable.localeCompare(b.alumno.textoDesplegable);
+    });
+
+    return resultados;
+  }
+
+  function renderizarDropdownBusquedaGlobal(resultados, termino) {
+    const dropdown = document.getElementById("dropdown-busqueda-global");
+    if (!dropdown) return;
+
+    if (!termino || termino.trim().length < 2) {
+      dropdown.classList.add("hidden");
+      dropdown.innerHTML = "";
+      return;
+    }
+
+    if (resultados.length === 0) {
+      dropdown.innerHTML = `
+        <div class="busqueda-empty">
+          <p>No se encontraron alumnos con "<strong>${termino}</strong>" en ningún curso.</p>
+        </div>
+      `;
+      dropdown.classList.remove("hidden");
+      return;
+    }
+
+    let html = `
+      <div class="busqueda-header">
+        <span>Búsqueda en todos los cursos</span>
+        <span>${resultados.length} alumno${resultados.length > 1 ? 's' : ''}</span>
+      </div>
+      <div class="busqueda-lista">
+    `;
+
+    resultados.forEach((res, i) => {
+      const nom = res.alumno.textoDesplegable;
+      const cursoStr = res.grupo.subtitulo ? res.grupo.subtitulo.replace("Clase de Música. ", "") : res.grupo.titulo;
+      const badgeClass = res.esGrupoActual ? "busqueda-item-badge badge-actual" : "busqueda-item-badge";
+      const badgeTexto = res.esGrupoActual ? `${res.grupo.titulo} (Actual)` : res.grupo.titulo;
+
+      html += `
+        <div class="busqueda-item" data-index="${i}">
+          <div class="busqueda-item-info">
+            <span class="busqueda-item-nombre">${nom}</span>
+            <span class="busqueda-item-curso">${cursoStr}</span>
+          </div>
+          <span class="${badgeClass}">${badgeTexto}</span>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+    dropdown.innerHTML = html;
+    dropdown.classList.remove("hidden");
+
+    dropdown.querySelectorAll(".busqueda-item").forEach(itemEl => {
+      itemEl.addEventListener("click", async () => {
+        const idx = parseInt(itemEl.dataset.index, 10);
+        const seleccionado = resultados[idx];
+        if (!seleccionado) return;
+        await abrirFichaAlumnoGlobal(seleccionado);
+      });
+    });
+  }
+
+  async function abrirFichaAlumnoGlobal(seleccionado) {
+    cerrarDropdownBusquedaGlobal();
+
+    const inputBuscar = document.getElementById("input-buscar-alumno");
+    const btnLimpiar = document.getElementById("btn-limpiar-busqueda");
+    if (inputBuscar) {
+      inputBuscar.value = seleccionado.alumno.textoDesplegable;
+    }
+    if (btnLimpiar) btnLimpiar.classList.remove("hidden");
+
+    // Si el alumno está en otro grupo, cambiamos de grupo
+    if (!state.grupoSeleccionado || state.grupoSeleccionado.id !== seleccionado.grupo.id) {
+      await seleccionarGrupo(seleccionado.grupo.id);
+    }
+
+    // Localizar la fila del alumno en la matriz de notas actual
+    const targetNombre = seleccionado.alumno.textoDesplegable;
+    let fila = state.matrizCalificaciones.find(f => 
+      SheetsService.sonMismoAlumno(f.alumno.textoDesplegable, targetNombre) ||
+      normalizarTextoParaBusqueda(f.alumno.textoDesplegable) === normalizarTextoParaBusqueda(targetNombre)
+    );
+
+    if (!fila) {
+      fila = state.matrizCalificaciones.find(f => 
+        normalizarTextoParaBusqueda(f.alumno.textoDesplegable).includes(normalizarTextoParaBusqueda(seleccionado.alumno.nombreOriginal))
+      );
+    }
+
+    if (fila) {
+      window.abrirModalAlumno(fila.index);
+    }
+  }
+
+  function cerrarDropdownBusquedaGlobal() {
+    const dropdown = document.getElementById("dropdown-busqueda-global");
+    if (dropdown) dropdown.classList.add("hidden");
+  }
+
+  // =========================================================================
   // VINCULACIÓN DE EVENTOS DE INTERFAZ
   // =========================================================================
   function vincularEventosUI() {
@@ -1001,14 +1146,61 @@
       btnLogout.addEventListener("click", procesarLogout);
     }
 
-    // 2. Filtro de Búsqueda
+    // 2. Buscador Global de Alumnos (En todos los cursos)
     const inputBuscar = document.getElementById("input-buscar-alumno");
+    const btnLimpiarBusqueda = document.getElementById("btn-limpiar-busqueda");
+
     if (inputBuscar) {
       inputBuscar.addEventListener("input", (e) => {
-        state.filtroBusqueda = e.target.value;
+        const val = e.target.value;
+        state.filtroBusqueda = val;
+        renderizarTablaCalificaciones();
+
+        if (btnLimpiarBusqueda) {
+          if (val.trim().length > 0) {
+            btnLimpiarBusqueda.classList.remove("hidden");
+          } else {
+            btnLimpiarBusqueda.classList.add("hidden");
+          }
+        }
+
+        if (val.trim().length >= 2) {
+          const resGlobal = buscarAlumnosGlobalmente(val);
+          renderizarDropdownBusquedaGlobal(resGlobal, val.trim());
+        } else {
+          cerrarDropdownBusquedaGlobal();
+        }
+      });
+
+      inputBuscar.addEventListener("focus", (e) => {
+        const val = e.target.value;
+        if (val.trim().length >= 2) {
+          const resGlobal = buscarAlumnosGlobalmente(val);
+          renderizarDropdownBusquedaGlobal(resGlobal, val.trim());
+        }
+      });
+    }
+
+    if (btnLimpiarBusqueda) {
+      btnLimpiarBusqueda.addEventListener("click", () => {
+        if (inputBuscar) {
+          inputBuscar.value = "";
+          inputBuscar.focus();
+        }
+        state.filtroBusqueda = "";
+        btnLimpiarBusqueda.classList.add("hidden");
+        cerrarDropdownBusquedaGlobal();
         renderizarTablaCalificaciones();
       });
     }
+
+    // Cerrar dropdown de búsqueda al hacer clic fuera
+    document.addEventListener("click", (e) => {
+      const searchBox = document.querySelector(".search-box");
+      if (searchBox && !searchBox.contains(e.target)) {
+        cerrarDropdownBusquedaGlobal();
+      }
+    });
 
     // 3. Filtro de Fechas (Requisito 4)
     const inputFechaInicio = document.getElementById("filtro-fecha-inicio");
@@ -1187,11 +1379,28 @@
       });
     }
 
-    // 7. Navegación modal alumno (Captura 2)
+    // 7. Navegación y Acciones del Modal Alumno (Captura 2)
     const btnModalAnt = document.getElementById("btn-modal-anterior");
     const btnModalSig = document.getElementById("btn-modal-siguiente");
     if (btnModalAnt) btnModalAnt.addEventListener("click", () => navegarAlumnoModal(-1));
     if (btnModalSig) btnModalSig.addEventListener("click", () => navegarAlumnoModal(1));
+
+    // Botón Descargar Informe en PDF para Familias (Mejora 2)
+    const btnInformePDF = document.getElementById("btn-descargar-informe-pdf");
+    if (btnInformePDF) {
+      btnInformePDF.addEventListener("click", () => {
+        if (!state.alumnoModalActual || !state.grupoSeleccionado) {
+          mostrarNotificacion("No hay datos de alumno seleccionados.", "warning");
+          return;
+        }
+        ExportService.generarInformePDFAlumno(
+          state.alumnoModalActual,
+          state.grupoSeleccionado,
+          state.appsConfiguradas,
+          state.rangoFechas
+        );
+      });
+    }
 
     // Cerrar modales con tecla Escape
     document.addEventListener("keydown", (e) => {
@@ -1200,6 +1409,7 @@
         ExportService.cerrarModalDescarga();
         cerrarModalAnadirApp();
         cerrarModalConfigApps();
+        cerrarDropdownBusquedaGlobal();
       }
     });
 
