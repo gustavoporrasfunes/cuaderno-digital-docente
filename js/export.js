@@ -308,7 +308,10 @@ const ExportService = {
     const nombreLimpio = nombreAlumno.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]/g, "_");
     const tituloGrupo = grupoActual.titulo || grupoActual.id || "";
     const subtituloGrupo = grupoActual.subtitulo || `Clase de Música. ${grupoActual.curso || ""}`;
-    const fechaHoyTxt = this._formatearFechaEspanol(new Date());
+    const ahora = new Date();
+    const fechaHoyTxt = this._formatearFechaEspanol(ahora);
+    const horaTxt = ahora.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+    const fechaHoraTxt = `${fechaHoyTxt} • ${horaTxt}`;
 
     // Rango de fechas
     let periodoTxt = "Curso Actual";
@@ -437,7 +440,7 @@ const ExportService = {
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Informe_Musica_${nombreLimpio}_${tituloGrupo}</title>
+  <title></title>
   <style>
     @page {
       size: A4 portrait;
@@ -746,15 +749,15 @@ const ExportService = {
       line-height: 1.45;
     }
 
-    /* Firmas */
-    .firmas-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 18px;
+    /* Firma */
+    .firmas-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 24px;
       padding-top: 10px;
     }
     .firma-box {
+      width: 250px;
       border-top: 1px solid #94a3b8;
       padding-top: 6px;
       text-align: center;
@@ -785,7 +788,7 @@ const ExportService = {
 
   <!-- Barra de acciones en pantalla (Oculta al imprimir) -->
   <div class="no-print-bar">
-    <div style="font-size:13px; font-weight:700;">📄 Informe Informativo de Calificaciones para Familias</div>
+    <div style="font-size:13px; font-weight:700;">📄 Informe Personalizado de Calificaciones</div>
     <div style="display:flex; gap:10px;">
       <button type="button" class="btn-action-print" onclick="window.print()">🖨️ Imprimir / Guardar en PDF</button>
       <button type="button" class="btn-action-close" onclick="window.close()">✕ Cerrar ventana</button>
@@ -804,8 +807,8 @@ const ExportService = {
         </div>
       </div>
       <div class="header-badge">
-        <span class="tag-oficial">Informe para Familias</span>
-        <div class="fecha-emision">Emisión: ${fechaHoyTxt}</div>
+        <span class="tag-oficial">Informe Personalizado</span>
+        <div class="fecha-emision">Generado: ${fechaHoraTxt}</div>
       </div>
     </div>
 
@@ -821,7 +824,7 @@ const ExportService = {
       </div>
       <div class="dato-item">
         <label>Profesor</label>
-        <strong>Gustavo</strong>
+        <strong>Gustavo Porras Funes</strong>
       </div>
       <div class="dato-item">
         <label>Periodo Evaluado</label>
@@ -923,22 +926,18 @@ const ExportService = {
       <p>${comentarioOrientacion}</p>
     </div>
 
-    <!-- 7. Firmas de Validación y Recepción -->
-    <div class="firmas-grid">
+    <!-- 7. Firma del Profesor -->
+    <div class="firmas-container">
       <div class="firma-box">
-        <strong>Fdo: Gustavo</strong>
+        <strong>Fdo: Gustavo Porras Funes</strong>
         <span>Profesor de Música</span>
-      </div>
-      <div class="firma-box">
-        <strong>Recibido por el Padre / Madre / Tutor Legal</strong>
-        <span>Firma y Fecha: ____________________________________</span>
       </div>
     </div>
 
     <!-- 8. Pie de Página -->
     <div class="footer-doc">
-      <span>Cuaderno Digital Docente • Claves de Música • https://clavesdemusica.com</span>
-      <span>Documento de seguimiento académico para familias • Página 1 de 1</span>
+      <span>Cuaderno Digital Docente • Claves de Música</span>
+      <span>Informe personalizado de seguimiento académico • Página 1 de 1</span>
     </div>
 
   </div>

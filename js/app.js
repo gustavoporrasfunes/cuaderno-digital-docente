@@ -1385,7 +1385,7 @@
     if (btnModalAnt) btnModalAnt.addEventListener("click", () => navegarAlumnoModal(-1));
     if (btnModalSig) btnModalSig.addEventListener("click", () => navegarAlumnoModal(1));
 
-    // Botón Descargar Informe en PDF para Familias (Mejora 2)
+    // Botón Descargar Informe Personalizado en PDF
     const btnInformePDF = document.getElementById("btn-descargar-informe-pdf");
     if (btnInformePDF) {
       btnInformePDF.addEventListener("click", () => {
