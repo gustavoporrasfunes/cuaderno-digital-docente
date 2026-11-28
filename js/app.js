@@ -312,6 +312,25 @@
   }
 
   // =========================================================================
+  // CONTROL DE CAJÓN MÓVIL / TABLET DE CURSOS
+  // =========================================================================
+  function abrirSidebarMovil() {
+    const sidebarEl = document.getElementById("sidebar");
+    const sidebarBackdrop = document.getElementById("sidebar-mobile-backdrop");
+    if (sidebarEl) sidebarEl.classList.add("sidebar-mobile-open");
+    if (sidebarBackdrop) sidebarBackdrop.classList.remove("hidden");
+    document.body.classList.add("sidebar-open-overflow-lock");
+  }
+
+  function cerrarSidebarMovil() {
+    const sidebarEl = document.getElementById("sidebar");
+    const sidebarBackdrop = document.getElementById("sidebar-mobile-backdrop");
+    if (sidebarEl) sidebarEl.classList.remove("sidebar-mobile-open");
+    if (sidebarBackdrop) sidebarBackdrop.classList.add("hidden");
+    document.body.classList.remove("sidebar-open-overflow-lock");
+  }
+
+  // =========================================================================
   // SELECCIÓN Y CARGA DE UN GRUPO (Requisitos 4 y 5)
   // =========================================================================
   async function seleccionarGrupo(idGrupo) {
@@ -320,6 +339,9 @@
 
     state.grupoSeleccionado = grp;
     StorageManager.setActiveGroupId(idGrupo);
+
+    // En móviles y tablets, cerrar automáticamente el cajón de cursos tras seleccionar
+    cerrarSidebarMovil();
 
     // Actualizar clase activa en sidebar
     document.querySelectorAll(".clase-item").forEach(el => {
@@ -1410,6 +1432,7 @@
         cerrarModalAnadirApp();
         cerrarModalConfigApps();
         cerrarDropdownBusquedaGlobal();
+        cerrarSidebarMovil();
       }
     });
 
@@ -1480,6 +1503,42 @@
         abrirModalConfigApps();
       });
     }
+
+    // 10. Control de Cajón Móvil / Tablet para Selección de Cursos
+    const btnAbrirCursosMovil = document.getElementById("btn-abrir-cursos-movil");
+    const btnCerrarSidebarMovil = document.getElementById("btn-cerrar-sidebar-movil");
+    const sidebarBackdrop = document.getElementById("sidebar-mobile-backdrop");
+    const headerInfoTrigger = document.getElementById("trigger-grupo-header-info");
+
+    if (btnAbrirCursosMovil) {
+      btnAbrirCursosMovil.addEventListener("click", (e) => {
+        e.stopPropagation();
+        abrirSidebarMovil();
+      });
+    }
+
+    if (headerInfoTrigger) {
+      headerInfoTrigger.addEventListener("click", (e) => {
+        // En tablets y móviles, pulsar sobre la cabecera del curso abre el selector
+        if (window.innerWidth <= 992) {
+          abrirSidebarMovil();
+        }
+      });
+    }
+
+    if (btnCerrarSidebarMovil) {
+      btnCerrarSidebarMovil.addEventListener("click", cerrarSidebarMovil);
+    }
+
+    if (sidebarBackdrop) {
+      sidebarBackdrop.addEventListener("click", cerrarSidebarMovil);
+    }
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 992) {
+        cerrarSidebarMovil();
+      }
+    });
   }
 
   // =========================================================================

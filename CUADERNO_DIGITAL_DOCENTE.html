@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Cuaderno Digital del Profesor | Claves de Música</title>
   <link rel="icon" type="image/png" href="https://clavesdemusica.com/wp-content/uploads/2023/08/header2.png">
 <style>
@@ -942,6 +942,8 @@ body {
 .tabla-scroll-area {
   overflow-x: auto;
   max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 
 .tabla-calificaciones {
@@ -967,6 +969,11 @@ body {
 
 .th-alumno {
   min-width: 260px;
+  position: sticky;
+  left: 0;
+  z-index: 15;
+  background-color: #ffffff;
+  box-shadow: 3px 0 6px -2px rgba(15, 23, 42, 0.08);
 }
 
 .th-centrada {
@@ -1079,6 +1086,15 @@ body {
 .td-alumno {
   padding: 14px 20px;
   cursor: pointer;
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background-color: #ffffff;
+  box-shadow: 3px 0 6px -2px rgba(15, 23, 42, 0.08);
+}
+
+.fila-alumno:hover .td-alumno {
+  background-color: #f8fafc;
 }
 
 .alumno-nombre-celda {
@@ -1938,27 +1954,622 @@ body {
   transition: all 0.3s;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-  .sidebar {
-    width: 230px;
-  }
+/* ==========================================================================
+   ESTILOS BASE PARA CAJÓN MÓVIL Y ADAPTACIÓN TOUCH
+   ========================================================================== */
+.sidebar-mobile-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 19998;
+  animation: modal-fade-in 0.2s ease-out;
+}
+
+.sidebar-mobile-backdrop.hidden {
+  display: none !important;
+}
+
+.sidebar-mobile-header {
+  display: none;
+}
+
+.btn-movil-drawer-trigger {
+  display: none;
+}
+
+body.sidebar-open-overflow-lock {
+  overflow: hidden !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (TABLETS / IPAD & TELÉFONOS MÓVILES)
+   ========================================================================== */
+
+/* 1. TABLETS EN HORIZONTAL Y PANTALLAS MEDIANAS (hasta 1024px) */
+@media (max-width: 1024px) {
   .main-content {
-    padding: 18px 20px 40px 20px;
+    padding: 18px 20px 50px 20px;
+  }
+
+  .th-alumno {
+    min-width: 220px;
+  }
+
+  .modal-card-detalle-alumno {
+    max-width: 92vw;
+    height: 88vh;
+  }
+
+  .modal-alumno-header {
+    padding: 20px 24px 16px 24px;
+  }
+
+  .modal-alumno-scroll-body {
+    padding: 16px 24px 32px 24px;
   }
 }
 
-@media (max-width: 768px) {
-  .app-layout {
-    flex-direction: column;
-  }
+/* 2. IPAD EN VERTICAL Y TABLETS (hasta 992px) */
+@media (max-width: 992px) {
+  /* La barra lateral se convierte en un cajón deslizante off-canvas suave */
   .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    max-width: 86vw;
+    height: 100vh;
+    z-index: 20000;
+    background-color: #ffffff;
+    box-shadow: 6px 0 28px rgba(15, 23, 42, 0.22);
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    border-right: 1px solid var(--border-color);
   }
+
+  .sidebar.sidebar-mobile-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+  }
+
+  .sidebar-mobile-title {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--text-main);
+  }
+
+  .btn-movil-drawer-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #eef2ff;
+    color: var(--primary);
+    border: 1px solid #c7d2fe;
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-left: 8px;
+    flex-shrink: 0;
+  }
+
+  .btn-movil-drawer-trigger:hover {
+    background: #e0e7ff;
+    border-color: var(--primary);
+  }
+
+  .main-content {
+    width: 100%;
+    padding: 16px 16px 40px 16px;
+  }
+
+  .grupo-header-left {
+    cursor: pointer;
+  }
+
+  .grupo-header-left:hover h2 {
+    color: var(--primary);
+  }
+}
+
+/* 3. TELÉFONOS MÓVILES Y PANTALLAS PEQUEÑAS (hasta 768px) */
+@media (max-width: 768px) {
+  /* Cabecera superior adaptada en dos filas limpias */
+  .topbar {
+    height: auto;
+    padding: 10px 12px;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .topbar-left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .brand-logo-img {
+    height: 32px;
+  }
+
+  .brand-title-badge {
+    margin-left: 6px;
+  }
+
+  .brand-title-main {
+    font-size: 13.5px;
+  }
+
+  .brand-title-sub {
+    display: none; /* Ocultar subtítulo para dar aire en móviles */
+  }
+
+  .topbar-right {
+    gap: 6px;
+  }
+
+  .user-name-text {
+    display: none; /* Dejar solo el círculo avatar 'G' */
+  }
+
+  .user-profile-badge {
+    padding: 3px 6px;
+  }
+
+  .btn-logout span {
+    display: none; /* En móvil mostrar solo el icono de salida */
+  }
+
+  .btn-logout {
+    padding: 7px 10px;
+  }
+
+  .live-sync-time {
+    display: none; /* Simplificar el badge de sincronización a En vivo */
+  }
+
+  /* Buscador global a ancho completo en la segunda fila del topbar */
   .topbar-center {
+    width: 100%;
+    max-width: 100%;
+    order: 3;
+    margin: 4px 0 2px 0;
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 7px 14px;
+  }
+
+  .search-input {
+    font-size: 13px;
+  }
+
+  .dropdown-busqueda-panel {
+    max-height: 52vh;
+    box-shadow: 0 18px 36px -6px rgba(15, 23, 42, 0.28);
+  }
+
+  .dropdown-apps-panel {
+    position: fixed;
+    top: 56px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: none;
+    max-height: 75vh;
+  }
+
+  /* Área principal */
+  .main-content {
+    padding: 12px 10px 40px 10px;
+  }
+
+  /* Tarjeta superior del grupo */
+  .grupo-header-card {
+    padding: 14px 14px 0 14px;
+    margin-bottom: 14px;
+    border-radius: var(--radius-sm);
+  }
+
+  .grupo-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .grupo-header-left {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .grupo-icono-folder {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+  }
+
+  .grupo-header-textos h2 {
+    font-size: 17px;
+  }
+
+  .grupo-header-textos p {
+    font-size: 12px;
+  }
+
+  .grupo-header-badge-count {
+    display: none; /* Ocultar para evitar saturación */
+  }
+
+  .grupo-header-right {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-sync-drive {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .grupo-tabs {
+    gap: 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .grupo-tab-item {
+    font-size: 13px;
+    padding: 10px 2px;
+    white-space: nowrap;
+  }
+
+  /* Controles de fechas y acciones */
+  .controles-barra {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .controles-fechas-wrap {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .filtro-fecha-card {
+    min-width: 0;
+    width: 100%;
+    padding: 7px 10px;
+  }
+
+  .filtro-fecha-label {
+    font-size: 10px;
+  }
+
+  .filtro-fecha-valor-txt {
+    font-size: 14.5px;
+  }
+
+  .filtro-fecha-hora-txt {
     display: none;
+  }
+
+  .presets-fechas-group {
+    grid-column: 1 / -1;
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+    padding: 2px 0 6px 0;
+  }
+
+  .btn-preset-fecha {
+    flex-shrink: 0;
+    font-size: 11.5px;
+    padding: 5px 10px;
+  }
+
+  .controles-acciones-wrap {
+    width: 100%;
+    display: flex;
+  }
+
+  .btn-descargar-notas {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .tabla-subcontroles-bar {
+    padding: 8px 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Tabla de calificaciones móvil */
+  .th-fija {
+    padding: 12px 10px;
+    font-size: 11px;
+  }
+
+  .th-alumno {
+    min-width: 155px;
+    max-width: 180px;
+    padding: 10px 10px;
+  }
+
+  .td-alumno {
+    padding: 10px 10px;
+    min-width: 155px;
+    max-width: 180px;
+  }
+
+  .alumno-nombre-celda {
+    gap: 8px;
+  }
+
+  .alumno-avatar-circulo {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+
+  .alumno-nombre-texto {
+    font-size: 12px;
+    line-height: 1.25;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .alumno-chevron {
+    display: none;
+  }
+
+  .th-app-rotada {
+    min-width: 80px;
+    max-width: 92px;
+    padding: 6px 4px 10px 4px;
+  }
+
+  .th-rotada-wrap {
+    height: 88px;
+    padding-bottom: 6px;
+  }
+
+  .th-rotada-texto {
+    font-size: 11px;
+    max-width: 95px;
+    margin-left: 6px;
+  }
+
+  .th-rotada-bloque-tag {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+
+  .pill-nota {
+    min-width: 44px;
+    height: 32px;
+    font-size: 12px;
+    padding: 0 6px;
+  }
+
+  .texto-tiempo {
+    font-size: 11.5px;
+  }
+
+  /* Modal de detalle de alumno tipo Bottom Sheet / pantalla completa en móvil */
+  .modal-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal-card-detalle-alumno {
+    width: 100%;
+    max-width: 100%;
+    height: 94vh;
+    max-height: 96vh;
+    border-radius: 18px 18px 0 0;
+    margin: 0;
+  }
+
+  .modal-alumno-header {
+    padding: 14px 16px 12px 16px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-header-info {
+    width: 100%;
+  }
+
+  .modal-alumno-title {
+    font-size: 18px;
+    line-height: 1.25;
+  }
+
+  .modal-alumno-meta-global {
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+  }
+
+  .modal-nota-badge {
+    min-width: 44px;
+    height: 28px;
+    font-size: 13.5px;
+  }
+
+  .modal-nota-label {
+    font-size: 10.5px;
+  }
+
+  .modal-alumno-tiempo-txt {
+    font-size: 12px;
+    width: 100%;
+    margin-top: 2px;
+  }
+
+  .modal-header-nav-controles {
+    width: 100%;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .modal-header-nav-controles > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 6px;
+  }
+
+  .btn-informe-pdf {
+    font-size: 11.5px;
+    padding: 6px 10px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .modal-paginacion-bar {
+    gap: 6px;
+  }
+
+  .btn-nav-modal {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .modal-contador-paginas {
+    font-size: 12px;
+    min-width: 36px;
+  }
+
+  .modal-fechas-preview {
+    display: none; /* En móvil simplificamos el encabezado para ganar espacio de lectura */
+  }
+
+  .modal-alumno-scroll-body {
+    padding: 12px 14px 28px 14px;
+  }
+
+  .modal-bloque-banner {
+    padding: 10px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .bloque-banner-right {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-seccion-app-header {
+    padding: 10px 12px;
+  }
+
+  .modal-prueba-item {
+    padding: 10px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .prueba-left {
+    min-width: 0;
+  }
+
+  .prueba-meta-line {
+    font-size: 11px;
+    flex-wrap: wrap;
+  }
+
+  /* Modales de Descarga y Configuración */
+  .modal-descarga-card,
+  .modal-anadir-app-card,
+  .modal-config-card {
+    width: 100%;
+    max-width: 95vw;
+    margin: 10px;
+    padding: 18px 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  /* Landing Page Login */
+  .landing-card-box {
+    padding: 24px 18px;
+    margin: 10px;
+    border-radius: 16px;
+  }
+
+  .landing-brand-area {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .landing-main-title {
+    font-size: 20px;
+  }
+
+  .landing-lead {
+    font-size: 13px;
+  }
+
+  .landing-input {
+    font-size: 15px;
+    height: 46px;
+  }
+
+  .landing-btn-submit {
+    height: 48px;
+    font-size: 15px;
+  }
+}
+
+/* 4. TELÉFONOS MUY COMPACTOS (hasta 400px - iPhone SE, etc.) */
+@media (max-width: 400px) {
+  .th-alumno,
+  .td-alumno {
+    min-width: 140px;
+    max-width: 160px;
+    padding: 8px 8px;
+  }
+
+  .btn-informe-pdf span {
+    font-size: 11px;
+  }
+
+  .modal-alumno-title {
+    font-size: 16px;
   }
 }
 
@@ -3139,9 +3750,23 @@ body {
        ========================================================================= -->
   <div class="app-layout">
     
-    <!-- BARRA LATERAL IZQUIERDA (Captura 1) -->
+    <!-- Telón de fondo para cajón lateral en móvil / iPad -->
+    <div id="sidebar-mobile-backdrop" class="sidebar-mobile-backdrop hidden"></div>
+
+    <!-- BARRA LATERAL IZQUIERDA (Captura 1 / Cajón en móvil) -->
     <aside class="sidebar" id="sidebar">
       
+      <!-- Cabecera de la barra lateral en Móvil / Tablet (Cajón lateral) -->
+      <div class="sidebar-mobile-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:16px;">📚</span>
+          <span class="sidebar-mobile-title">Cursos de Música</span>
+        </div>
+        <button type="button" class="btn-cerrar-mini" id="btn-cerrar-sidebar-movil" title="Cerrar panel de cursos">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
       <!-- Botón Añadir app (En la posición del botón redondo Agregar nuevo de Edpuzzle) -->
       <div class="sidebar-btn-agregar-wrap">
         <button type="button" class="btn-agregar-nuevo btn-anadir-app-trigger" id="btn-sidebar-agregar-app" title="Añadir una nueva aplicación al cuaderno">
@@ -3176,7 +3801,7 @@ body {
       <!-- Tarjeta Superior del Grupo Seleccionado -->
       <div class="grupo-header-card">
         <div class="grupo-header-top">
-          <div class="grupo-header-left">
+          <div class="grupo-header-left" id="trigger-grupo-header-info">
             <div class="grupo-icono-folder">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
@@ -3190,6 +3815,10 @@ body {
               <p id="header-grupo-subtitulo">Clase de Música. 1º de ESO</p>
             </div>
             <span class="grupo-header-badge-count" id="badge-total-alumnos">29 alumnos</span>
+            <button type="button" class="btn-movil-drawer-trigger" id="btn-abrir-cursos-movil" title="Ver y cambiar de clase">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+              <span>Cambiar clase</span>
+            </button>
           </div>
 
           <div class="grupo-header-right">
@@ -5890,6 +6519,25 @@ window.ExportService = ExportService;
   }
 
   // =========================================================================
+  // CONTROL DE CAJÓN MÓVIL / TABLET DE CURSOS
+  // =========================================================================
+  function abrirSidebarMovil() {
+    const sidebarEl = document.getElementById("sidebar");
+    const sidebarBackdrop = document.getElementById("sidebar-mobile-backdrop");
+    if (sidebarEl) sidebarEl.classList.add("sidebar-mobile-open");
+    if (sidebarBackdrop) sidebarBackdrop.classList.remove("hidden");
+    document.body.classList.add("sidebar-open-overflow-lock");
+  }
+
+  function cerrarSidebarMovil() {
+    const sidebarEl = document.getElementById("sidebar");
+    const sidebarBackdrop = document.getElementById("sidebar-mobile-backdrop");
+    if (sidebarEl) sidebarEl.classList.remove("sidebar-mobile-open");
+    if (sidebarBackdrop) sidebarBackdrop.classList.add("hidden");
+    document.body.classList.remove("sidebar-open-overflow-lock");
+  }
+
+  // =========================================================================
   // SELECCIÓN Y CARGA DE UN GRUPO (Requisitos 4 y 5)
   // =========================================================================
   async function seleccionarGrupo(idGrupo) {
@@ -5898,6 +6546,9 @@ window.ExportService = ExportService;
 
     state.grupoSeleccionado = grp;
     StorageManager.setActiveGroupId(idGrupo);
+
+    // En móviles y tablets, cerrar automáticamente el cajón de cursos tras seleccionar
+    cerrarSidebarMovil();
 
     // Actualizar clase activa en sidebar
     document.querySelectorAll(".clase-item").forEach(el => {
@@ -6988,6 +7639,7 @@ window.ExportService = ExportService;
         cerrarModalAnadirApp();
         cerrarModalConfigApps();
         cerrarDropdownBusquedaGlobal();
+        cerrarSidebarMovil();
       }
     });
 
@@ -7058,6 +7710,42 @@ window.ExportService = ExportService;
         abrirModalConfigApps();
       });
     }
+
+    // 10. Control de Cajón Móvil / Tablet para Selección de Cursos
+    const btnAbrirCursosMovil = document.getElementById("btn-abrir-cursos-movil");
+    const btnCerrarSidebarMovil = document.getElementById("btn-cerrar-sidebar-movil");
+    const sidebarBackdrop = document.getElementById("sidebar-mobile-backdrop");
+    const headerInfoTrigger = document.getElementById("trigger-grupo-header-info");
+
+    if (btnAbrirCursosMovil) {
+      btnAbrirCursosMovil.addEventListener("click", (e) => {
+        e.stopPropagation();
+        abrirSidebarMovil();
+      });
+    }
+
+    if (headerInfoTrigger) {
+      headerInfoTrigger.addEventListener("click", (e) => {
+        // En tablets y móviles, pulsar sobre la cabecera del curso abre el selector
+        if (window.innerWidth <= 992) {
+          abrirSidebarMovil();
+        }
+      });
+    }
+
+    if (btnCerrarSidebarMovil) {
+      btnCerrarSidebarMovil.addEventListener("click", cerrarSidebarMovil);
+    }
+
+    if (sidebarBackdrop) {
+      sidebarBackdrop.addEventListener("click", cerrarSidebarMovil);
+    }
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 992) {
+        cerrarSidebarMovil();
+      }
+    });
   }
 
   // =========================================================================
